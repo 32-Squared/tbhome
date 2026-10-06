@@ -59,11 +59,24 @@
   /* Wave layers: a 200px strip (viewport + one tile wide) translated by exactly one tile
      (1200px = the SVG tile width), so the loop is seamless and runs on the compositor.
      (Animating background-position repainted four full-screen layers every frame.) */
+  /* Scroll offset wrapper: shifts the layer a fraction of the track's scroll (wrapping every tile,
+     so it can never reveal a gap). The inner .wave-layer keeps its own drift animation. */
+  .wave-shift {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 200px;
+    will-change: transform;
+    transform: translate3d(calc(-1px * mod(var(--scroll-x, 0) * var(--wave-offset, 0), 1200)), 0, 0);
+  }
+
   .wave-layer {
     position: absolute;
     bottom: 0;
     left: 0;
-    width: calc(100% + 1200px);
+    /* two spare tiles: one for the drift, one for the scroll offset */
+    width: calc(100% + 2400px);
     height: 200px;
     background-repeat: repeat-x;
     background-size: 1200px 200px;

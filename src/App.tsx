@@ -6,7 +6,7 @@ import LandingPanel from '@/components/LandingPanel';
 import CategoryPanelComp from '@/components/CategoryPanel';
 import ExpansionOverlay from '@/components/ExpansionOverlay';
 import FullscreenViewer from '@/components/FullscreenViewer';
-import ChalkWave from '@/components/ChalkWave';
+import BackgroundSwell from '@/components/BackgroundSwell';
 
 function App() {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -134,11 +134,11 @@ function App() {
 
   return (
     <div className="app-viewport">
-      <WaveBackground />
+      <WaveBackground trackRef={trackRef} />
 
       {/* Horizontal scroll track */}
       <div ref={trackRef} className="surf-track">
-        <ChalkWave panelCount={allPanels.length} />
+        <BackgroundSwell panelCount={allPanels.length} />
         {allPanels.map((panel, i) => {
           if (panel === null) {
             return (

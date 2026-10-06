@@ -1,6 +1,40 @@
-import type { CSSProperties } from 'react';
+import { useEffect, useRef } from 'react';
+import type { CSSProperties, RefObject } from 'react';
 
-function WaveBackground() {
+// Scroll offset: as you swipe between panels, each wave layer shifts a little, deepest least.
+// This multiplies the per-layer amounts below. 0 turns it off (waves then only drift on their own).
+const SCROLL_OFFSET: number = 1;
+
+interface WaveBackgroundProps {
+  /** The horizontally scrolling track, used to read scroll position */
+  trackRef: RefObject<HTMLDivElement>;
+}
+
+function WaveBackground({ trackRef }: WaveBackgroundProps) {
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  // Writes scroll position to a CSS variable on this component's own element only, so style
+  // recalculation stays limited to the wave layers (the shift itself is a compositor transform).
+  useEffect(() => {
+    const track = trackRef.current;
+    const root = rootRef.current;
+    if (!track || !root || SCROLL_OFFSET === 0) return;
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      root.style.setProperty('--scroll-x', String(track.scrollLeft));
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    track.addEventListener('scroll', onScroll, { passive: true });
+    update();
+    return () => {
+      track.removeEventListener('scroll', onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [trackRef]);
+
   // Each wave layer is a repeating SVG data-URI tile (1200x200). The layer is wider than the
   // viewport by exactly one tile and translated by exactly one tile per loop (see .wave-layer),
   // so it loops seamlessly on the compositor. Each tile's left and right edges match
@@ -25,14 +59,14 @@ function WaveBackground() {
   const url4 = `url("data:image/svg+xml,${encodeURIComponent(wave4)}")`;
 
   const layers = [
-    { url: url1, opacity: 0.14, duration: 26 },
-    { url: url2, opacity: 0.17, duration: 18 },
-    { url: url3, opacity: 0.2, duration: 12 },
-    { url: url4, opacity: 0.22, duration: 9 },
+    { url: url1, opacity: 0.14, duration: 26, offset: 0.02 },
+    { url: url2, opacity: 0.17, duration: 18, offset: 0.035 },
+    { url: url3, opacity: 0.2, duration: 12, offset: 0.05 },
+    { url: url4, opacity: 0.22, duration: 9, offset: 0.07 },
   ];
 
   return (
-    <div className="wave-bg" aria-hidden="true">
+    <div ref={rootRef} className="wave-bg" aria-hidden="true">
       {/* Sun glow — sunset orange/red */}
       <div className="sun-glow" />
 
@@ -40,15 +74,20 @@ function WaveBackground() {
       {layers.map((layer, i) => (
         <div
           key={i}
-          className="wave-layer"
-          style={
-            {
-              backgroundImage: layer.url,
-              opacity: layer.opacity,
-              '--wave-duration': `${layer.duration}s`,
-            } as CSSProperties
-          }
-        />
+          className="wave-shift"
+          style={{ '--wave-offset': layer.offset * SCROLL_OFFSET } as CSSProperties}
+        >
+          <div
+            className="wave-layer"
+            style={
+              {
+                backgroundImage: layer.url,
+                opacity: layer.opacity,
+                '--wave-duration': `${layer.duration}s`,
+              } as CSSProperties
+            }
+          />
+        </div>
       ))}
 
       {/* Sandy bottom edge — warmer sunset sand */}

@@ -38,7 +38,6 @@ export const collection: CollectionData = {
       title: '32 Squared',
       subtitle: 'Who shapes these waves',
       direction: 'left',
-      bgClass: 'from-ocean-700 via-ocean-600 to-ocean-500',
       homeCorner: 'left',
       intro: '[Placeholder] A short paragraph about the artist — who you are, what inspires your work, and your connection to surf culture and board design.',
       expansionType: 'text-only',
@@ -56,7 +55,6 @@ export const collection: CollectionData = {
       title: 'Collection Details',
       subtitle: 'The full picture',
       direction: 'left',
-      bgClass: 'from-lagoon-700 via-lagoon-600 to-lagoon-500',
       intro: '[Placeholder] Overview of the collection — how many boards, the themes, the materials, and what makes this set special.',
       expansionType: 'text-only',
       expansion: {
@@ -72,7 +70,6 @@ export const collection: CollectionData = {
       title: 'Sneak Peeks',
       subtitle: 'Coming soon to a shore near you',
       direction: 'left',
-      bgClass: 'from-coral-600 via-coral-500 to-sun-400',
       intro: '[Placeholder] Teasers for upcoming boards and designs not yet released. A few glimpses of what is on the shaping rack.',
       expansionType: 'text-only',
       expansion: {
@@ -89,7 +86,6 @@ export const collection: CollectionData = {
       title: 'Surf Further',
       subtitle: 'Beyond this collection',
       direction: 'left',
-      bgClass: 'from-sand-700 via-sand-600 to-sand-500',
       homeCorner: 'left',
       intro: '[Placeholder] Links, contacts, and where to find more of the work. Social links, exhibitions, and ways to connect.',
       expansionType: 'text-only',
@@ -112,7 +108,6 @@ export const collection: CollectionData = {
       title: 'Beach Dreams',
       subtitle: 'A fun rundown of board qualities',
       direction: 'right',
-      bgClass: 'from-ocean-500 via-lagoon-400 to-ocean-300',
       intro: '[Placeholder] A playful, non-uniform gallery of thumbnails with a sentence or two about what makes each board special.',
       expansionType: 'beach-dreams',
       expansion: {
@@ -139,7 +134,6 @@ export const collection: CollectionData = {
       title: 'Featured Board I',
       subtitle: 'A closer look',
       direction: 'right',
-      bgClass: 'from-ocean-600 via-ocean-500 to-lagoon-500',
       intro: '[Placeholder] A featured board shown as a webm animation. Longer description but not itemised.',
       expansionType: 'featured-board',
       expansion: {
@@ -160,7 +154,6 @@ export const collection: CollectionData = {
       title: 'Summer Postcards',
       subtitle: '32 designs from the summer collection',
       direction: 'right',
-      bgClass: 'from-lagoon-500 via-ocean-400 to-sun-300',
       homeCorner: 'right',
       intro: '[Placeholder] The summer collection — 32 surfboard designs with short descriptions. Tap any board to see it full size.',
       expansionType: 'summer-postcards',
@@ -211,7 +204,6 @@ export const collection: CollectionData = {
       title: 'Featured Board II',
       subtitle: 'Another closer look',
       direction: 'right',
-      bgClass: 'from-coral-500 via-coral-400 to-sun-300',
       intro: '[Placeholder] A second featured board shown as a webm animation. Longer description but not itemised.',
       expansionType: 'featured-board',
       expansion: {
@@ -232,7 +224,6 @@ export const collection: CollectionData = {
       title: 'Add It Up',
       subtitle: 'Technical details',
       direction: 'right',
-      bgClass: 'from-sand-600 via-sand-500 to-coral-400',
       homeCorner: 'right',
       intro: '[Placeholder] A single textblock of technical details — dimensions, materials, fin setups, construction methods.',
       expansionType: 'add-it-up',
@@ -254,7 +245,6 @@ export const collection: CollectionData = {
       title: 'Featured Board III',
       subtitle: 'Yet another closer look',
       direction: 'right',
-      bgClass: 'from-ocean-700 via-lagoon-600 to-ocean-400',
       intro: '[Placeholder] A third featured board shown as a webm animation. Longer description but not itemised.',
       expansionType: 'featured-board',
       expansion: {
@@ -275,7 +265,6 @@ export const collection: CollectionData = {
       title: 'Behind the Sunscreen',
       subtitle: 'How the boards are made',
       direction: 'right',
-      bgClass: 'from-sun-400 via-coral-400 to-coral-500',
       homeCorner: 'right',
       intro: '[Placeholder] An orderly, step-by-step showcase of the board-making process with medium images and text blocks.',
       expansionType: 'behind-sunscreen',
@@ -297,7 +286,6 @@ export const collection: CollectionData = {
       title: 'On the Horizon',
       subtitle: 'Coming soon to a shore near you',
       direction: 'right',
-      bgClass: 'from-coral-600 via-coral-500 to-sun-400',
       intro: '[Placeholder] Teasers for upcoming boards and designs not yet released. A few glimpses of what is on the shaping rack.',
       expansionType: 'text-only',
       expansion: {

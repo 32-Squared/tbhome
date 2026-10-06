@@ -1,16 +1,5 @@
 export type ImageKind = 'board' | 'thumb' | 'webm';
 
-export interface ImageSlot {
-  /** Unique slot number for easy identification and replacement */
-  slot: number;
-  /** 'board' = 3:1 transparent surfboard (webp), 'thumb' = 1:1 square (webp), 'webm' = featured board video */
-  kind: ImageKind;
-  /** Filename relative to the R2 base (see src/assets.ts), or a full URL */
-  filename: string;
-  /** Alt text for accessibility */
-  alt: string;
-}
-
 export type PanelDirection = 'left' | 'right' | 'landing';
 
 export type ExpansionType =
@@ -61,7 +50,6 @@ export interface CategoryPanel {
   subtitle?: string;
   direction: PanelDirection;
   /** Background gradient classes */
-  bgClass: string;
   /** Override home icon corner: 'left' or 'right' (defaults based on isLeft) */
   homeCorner?: 'left' | 'right';
   /** Decorative images scattered on this panel */
