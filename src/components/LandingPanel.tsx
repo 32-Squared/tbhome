@@ -19,6 +19,7 @@ function LandingPanel({ data, onGoRight, onGoLeft }: LandingPanelProps) {
     <section className="surf-panel flex flex-col items-center justify-center px-4">
       {/* Header image at top */}
       <div className="absolute top-0 left-0 right-0 flex flex-col items-center pt-6 px-4 pointer-events-none">
+        <h1 className="sr-only">Turtleboards</h1>
         <ImageSlot
           slot={UI_IMAGES.header.slot}
           kind="board"
@@ -41,12 +42,10 @@ function LandingPanel({ data, onGoRight, onGoLeft }: LandingPanelProps) {
           <span className="font-display text-3xl md:text-5xl text-white/90 text-shadow-strong font-bold tracking-wide">
             BEACH
           </span>
-          <div className="rounded-full border-2 border-white/60 p-2 md:p-3 group-hover:border-white group-hover:bg-white/15 transition-all">
-            <ArrowRight
-              className="w-10 h-10 md:w-14 md:h-14 text-white/80 group-hover:text-white group-hover:translate-x-1 transition-all"
-              strokeWidth={1.5}
-            />
-          </div>
+          <ArrowRight
+            className="w-9 h-9 md:w-14 md:h-14 text-white/90 group-hover:text-white group-hover:translate-x-1 transition-all [filter:drop-shadow(0_2px_8px_rgba(4,41,58,0.4))]"
+            strokeWidth={3.8}
+          />
         </button>
 
         <button
@@ -54,12 +53,10 @@ function LandingPanel({ data, onGoRight, onGoLeft }: LandingPanelProps) {
           className="group flex items-center gap-4 md:gap-6 transition-all hover:scale-105 active:scale-95"
           aria-label="Go to Boardwalk"
         >
-          <div className="rounded-full border-2 border-white/60 p-2 md:p-3 group-hover:border-white group-hover:bg-white/15 transition-all">
-            <ArrowLeft
-              className="w-10 h-10 md:w-14 md:h-14 text-white/80 group-hover:text-white group-hover:-translate-x-1 transition-all"
-              strokeWidth={1.5}
-            />
-          </div>
+          <ArrowLeft
+            className="w-9 h-9 md:w-14 md:h-14 text-white/90 group-hover:text-white group-hover:-translate-x-1 transition-all [filter:drop-shadow(0_2px_8px_rgba(4,41,58,0.4))]"
+            strokeWidth={3.8}
+          />
           <span className="font-display text-3xl md:text-5xl text-white/90 text-shadow-strong font-bold tracking-wide">
             BOARDWALK
           </span>

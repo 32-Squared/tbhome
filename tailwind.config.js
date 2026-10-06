@@ -71,8 +71,8 @@ export default {
         },
       },
       fontFamily: {
-        display: ['"Fredoka"', '"Baloo 2"', 'system-ui', 'sans-serif'],
-        body: ['"Nunito"', 'system-ui', 'sans-serif'],
+        display: ['"Fredoka Variable"', '"Fredoka"', 'system-ui', 'sans-serif'],
+        body: ['"Nunito Variable"', '"Nunito"', 'system-ui', 'sans-serif'],
       },
       animation: {
         'float-gentle': 'floatGentle 6s ease-in-out infinite',

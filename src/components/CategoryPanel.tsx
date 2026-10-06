@@ -7,11 +7,15 @@ import ImageSlot from './ImageSlot';
 interface CategoryPanelProps {
   panel: CategoryPanelType;
   isLeft: boolean;
+  /** Tilt of the home button in degrees (see homeButtonRotation) */
+  homeRotation: number;
+  /** Tailwind bob animation class for the home button */
+  homeBob: string;
   onExpand: () => void;
   onReturn: () => void;
 }
 
-function CategoryPanel({ panel, isLeft, onExpand, onReturn }: CategoryPanelProps) {
+function CategoryPanel({ panel, isLeft, homeRotation, homeBob, onExpand, onReturn }: CategoryPanelProps) {
   const cardRef = useRef<HTMLDivElement>(null);
 
   // homeCorner override takes precedence; otherwise left panels show home on right, right panels on left
@@ -60,19 +64,23 @@ function CategoryPanel({ panel, isLeft, onExpand, onReturn }: CategoryPanelProps
         </div>
       ))}
 
-      {/* Floating home button */}
+      {/* Floating home button: bobs gently (outer), tilted (inner), no frame */}
       <button
         onClick={onReturn}
-        className={`absolute z-20 ${homeOnLeft ? 'top-12 left-6' : 'top-12 right-6'}`}
+        className={`absolute z-20 rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-white ${homeBob} ${homeOnLeft ? 'top-12 left-6' : 'top-12 right-6'}`}
         aria-label="Return to Turtleboards"
       >
-        <ImageSlot
-          slot={UI_IMAGES.homeButton.slot}
-          kind="thumb"
-          filename={UI_IMAGES.homeButton.filename}
-          alt="Home — Turtleboards"
-          className="w-14 h-14 md:w-16 md:h-16 rounded-2xl object-cover border-2 border-white/40 board-glow hover:scale-110 transition-transform"
-        />
+        <span className="block transition-transform hover:scale-110 active:scale-95">
+          <span className="block" style={{ transform: `rotate(${homeRotation}deg)` }}>
+            <ImageSlot
+              slot={UI_IMAGES.homeButton.slot}
+              kind="thumb"
+              filename={UI_IMAGES.homeButton.filename}
+              alt="Home — Turtleboards"
+              className="w-14 h-14 md:w-16 md:h-16 object-contain board-glow"
+            />
+          </span>
+        </span>
       </button>
 
       {/* Content card — drops down and fades in as panel enters view */}

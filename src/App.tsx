@@ -3,6 +3,7 @@ import { collection } from '@/data';
 import type { CategoryPanel, ImageKind } from '@/types';
 import WaveBackground from '@/components/WaveBackground';
 import LandingPanel from '@/components/LandingPanel';
+import { homeButtonRotation } from '@/homeButtonRotation';
 import CategoryPanelComp from '@/components/CategoryPanel';
 import ExpansionOverlay from '@/components/ExpansionOverlay';
 import FullscreenViewer from '@/components/FullscreenViewer';
@@ -152,12 +153,16 @@ function App() {
           }
 
           const isLeft = i < landingIndex;
+          // position among category panels in scroll order (landing excluded)
+          const order = isLeft ? i : i - 1;
 
           return (
             <CategoryPanelComp
               key={panel.id}
               panel={panel}
               isLeft={isLeft}
+              homeRotation={homeButtonRotation(order)}
+              homeBob={order % 2 === 0 ? 'animate-float-soft' : 'animate-float-gentle'}
               onExpand={() => setExpandedPanel(panel)}
               onReturn={goLanding}
             />
