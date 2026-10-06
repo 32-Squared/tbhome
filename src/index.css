@@ -1,0 +1,260 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body, #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    /* No pull-to-refresh / overscroll bounce / edge back-swipe */
+    overscroll-behavior: none;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: pan-y;
+  }
+
+  body {
+    font-family: 'Nunito', system-ui, sans-serif;
+    background: linear-gradient(180deg,
+      #d4a06a 0%,
+      #c4885a 10%,
+      #a86a5a 22%,
+      #7a5870 35%,
+      #4a5a7a 52%,
+      #3a6a8a 70%,
+      #c89060 88%,
+      #d4a578 100%
+    );
+    background-attachment: fixed;
+  }
+}
+
+@layer components {
+  /* ---- App shell ----
+     dvh tracks the *visible* height on Android Chrome (100vh includes the area under the
+     URL bar, which hid the marquee and progress bar). The vh line is a fallback. */
+  .app-viewport {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  /* ---- Wave background layers ---- */
+  .wave-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  /* Wave layers: a 200px strip (viewport + one tile wide) translated by exactly one tile
+     (1200px = the SVG tile width), so the loop is seamless and runs on the compositor.
+     (Animating background-position repainted four full-screen layers every frame.) */
+  .wave-layer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: calc(100% + 1200px);
+    height: 200px;
+    background-repeat: repeat-x;
+    background-size: 1200px 200px;
+    background-position: 0 0;
+    will-change: transform;
+    animation: waveDrift var(--wave-duration, 20s) linear infinite;
+  }
+
+  @keyframes waveDrift {
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(-1200px, 0, 0); }
+  }
+
+  /* Sun glow */
+  .sun-glow {
+    position: absolute;
+    top: 8%;
+    right: 10%;
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,140,60,0.6) 0%, rgba(255,100,50,0.3) 35%, rgba(220,80,50,0.1) 60%, transparent 75%);
+    filter: blur(10px);
+    animation: glowPulse 6s ease-in-out infinite;
+  }
+
+  /* ---- Horizontal scroll track ---- */
+  .surf-track {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    position: relative;
+    z-index: 1;
+  }
+  .surf-track::-webkit-scrollbar { display: none; }
+
+  .surf-panel {
+    flex: 0 0 100%;
+    width: 100vw;
+    height: 100%;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ---- Section expansion overlay ---- */
+  .section-expansion {
+    position: absolute;
+    inset: 0;
+    z-index: 50;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-snap-type: y proximity;
+    overscroll-behavior: none;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(31,126,163,0.5) transparent;
+  }
+  .section-expansion::-webkit-scrollbar { width: 6px; }
+  .section-expansion::-webkit-scrollbar-thumb { background: rgba(31,126,163,0.5); border-radius: 3px; }
+
+  .expansion-snap {
+    scroll-snap-align: start;
+  }
+
+  /* ---- Glass card ---- */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(8, 77, 106, 0.15);
+    transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .glass-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(8, 77, 106, 0.25);
+  }
+
+  /* ---- Board image glow ---- */
+  .board-glow {
+    filter: drop-shadow(0 0 20px rgba(108, 184, 212, 0.4));
+    transition: filter 0.4s ease;
+  }
+  .board-glow:hover {
+    filter: drop-shadow(0 0 30px rgba(108, 184, 212, 0.7));
+  }
+
+  /* ---- Slot placeholder ---- */
+  .slot-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.12);
+    border: 2px dashed rgba(255, 255, 255, 0.35);
+    border-radius: 16px;
+    color: rgba(255, 255, 255, 0.7);
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 600;
+  }
+
+  /* ---- Thumbnail marquee ---- */
+  /* One loop = one copy of the strip (set --marquee-copies from the component). Spacing is
+     margin-right on each thumb (not flex gap) so every copy is exactly the same width. */
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 50s linear infinite;
+  }
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
+
+  /* ---- Progress wave bar ---- */
+  .progress-wave {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #6cb8d4, #3ac0a7, #ffc91f);
+    border-radius: 0 4px 0 0;
+    z-index: 100;
+    transition: width 0.3s ease;
+  }
+
+  /* ---- Fullscreen viewer ---- */
+  .fullscreen-viewer {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: rgba(4, 41, 58, 0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    animation: fadeIn 0.3s ease-out forwards;
+  }
+
+  /* ---- Drop-down on enter ---- */
+  .enter-drop {
+    opacity: 0;
+    transform: translateY(-60px) scale(0.92);
+    transition: opacity 0.5s ease-out, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .enter-drop.is-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+}
+
+@layer utilities {
+  .text-shadow-soft {
+    text-shadow: 0 2px 8px rgba(4, 41, 58, 0.25);
+  }
+  .text-shadow-strong {
+    text-shadow: 0 2px 12px rgba(4, 41, 58, 0.4);
+  }
+
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(-100% / var(--marquee-copies, 4))); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
