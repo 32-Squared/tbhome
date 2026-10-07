@@ -186,19 +186,12 @@ export const collection: CollectionData = {
     {
       id: 'add-it-up',
       title: 'Add It Up',
-      subtitle: 'Technical details',
+      subtitle: 'The Mathematics',
       direction: 'right',
       homeCorner: 'right',
-      intro: '[Placeholder] A single textblock of technical details — dimensions, materials, fin setups, construction methods.',
-      expansionType: 'add-it-up',
-      expansion: {
-        title: 'Add It Up',
-        techText: '[Placeholder] Replace with technical details: board dimensions, volumes, fin setups, construction methods, resin types, and any other specs. This is a single flowing text block decorated with 1-2 small board images.',
-        decorations: [
-          { slot: 113, kind: 'board', filename: 'board-113.webp', alt: 'Decorative board', sizeClass: 'w-24 h-24', positionClass: 'top-8 right-4', floatAnim: 'animate-float-gentle' },
-          { slot: 114, kind: 'thumb', filename: 'thumb-114.webp', alt: 'Decorative thumb', sizeClass: 'w-16 h-16', positionClass: 'bottom-12 left-4', floatAnim: 'animate-float-soft' },
-        ],
-      },
+      intro: 'Specific numbers behind the not-so-complicated selection process.',
+      href: '/add-it-up.html',
+      linkLabel: 'Add It Up',
       decorations: [
         { slot: 113, kind: 'board', filename: 'board-113.webp', alt: 'Decorative board', sizeClass: 'w-24 h-24', positionClass: 'top-16 left-8', rotation: -8, floatAnim: 'animate-float-gentle', zIndex: 2 },
         { slot: 114, kind: 'thumb', filename: 'thumb-114.webp', alt: 'Decorative thumb', sizeClass: 'w-16 h-16', positionClass: 'bottom-16 right-12', rotation: 10, floatAnim: 'animate-float-soft', zIndex: 2 },
