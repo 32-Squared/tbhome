@@ -42,12 +42,29 @@ function App() {
     }
   }, [allPanels.length]);
 
-  // Open on the landing panel (instant: overrides the track's CSS smooth scrolling)
+  // Open on the landing panel, or on the panel named in the URL hash (e.g. /#summer-postcards,
+  // used by the section pages' "Back to the boards" links). Instant: overrides smooth scrolling.
   useLayoutEffect(() => {
     const track = trackRef.current;
     if (!track) return;
-    const landing = track.querySelectorAll(':scope > .surf-panel')[landingIndex] as HTMLElement | undefined;
-    if (landing) track.scrollTo({ left: landing.offsetLeft, behavior: 'instant' });
+    const ids = [
+      ...[...collection.leftPanels].reverse().map((p) => p.id),
+      null,
+      ...collection.rightPanels.map((p) => p.id),
+    ];
+    let hashId = '';
+    try {
+      hashId = decodeURIComponent(window.location.hash.slice(1));
+    } catch {
+      /* malformed hash: ignore */
+    }
+    const hashIndex = hashId ? ids.indexOf(hashId) : -1;
+    const startIndex = hashIndex >= 0 ? hashIndex : landingIndex;
+    const start = track.querySelectorAll(':scope > .surf-panel')[startIndex] as HTMLElement | undefined;
+    if (start) track.scrollTo({ left: start.offsetLeft, behavior: 'instant' });
+    if (window.location.hash) {
+      history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
   }, [landingIndex]);
 
   // Mouse wheel / vertical trackpad swipe steps one panel (native horizontal gestures untouched)

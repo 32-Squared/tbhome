@@ -8,6 +8,8 @@
 /index.html
   Cache-Control: no-cache
 
-# The guide page should also pick up edits right away.
+# The section pages should also pick up edits right away.
 /guide.html
+  Cache-Control: no-cache
+/postcards.html
   Cache-Control: no-cache

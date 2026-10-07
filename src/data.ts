@@ -1,13 +1,4 @@
-import type { CollectionData, SummerBoard } from './types';
-
-// Summer Postcards: slot 401–432. Files: board###.webp (full, 1:3) + board###-ui.webp (thumb, 1:1).
-const postcard = (slot: number, name: string, description: string): SummerBoard => ({
-  slot,
-  filename: `board${slot}.webp`,
-  thumbFilename: `board${slot}-ui.webp`,
-  name,
-  description,
-});
+import type { CollectionData } from './types';
 
 export const collection: CollectionData = {
   title: 'Turtleboards',
@@ -161,48 +152,12 @@ export const collection: CollectionData = {
     {
       id: 'summer-postcards',
       title: 'Summer Postcards',
-      subtitle: '32 designs from the summer collection',
+      subtitle: 'The Full Lineup',
       direction: 'right',
       homeCorner: 'right',
-      intro: '[Placeholder] The summer collection — 32 surfboard designs with short descriptions. Tap any board to see it full size.',
-      expansionType: 'summer-postcards',
-      expansion: {
-        title: 'Summer Postcards',
-        boards: [
-          postcard(401, '[Board 1 name]', '[Short description]'),
-          postcard(402, '[Board 2 name]', '[Short description]'),
-          postcard(403, '[Board 3 name]', '[Short description]'),
-          postcard(404, '[Board 4 name]', '[Short description]'),
-          postcard(405, '[Board 5 name]', '[Short description]'),
-          postcard(406, '[Board 6 name]', '[Short description]'),
-          postcard(407, '[Board 7 name]', '[Short description]'),
-          postcard(408, '[Board 8 name]', '[Short description]'),
-          postcard(409, '[Board 9 name]', '[Short description]'),
-          postcard(410, '[Board 10 name]', '[Short description]'),
-          postcard(411, '[Board 11 name]', '[Short description]'),
-          postcard(412, '[Board 12 name]', '[Short description]'),
-          postcard(413, '[Board 13 name]', '[Short description]'),
-          postcard(414, '[Board 14 name]', '[Short description]'),
-          postcard(415, '[Board 15 name]', '[Short description]'),
-          postcard(416, '[Board 16 name]', '[Short description]'),
-          postcard(417, '[Board 17 name]', '[Short description]'),
-          postcard(418, '[Board 18 name]', '[Short description]'),
-          postcard(419, '[Board 19 name]', '[Short description]'),
-          postcard(420, '[Board 20 name]', '[Short description]'),
-          postcard(421, '[Board 21 name]', '[Short description]'),
-          postcard(422, '[Board 22 name]', '[Short description]'),
-          postcard(423, '[Board 23 name]', '[Short description]'),
-          postcard(424, '[Board 24 name]', '[Short description]'),
-          postcard(425, '[Board 25 name]', '[Short description]'),
-          postcard(426, '[Board 26 name]', '[Short description]'),
-          postcard(427, '[Board 27 name]', '[Short description]'),
-          postcard(428, '[Board 28 name]', '[Short description]'),
-          postcard(429, '[Board 29 name]', '[Short description]'),
-          postcard(430, '[Board 30 name]', '[Short description]'),
-          postcard(431, '[Board 31 name]', '[Short description]'),
-          postcard(432, '[Board 32 name]', '[Short description]'),
-        ],
-      },
+      intro: 'Have a closer look at all 32 Turtleboards.',
+      href: '/postcards.html',
+      linkLabel: 'See the Lineup',
       decorations: [
         { slot: 110, kind: 'board', filename: 'board-110.webp', alt: 'Decorative board', sizeClass: 'w-32 h-32', positionClass: 'bottom-10 right-10', rotation: 4, floatAnim: 'animate-float-gentle', zIndex: 2 },
         { slot: 111, kind: 'thumb', filename: 'thumb-111.webp', alt: 'Decorative thumb', sizeClass: 'w-20 h-20', positionClass: 'top-16 left-10', rotation: -6, floatAnim: 'animate-float-soft', zIndex: 2 },

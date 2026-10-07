@@ -115,6 +115,7 @@ function CategoryPanel({ panel, isLeft, homeRotation, homeBob, onExpand, onRetur
         {panel.href && (
           <a
             href={panel.href}
+            onClick={() => history.replaceState(null, '', `#${panel.id}`)}
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/25 hover:bg-white/35 border border-white/40 font-display font-semibold text-white transition-all hover:scale-105 active:scale-95"
           >
             {panel.linkLabel ?? 'Open'}
