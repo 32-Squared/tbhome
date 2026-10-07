@@ -19,6 +19,8 @@
   Cache-Control: no-cache
 /beach-dreams.html
   Cache-Control: no-cache
+/information-kiosk.html
+  Cache-Control: no-cache
 /pages.css
   Cache-Control: no-cache
 /pages.js

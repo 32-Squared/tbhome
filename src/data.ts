@@ -43,15 +43,11 @@ export const collection: CollectionData = {
     },
     {
       id: 'collection-details',
-      title: 'Collection Details',
-      subtitle: 'The full picture',
+      title: 'Information Kiosk',
+      subtitle: 'Official Stuff',
       direction: 'left',
-      intro: '[Placeholder] Overview of the collection — how many boards, the themes, the materials, and what makes this set special.',
-      expansionType: 'text-only',
-      expansion: {
-        title: 'Collection Details',
-        bodyText: '[Placeholder] Replace with full collection details: number of boards, time span, themes, materials, exhibition history, and any other context. Scrolls vertically.',
-      },
+      href: '/information-kiosk.html',
+      linkLabel: 'Always Open',
       decorations: [
         { slot: 103, kind: 'thumb', filename: 'thumb-103.webp', alt: 'Decorative thumb', sizeClass: 'w-24 h-24', positionClass: 'top-20 left-6', rotation: 10, floatAnim: 'animate-float-soft', zIndex: 2 },
       ],
