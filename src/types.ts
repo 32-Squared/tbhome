@@ -58,6 +58,10 @@ export interface CategoryPanel {
   intro?: string;
   /** Type of expansion when clicked */
   expansionType?: ExpansionType;
+  /** If set, the panel shows a link button to this page instead of the Explore button */
+  href?: string;
+  /** Label for the link button (defaults to "Open") */
+  linkLabel?: string;
   /** Expansion content */
   expansion?: {
     title: string;

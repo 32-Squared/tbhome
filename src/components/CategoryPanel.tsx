@@ -110,6 +110,17 @@ function CategoryPanel({ panel, isLeft, homeRotation, homeBob, onExpand, onRetur
             <ChevronRight className="w-4 h-4" />
           </button>
         )}
+
+        {/* Link button (opens a separate page in the same tab) */}
+        {panel.href && (
+          <a
+            href={panel.href}
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/25 hover:bg-white/35 border border-white/40 font-display font-semibold text-white transition-all hover:scale-105 active:scale-95"
+          >
+            {panel.linkLabel ?? 'Open'}
+            <ChevronRight className="w-4 h-4" />
+          </a>
+        )}
       </div>
     </section>
   );

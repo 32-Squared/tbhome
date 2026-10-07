@@ -66,6 +66,15 @@ export const collection: CollectionData = {
       ],
     },
     {
+      id: 'visitor-center',
+      title: 'Visitor Center',
+      subtitle: 'New to Enjin?',
+      direction: 'left',
+      intro: 'A simple step-by-step guide to begin collecting NFTs on the Enjin Matrixchain.',
+      href: '/guide.html',
+      linkLabel: 'Open the Guide',
+    },
+    {
       id: 'sneak-peeks',
       title: 'Sneak Peeks',
       subtitle: 'Coming soon to a shore near you',
