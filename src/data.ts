@@ -106,24 +106,11 @@ export const collection: CollectionData = {
     {
       id: 'beach-dreams',
       title: 'Beach Dreams',
-      subtitle: 'A fun rundown of board qualities',
       direction: 'right',
-      intro: '[Placeholder] A playful, non-uniform gallery of thumbnails with a sentence or two about what makes each board special.',
-      expansionType: 'beach-dreams',
-      expansion: {
-        title: 'Beach Dreams',
-        beachDreamsText: '[Placeholder] Replace with a fun descriptive intro for the Beach Dreams gallery.',
-        thumbnails: [
-          { slot: 201, filename: 'thumb-201.webp', alt: 'Beach Dreams board 1' },
-          { slot: 202, filename: 'thumb-202.webp', alt: 'Beach Dreams board 2' },
-          { slot: 203, filename: 'thumb-203.webp', alt: 'Beach Dreams board 3' },
-          { slot: 204, filename: 'thumb-204.webp', alt: 'Beach Dreams board 4' },
-          { slot: 205, filename: 'thumb-205.webp', alt: 'Beach Dreams board 5' },
-          { slot: 206, filename: 'thumb-206.webp', alt: 'Beach Dreams board 6' },
-          { slot: 207, filename: 'thumb-207.webp', alt: 'Beach Dreams board 7' },
-          { slot: 208, filename: 'thumb-208.webp', alt: 'Beach Dreams board 8' },
-        ],
-      },
+      homeCorner: 'right',
+      intro: 'Keeping summer alive throughout the year!',
+      href: '/beach-dreams.html',
+      linkLabel: 'Why?',
       decorations: [
         { slot: 107, kind: 'board', filename: 'board-107.webp', alt: 'Decorative board', sizeClass: 'w-28 h-28', positionClass: 'top-10 right-6', rotation: -7, floatAnim: 'animate-float-gentle', zIndex: 2 },
         { slot: 108, kind: 'thumb', filename: 'thumb-108.webp', alt: 'Decorative thumb', sizeClass: 'w-20 h-20', positionClass: 'bottom-20 left-8', rotation: 8, floatAnim: 'animate-float-soft', zIndex: 2 },
