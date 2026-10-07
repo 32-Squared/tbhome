@@ -1,0 +1,29 @@
+/* Shared look for every standalone page (guide, postcards, future pages).
+   Palette and background spectrum mirror the main scroll (src/index.css). Edit here only. */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap');
+:root{
+  --deep:#063a51;--sun:#ffe888;--sun-soft:#fff3bf;--coral:#ff9479;
+  --card:rgba(4,41,58,.30);--card-edge:rgba(255,255,255,.3);
+  --display:"Fredoka","Baloo 2",system-ui,sans-serif;--body:"Nunito",system-ui,sans-serif;
+  /* the three text sizes (+ title) used on every page */
+  --fs-body:16px;--fs-lead:18px;--fs-h2:clamp(23px,4.6vw,29px);--fs-h1:clamp(32px,7.4vw,52px);
+  /* the main scroll's vertical spectrum, stretched over the full page length */
+  --spectrum:linear-gradient(180deg,#d4a06a 0%,#c4885a 10%,#a86a5a 22%,#7a5870 35%,#4a5a7a 52%,#3a6a8a 70%,#c89060 88%,#d4a578 100%);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100dvh;background:var(--spectrum);color:#fff;font:400 var(--fs-body)/1.6 var(--body);text-shadow:0 1px 8px rgba(4,41,58,.35);padding-bottom:env(safe-area-inset-bottom,0)}
+a{color:var(--sun-soft);font-weight:700}
+a:focus-visible,button:focus-visible{outline:3px solid #fff;outline-offset:3px}
+code{text-shadow:none}
+.protect{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.card{background:var(--card);border:1px solid var(--card-edge);border-radius:20px;box-shadow:0 8px 32px rgba(4,41,58,.15)}
+/* top bar (markup is injected by /pages.js from <body data-title data-back>) */
+.bar{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding:calc(10px + env(safe-area-inset-top,0)) 18px 10px;background:rgba(4,41,58,.32);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--card-edge)}
+.bar a{color:#fff;font-family:var(--display);font-weight:400;text-decoration:none;padding:6px 2px}
+.bar span{font:700 16px var(--display)}
+/* intro card */
+.hero{width:calc(100% - 36px);max-width:644px;margin:28px auto 0;padding:30px 22px;text-align:center;background:var(--card);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border:1px solid var(--card-edge);border-radius:24px;box-shadow:0 8px 32px rgba(4,41,58,.15)}
+.hero h1{font:700 var(--fs-h1)/1.08 var(--display);margin:0 0 14px}
+.hero p{margin:0 auto 8px;font-size:var(--fs-lead);max-width:30em}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}

@@ -13,3 +13,7 @@
   Cache-Control: no-cache
 /postcards.html
   Cache-Control: no-cache
+/pages.css
+  Cache-Control: no-cache
+/pages.js
+  Cache-Control: no-cache

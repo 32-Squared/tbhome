@@ -3,68 +3,47 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#eaf6fb">
+<meta name="theme-color" content="#d4a06a">
 <title>Collect on Enjin: a quick guide | Turtleboards</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/pages.css">
 <style>
-:root{--ink:#04293a;--ocean:#084d6a;--glass:rgba(255,255,255,.58);--edge:rgba(255,255,255,.8);--line:rgba(8,77,106,.16);
---bg:#eaf6fb;--accent:#1f7ea3;--fill:0px;--len:0px;
---display:"Fredoka","Baloo 2",system-ui,sans-serif;--body:"Nunito",system-ui,sans-serif}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 var(--body);padding-bottom:env(safe-area-inset-bottom,0)}
-a{color:var(--ocean);font-weight:700}
-a:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
-.bar{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding:calc(10px + env(safe-area-inset-top,0)) 18px 10px;background:var(--glass);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--edge)}
-.bar a{font-family:var(--display);font-weight:400;text-decoration:none;padding:6px 2px}
-.bar span{font:700 17px var(--display);color:var(--ocean)}
-.hero{max-width:680px;margin:0 auto;padding:52px 18px 20px;text-align:center}
-.hero h1{font:700 clamp(34px,8vw,54px)/1.08 var(--display);margin:0 0 14px;color:var(--ocean)}
-.hero p{margin:0 auto 8px;font-size:19px;max-width:30em}
 main{max-width:680px;margin:0 auto;padding:30px 18px 20px}
 .path{position:relative;padding-left:64px}
-.path::before,.path::after{content:"";position:absolute;left:21px;top:23px;width:4px;border-radius:2px;background:var(--line);height:var(--len)}
-.path::after{background:var(--accent);height:var(--fill)}
+.path::before,.path::after{content:"";position:absolute;left:21px;top:23px;width:4px;border-radius:2px;background:rgba(255,255,255,.3);height:var(--len,0px)}
+.path::after{background:#fff;height:var(--fill,0px);box-shadow:0 0 10px rgba(255,255,255,.45)}
 .step{position:relative;padding:0 0 56px}
 .step:last-child{padding-bottom:10px}
-.n{position:absolute;z-index:1;left:-64px;top:0;width:46px;height:46px;border-radius:50%;background:#fff;border:3px solid var(--accent);display:grid;place-items:center;font:700 21px var(--display);color:var(--ink);transform:scale(.9);transition:background .35s ease,color .35s ease,transform .35s ease}
-.n.on{background:var(--accent);color:#fff;transform:scale(1);animation:click .45s cubic-bezier(.3,1.6,.5,1)}
-@keyframes click{0%{transform:scale(.88)}60%{transform:scale(1.1)}100%{transform:scale(1)}}
+.n{position:absolute;z-index:1;left:-64px;top:0;width:46px;height:46px;border-radius:50%;background:var(--deep);border:3px solid #fff;display:grid;place-items:center;font:700 20px var(--display);color:#fff;text-shadow:none;transform:scale(.9);transition:background .35s ease,color .35s ease,transform .35s ease}
+.n.on{background:#fff;color:var(--deep);transform:scale(1);animation:click .45s cubic-bezier(.3,1.6,.5,1)}
 .end .n{top:14px}
-.step h2{font:600 clamp(25px,5vw,31px)/1.15 var(--display);margin:6px 0 10px;color:var(--ocean)}
+@keyframes click{0%{transform:scale(.88)}60%{transform:scale(1.1)}100%{transform:scale(1)}}
+.step h2{font:600 var(--fs-h2)/1.15 var(--display);margin:6px 0 10px}
 .step p{margin:0 0 12px;max-width:34em}
 ol.do{margin:0 0 14px;padding-left:22px}
 ol.do li{margin:0 0 8px;padding-left:4px}
-.note,.net,.extra section{background:var(--glass);border:1px solid var(--edge);border-radius:20px;box-shadow:0 8px 32px rgba(8,77,106,.12)}
-.note{border-left:6px solid var(--accent);padding:12px 18px;margin:16px 0}
-.note.warn{border-left-color:#f54e2c;background:rgba(255,240,237,.8)}
+.note{border-left:6px solid var(--sun);border-radius:0 20px 20px 0;padding:12px 18px;margin:16px 0}
+.note.warn{border-left-color:var(--coral);background:rgba(138,36,15,.42)}
 .note strong:first-child{display:block;margin-bottom:2px;font-family:var(--display);font-weight:600}
 .note p,.note ul{margin:0 0 8px}.note>:last-child{margin-bottom:0}
 .note ul{padding-left:20px}
 .nets{display:grid;gap:10px;margin:14px 0}
 .net{padding:12px 16px}
-.net.key{border:2px solid var(--accent)}
-.net b{font:600 19px var(--display)}
-code{background:var(--ocean);color:#ffe888;padding:1px 7px;border-radius:8px;font-weight:800}
-.done{background:var(--accent);color:#fff;border-radius:22px;padding:20px 22px;margin:8px 0 0}
-.done a{color:#fff3bf}
-.done p{margin:0 0 8px}.done strong{font-family:var(--display);font-size:22px;font-weight:600}
+.net.key{border:2px solid var(--sun)}
+.net b{font:600 18px var(--display)}
+code{background:var(--deep);color:var(--sun);padding:1px 7px;border-radius:8px;font-weight:800}
+.done{background:rgba(8,77,106,.88);border:1px solid var(--card-edge);border-radius:22px;padding:20px 22px;margin:8px 0 0}
+.done p{margin:0 0 8px}.done strong{font-family:var(--display);font-size:21px;font-weight:600}
 .extra{margin-top:44px;display:grid;gap:18px}
 .extra section{padding:16px 20px}
-.extra h3{font:600 21px var(--display);margin:0 0 6px;color:var(--ocean)}
+.extra h3{font:600 20px var(--display);margin:0 0 6px}
 .extra p{margin:0}
-.extra .terms p{margin:0 0 6px}
-.extra .terms p:last-child{margin:0}
-footer{text-align:center;padding:30px 18px 50px;font-size:14px;color:var(--ocean)}
+footer{text-align:center;padding:30px 18px 50px;font-size:14px;color:rgba(255,255,255,.88)}
 @media(min-width:720px){.nets{grid-template-columns:1fr 1fr 1fr}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.n,.n.on{transition:none;animation:none}}
+@media(prefers-reduced-motion:reduce){.n,.n.on{transition:none;animation:none}}
 </style>
 </head>
-<body>
-<div class="bar"><span>Enjin Collecting Guide</span><a href="/#visitor-center">Back to the boards</a></div>
-
+<body data-title="Enjin Collecting Guide" data-back="visitor-center">
+<script src="/pages.js"></script>
 <header class="hero">
   <h1>Collect Turtleboards in about 10 minutes</h1>
   <p>You'll need a phone, a pen and paper, and a little ENJ.</p>
@@ -94,7 +73,7 @@ footer{text-align:center;padding:30px 18px 50px;font-size:14px;color:var(--ocean
     <li>Tap <strong>Generate Backup</strong>. You'll see 12 words.</li>
     <li><strong>Write them on paper, in order.</strong> Then confirm them in the app.</li>
   </ol>
-  <div class="note warn"><strong>Never share or store your 12 words</strong>
+  <div class="card note warn"><strong>Never share or store your 12 words</strong>
     <p>Don't save them on your phone or computer, take a screenshot, or give them to anyone. Nobody from Enjin or Turtleboards will ever ask for them. Anyone who has these words has your wallet.</p></div>
 </section>
 
@@ -107,17 +86,17 @@ footer{text-align:center;padding:30px 18px 50px;font-size:14px;color:var(--ocean
 <section class="step"><div class="n">5</div>
   <h2>Get ENJ (the right kind)</h2>
   <p>You need <strong>native ENJ</strong> to buy on NFT.io. Here's how the networks fit together:</p>
-  <div class="nets">
-    <div class="net key"><b>Matrixchain</b><br>Addresses start with <code>ef</code>. Where NFTs live and where NFT.io works. This is the one you need.</div>
-    <div class="net"><b>Relaychain</b><br>Addresses start with <code>en</code>. The network's backbone. ENJ sometimes arrives here first and can be <a href="https://support.enjin.io/hc/en-gb/articles/26756654453778-How-to-Get-Native-ENJ-in-Your-Enjin-Wallet" target="_blank" rel="noopener">teleported to the Matrixchain</a>.</div>
-    <div class="net"><b>Ethereum and ETH</b><br>Other networks in the same wallet. You don't need them for collecting.</div>
+  <div class="card nets">
+    <div class="card net key"><b>Matrixchain</b><br>Addresses start with <code>ef</code>. Where NFTs live and where NFT.io works. This is the one you need.</div>
+    <div class="card net"><b>Relaychain</b><br>Addresses start with <code>en</code>. The network's backbone. ENJ sometimes arrives here first and can be <a href="https://support.enjin.io/hc/en-gb/articles/26756654453778-How-to-Get-Native-ENJ-in-Your-Enjin-Wallet" target="_blank" rel="noopener">teleported to the Matrixchain</a>.</div>
+    <div class="card net"><b>Ethereum and ETH</b><br>Other networks in the same wallet. You don't need them for collecting.</div>
   </div>
-  <div class="note warn"><strong>Check before you buy or send</strong>
+  <div class="card note warn"><strong>Check before you buy or send</strong>
     <ul>
       <li><strong>Native ENJ only.</strong> The old ERC-20 version is no longer sold on exchanges, and not every exchange supports native ENJ. Check that yours does before you buy.</li>
       <li><strong>Check the address prefix</strong> (<code>ef</code> or <code>en</code>) before sending. Sending between a Relaychain and a Matrixchain address can mean permanently losing your funds.</li>
     </ul></div>
-  <div class="note"><strong>Already have old ERC-20 ENJ?</strong>
+  <div class="card note"><strong>Already have old ERC-20 ENJ?</strong>
     <p>The Enjin Wallet can convert it to native ENJ. It needs a little ETH for the transaction fee, and the converted ENJ shows up on the Matrixchain after about a day. <a href="https://support.enjin.io/hc/en-gb/articles/15492796894737" target="_blank" rel="noopener">Read Enjin's migration guide</a>.</p></div>
 </section>
 
@@ -131,7 +110,7 @@ footer{text-align:center;padding:30px 18px 50px;font-size:14px;color:var(--ocean
     <li>Done when your <strong>Enjin Wallet</strong> appears in the top right of NFT.io.</li>
   </ol>
   <p>Android users can also pick WalletConnect instead.</p>
-  <div class="note"><strong>Only the QR code is safe to screenshot</strong>
+  <div class="card note"><strong>Only the QR code is safe to screenshot</strong>
     <p>Screenshotting this connection code is fine. Your 12 recovery words are never okay to screenshot.</p></div>
 </section>
 
@@ -146,15 +125,15 @@ footer{text-align:center;padding:30px 18px 50px;font-size:14px;color:var(--ocean
 </section>
 
 <section class="step end"><div class="n"></div>
-  <div class="done"><p><strong>You're now a collector!</strong></p><p>A Multiverse of NFTs and games awaits. Have fun exploring, or get <a href="/#visitor-center">back to the boards</a>!</p></div>
+  <div class="done"><p><strong>You're now a collector!</strong></p><p>A Multiverse of NFTs and games awaits. Have fun exploring, or get <a data-back href="/#visitor-center">back to the boards</a>!</p></div>
 </section>
 
 </div>
 
 <div class="extra">
-  <section><h3>Common mistakes</h3>
+  <section class="card"><h3>Common mistakes</h3>
     <p>Sending ENJ to the wrong network (<code>ef</code> vs <code>en</code>), buying ERC-20 ENJ instead of native, storing the 12 words digitally, and downloading a fake wallet.</p></section>
-  <section class="terms"><h3>Some common terms</h3>
+  <section class="card terms"><h3>Some common terms</h3>
     <p><strong>NFT:</strong> a one-of-a-kind digital item you own.</p>
     <p><strong>Recovery phrase:</strong> the 12 words that restore your wallet.</p>
     <p><strong>ENJ:</strong> Enjin's coin, used to pay on NFT.io.</p>
@@ -166,24 +145,15 @@ footer{text-align:center;padding:30px 18px 50px;font-size:14px;color:var(--ocean
 
 <script>
 (function(){
-  var path=document.getElementById('path'),ns=[].slice.call(path.querySelectorAll('.n')),
-      root=document.documentElement,meta=document.querySelector('meta[name=theme-color]'),len=0,tick=false;
-  /* soft background: ocean-50 > lagoon-50 > sun-50 > sand-100. accent: ocean-500 > lagoon-600 > sand-700 */
-  var bgs=[[234,246,251],[224,251,245],[255,251,232],[247,238,221]],
-      acc=[[31,126,163],[23,133,115],[142,98,56]];
-  function mix(s,t){var x=t*(s.length-1),i=Math.min(Math.floor(x),s.length-2),f=x-i,a=s[i],b=s[i+1];
-    return 'rgb('+[0,1,2].map(function(k){return Math.round(a[k]+(b[k]-a[k])*f)}).join(',')+')'}
+  var path=document.getElementById('path'),ns=[].slice.call(path.querySelectorAll('.n')),len=0,tick=false;
   function layout(){
     len=ns[ns.length-1].getBoundingClientRect().top-ns[0].getBoundingClientRect().top;
     path.style.setProperty('--len',len+'px');update();
   }
   function update(){
-    var vh=innerHeight,target=vh*0.6,start=ns[0].getBoundingClientRect().top+23;
+    var target=innerHeight*0.6,start=ns[0].getBoundingClientRect().top+23;
     path.style.setProperty('--fill',Math.max(0,Math.min(len,target-start))+'px');
     ns.forEach(function(n){n.classList.toggle('on',n.getBoundingClientRect().top+23<=target)});
-    var max=root.scrollHeight-vh,t=max>0?Math.min(1,Math.max(0,scrollY/max)):0,bg=mix(bgs,t);
-    root.style.setProperty('--bg',bg);root.style.setProperty('--accent',mix(acc,t));
-    if(meta)meta.setAttribute('content',bg);
   }
   function req(){if(!tick){tick=true;requestAnimationFrame(function(){tick=false;update()})}}
   addEventListener('scroll',req,{passive:true});addEventListener('resize',layout);addEventListener('load',layout);

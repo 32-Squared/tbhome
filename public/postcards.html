@@ -3,47 +3,30 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#eaf6fb">
+<meta name="theme-color" content="#d4a06a">
 <title>The Lineup | Turtleboards</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/pages.css">
 <style>
-:root{--ink:#04293a;--ocean:#084d6a;--glass:rgba(255,255,255,.58);--edge:rgba(255,255,255,.8);
---bg:#eaf6fb;--accent:#1f7ea3;
---display:"Fredoka","Baloo 2",system-ui,sans-serif;--body:"Nunito",system-ui,sans-serif}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 var(--body);padding-bottom:env(safe-area-inset-bottom,0);-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
-a{color:var(--ocean);font-weight:700}
-a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
-.bar{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding:calc(10px + env(safe-area-inset-top,0)) 18px 10px;background:var(--glass);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--edge)}
-.bar a{font-family:var(--display);font-weight:400;text-decoration:none;padding:6px 2px}
-.bar span{font:700 17px var(--display);color:var(--ocean)}
-.hero{max-width:680px;margin:0 auto;padding:52px 18px 20px;text-align:center}
-.hero h1{font:700 clamp(34px,8vw,54px)/1.08 var(--display);margin:0 0 14px;color:var(--ocean)}
-.hero p{margin:0 auto 8px;font-size:19px;max-width:30em}
 main{max-width:680px;margin:0 auto;padding:24px 18px 40px}
 .list{display:grid;gap:18px;margin:0;padding:0;list-style:none}
-.row{--s:clamp(104px,30vw,148px);display:flex;align-items:center;gap:18px;padding:12px;background:rgba(255,255,255,.5);border:1px solid var(--edge);border-radius:22px;box-shadow:0 6px 24px rgba(8,77,106,.1)}
+.row{--s:clamp(104px,30vw,148px);display:flex;align-items:center;gap:18px;padding:12px}
 .row:nth-child(even){flex-direction:row-reverse}
-.thumb{flex:none;width:var(--s);height:var(--s);padding:0;border:0;border-radius:16px;overflow:hidden;cursor:pointer;background:rgba(255,255,255,.6);box-shadow:0 0 0 3px var(--accent);transition:transform .2s ease}
+.thumb{flex:none;width:var(--s);height:var(--s);padding:0;border:0;border-radius:16px;overflow:hidden;cursor:pointer;background:rgba(255,255,255,.12);transition:transform .2s ease}
 .thumb:active{transform:scale(.96)}
 .thumb img{display:block;width:100%;height:100%;object-fit:cover;-webkit-user-drag:none;pointer-events:none}
 .txt{flex:1;height:var(--s);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:0 4px}
-.txt b{font:600 clamp(18px,4.8vw,23px)/1.15 var(--display);color:var(--ocean)}
-.txt i{margin-top:4px;font-size:clamp(14px,3.8vw,16px);line-height:1.35}
+.txt b{font:600 clamp(17px,4.5vw,22px)/1.15 var(--display)}
+.txt i{margin-top:4px;font-size:clamp(13.5px,3.6vw,15.5px);line-height:1.35}
 .lb{position:fixed;inset:0;z-index:20;display:none;flex-direction:column;align-items:center;justify-content:center;padding:16px;background:rgba(4,41,58,.9);cursor:zoom-out}
 .lb.open{display:flex}
 .lb img{max-width:100%;max-height:calc(100dvh - 96px);object-fit:contain;border-radius:14px;-webkit-user-drag:none}
-.lb p{margin:12px 0 0;color:#fff;font:600 19px var(--display)}
+.lb p{margin:12px 0 0;font:600 18px var(--display)}
 .lb button{position:absolute;top:calc(12px + env(safe-area-inset-top,0));right:14px;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.5);background:rgba(255,255,255,.2);color:#fff;font:600 22px var(--display);cursor:pointer}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.thumb{transition:none}}
+@media(prefers-reduced-motion:reduce){.thumb{transition:none}}
 </style>
 </head>
-<body>
-<div class="bar"><span>The Lineup</span><a href="/#summer-postcards">Back to the boards</a></div>
-
+<body class="protect" data-title="The Lineup" data-back="summer-postcards">
+<script src="/pages.js"></script>
 <header class="hero">
   <h1>Summer Postcards</h1>
   <p>Have a closer look at all 32 Turtleboards.</p>
@@ -73,7 +56,7 @@ main{max-width:680px;margin:0 auto;padding:24px 18px 40px}
   function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x)e.textContent=x;return e}
   BOARDS.forEach(function(s){
     var p=s.split('|'),id=p[0],name=p[1],note=p[2];
-    var li=el('li','row'),b=el('button','thumb'),img=el('img'),txt=el('div','txt');
+    var li=el('li','card row'),b=el('button','thumb'),img=el('img'),txt=el('div','txt');
     b.type='button';b.setAttribute('aria-label','View '+name+' full size');
     img.src=BASE+'board'+id+'-ui.webp';img.alt=name;img.loading='lazy';img.decoding='async';img.width=148;img.height=148;img.draggable=false;
     b.appendChild(img);
@@ -86,19 +69,6 @@ main{max-width:680px;margin:0 auto;padding:24px 18px 40px}
   lb.addEventListener('click',close);
   addEventListener('keydown',function(e){if(e.key==='Escape')close()});
   document.addEventListener('contextmenu',function(e){e.preventDefault()});
-
-  /* same soft background + accent drift as the guide */
-  var root=document.documentElement,meta=document.querySelector('meta[name=theme-color]'),tick=false;
-  var bgs=[[234,246,251],[224,251,245],[255,251,232],[247,238,221]],acc=[[31,126,163],[23,133,115],[142,98,56]];
-  function mix(s,t){var x=t*(s.length-1),i=Math.min(Math.floor(x),s.length-2),f=x-i,a=s[i],b=s[i+1];
-    return 'rgb('+[0,1,2].map(function(k){return Math.round(a[k]+(b[k]-a[k])*f)}).join(',')+')'}
-  function update(){
-    var max=root.scrollHeight-innerHeight,t=max>0?Math.min(1,Math.max(0,scrollY/max)):0,bg=mix(bgs,t);
-    root.style.setProperty('--bg',bg);root.style.setProperty('--accent',mix(acc,t));
-    if(meta)meta.setAttribute('content',bg);
-  }
-  function req(){if(!tick){tick=true;requestAnimationFrame(function(){tick=false;update()})}}
-  addEventListener('scroll',req,{passive:true});addEventListener('resize',req);addEventListener('load',update);update();
 })();
 </script>
 </body>
