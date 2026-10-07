@@ -191,7 +191,7 @@ export const collection: CollectionData = {
       homeCorner: 'right',
       intro: 'Specific numbers behind the not-so-complicated selection process.',
       href: '/add-it-up.html',
-      linkLabel: 'Add It Up',
+      linkLabel: "It's Simple",
       decorations: [
         { slot: 113, kind: 'board', filename: 'board-113.webp', alt: 'Decorative board', sizeClass: 'w-24 h-24', positionClass: 'top-16 left-8', rotation: -8, floatAnim: 'animate-float-gentle', zIndex: 2 },
         { slot: 114, kind: 'thumb', filename: 'thumb-114.webp', alt: 'Decorative thumb', sizeClass: 'w-16 h-16', positionClass: 'bottom-16 right-12', rotation: 10, floatAnim: 'animate-float-soft', zIndex: 2 },
@@ -219,21 +219,13 @@ export const collection: CollectionData = {
     },
     {
       id: 'behind-sunscreen',
-      title: 'Behind the Sunscreen',
-      subtitle: 'How the boards are made',
+      title: 'Behind The Sunscreen',
+      subtitle: 'The Factory',
       direction: 'right',
       homeCorner: 'right',
-      intro: '[Placeholder] An orderly, step-by-step showcase of the board-making process with medium images and text blocks.',
-      expansionType: 'behind-sunscreen',
-      expansion: {
-        title: 'Behind the Sunscreen',
-        steps: [
-          { slot: 301, filename: 'board-301.webp', alt: 'Step 1', title: '[Placeholder] Step 1: Shaping', text: '[Placeholder] Describe the shaping process — the blank, the planer, the rails, the rocker.' },
-          { slot: 302, filename: 'board-302.webp', alt: 'Step 2', title: '[Placeholder] Step 2: Glassing', text: '[Placeholder] Describe the glassing — resin, fiberglass, squeegees, and curing.' },
-          { slot: 303, filename: 'board-303.webp', alt: 'Step 3', title: '[Placeholder] Step 3: Artwork', text: '[Placeholder] Describe the artwork process — your original designs, how they are applied.' },
-          { slot: 304, filename: 'board-304.webp', alt: 'Step 4', title: '[Placeholder] Step 4: Finishing', text: '[Placeholder] Describe the finishing — sanding, gloss coat, and final polish.' },
-        ],
-      },
+      intro: "How do you create a million surfboards? Here's my step-by-step process.",
+      href: '/behind-the-sunscreen.html',
+      linkLabel: 'Step inside',
       decorations: [
         { slot: 109, kind: 'thumb', filename: 'thumb-109.webp', alt: 'Decorative thumb', sizeClass: 'w-16 h-16', positionClass: 'top-12 left-6', rotation: -10, floatAnim: 'animate-float-soft', zIndex: 2 },
       ],
