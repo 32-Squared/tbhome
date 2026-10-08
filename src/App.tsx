@@ -202,6 +202,15 @@ function App() {
 
   return (
     <div className="app-viewport">
+      {/* Surfboard outline used to cut the wave cards (see .glass-card-oval in index.css) */}
+      <svg width="0" height="0" className="absolute" aria-hidden="true" focusable="false">
+        <defs>
+          <clipPath id="board-clip" clipPathUnits="objectBoundingBox">
+            <path transform="scale(0.01)" d="M50 0 C70 12 100 30 100 50 C100 70 70 88 50 100 C30 88 0 70 0 50 C0 30 30 12 50 0 Z" />
+          </clipPath>
+        </defs>
+      </svg>
+
       <WaveBackground trackRef={trackRef} />
 
       {/* Horizontal scroll track */}

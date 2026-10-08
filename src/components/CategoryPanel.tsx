@@ -96,6 +96,11 @@ function CategoryPanel({ panel, isLeft, homeRotation, homeBob, onExpand, onRetur
           isOval ? 'glass-card-oval' : 'p-8 md:p-12 max-w-2xl'
         }`}
       >
+        {isOval && (
+          <svg className="board-outline" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M50 0 C70 12 100 30 100 50 C100 70 70 88 50 100 C30 88 0 70 0 50 C0 30 30 12 50 0 Z" vectorEffect="non-scaling-stroke" />
+          </svg>
+        )}
         {panel.subtitle && (
           <p
             className={`font-body text-white/70 text-sm md:text-base mb-2 ${
@@ -107,7 +112,7 @@ function CategoryPanel({ panel, isLeft, homeRotation, homeBob, onExpand, onRetur
         )}
         <h2
           className={`font-display text-3xl text-white text-shadow-strong font-bold mb-4 ${
-            isOval ? 'md:text-4xl' : 'md:text-5xl'
+            isOval ? '' : 'md:text-5xl'
           }`}
         >
           {panel.title}
