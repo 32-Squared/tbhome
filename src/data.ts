@@ -1,5 +1,10 @@
 import type { CollectionData } from './types';
 
+// Landing marquee: how many boards scroll past, starting at board401-ui.webp.
+// 12 = first dozen; 32 = the whole lineup (401–432). The scroll speed adjusts automatically.
+const MARQUEE_FIRST_SLOT = 401;
+const MARQUEE_COUNT = 12;
+
 export const collection: CollectionData = {
   title: 'Turtleboards',
   tagline: 'Surf Slow, Enjoy the Ride',
@@ -7,20 +12,11 @@ export const collection: CollectionData = {
   rightsNotice: 'All artwork is original and created by the artist. All rights reserved.',
 
   // ─── Thumbnail marquee on the landing panel ───
-  marqueeThumbs: [
-    { slot: 1, filename: 'thumb-01.webp', alt: 'Surfboard thumbnail 1' },
-    { slot: 2, filename: 'thumb-02.webp', alt: 'Surfboard thumbnail 2' },
-    { slot: 3, filename: 'thumb-03.webp', alt: 'Surfboard thumbnail 3' },
-    { slot: 4, filename: 'thumb-04.webp', alt: 'Surfboard thumbnail 4' },
-    { slot: 5, filename: 'thumb-05.webp', alt: 'Surfboard thumbnail 5' },
-    { slot: 6, filename: 'thumb-06.webp', alt: 'Surfboard thumbnail 6' },
-    { slot: 7, filename: 'thumb-07.webp', alt: 'Surfboard thumbnail 7' },
-    { slot: 8, filename: 'thumb-08.webp', alt: 'Surfboard thumbnail 8' },
-    { slot: 9, filename: 'thumb-09.webp', alt: 'Surfboard thumbnail 9' },
-    { slot: 10, filename: 'thumb-10.webp', alt: 'Surfboard thumbnail 10' },
-    { slot: 11, filename: 'thumb-11.webp', alt: 'Surfboard thumbnail 11' },
-    { slot: 12, filename: 'thumb-12.webp', alt: 'Surfboard thumbnail 12' },
-  ],
+  // board401-ui.webp … (transparent 1:1 board thumbnails, shown rotated 90° clockwise).
+  marqueeThumbs: Array.from({ length: MARQUEE_COUNT }, (_, i) => {
+    const n = MARQUEE_FIRST_SLOT + i;
+    return { slot: n, filename: `board${n}-ui.webp`, alt: `Turtleboard ${n}` };
+  }),
 
   // ─── LEFT (scroll left from landing) ───
   leftPanels: [

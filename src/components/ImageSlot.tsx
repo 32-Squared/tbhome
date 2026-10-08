@@ -8,9 +8,11 @@ interface ImageSlotProps {
   filename: string;
   alt: string;
   className?: string;
+  /** Load right away instead of lazily (for images that are on screen at first paint) */
+  eager?: boolean;
 }
 
-function ImageSlot({ slot, kind, filename, alt, className = '' }: ImageSlotProps) {
+function ImageSlot({ slot, kind, filename, alt, className = '', eager = false }: ImageSlotProps) {
   const [hasError, setHasError] = useState(false);
 
   // Reset when filename changes
@@ -56,7 +58,7 @@ function ImageSlot({ slot, kind, filename, alt, className = '' }: ImageSlotProps
       src={fullSrc}
       alt={alt}
       className={className}
-      loading="lazy"
+      loading={eager ? 'eager' : 'lazy'}
       onError={() => setHasError(true)}
       draggable={false}
     />

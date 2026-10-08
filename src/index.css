@@ -197,10 +197,50 @@
   .marquee-track {
     display: flex;
     width: max-content;
-    animation: marquee 50s linear infinite;
+    /* --marquee-duration is set by LandingPanel so the speed stays the same for any thumb count */
+    animation: marquee var(--marquee-duration, 50s) linear infinite;
+    will-change: transform;
   }
   .marquee-track:hover {
     animation-play-state: paused;
+  }
+
+  /* Marquee boards: the shadow sits on this wrapper so it stays under the board
+     even though the image inside is turned 90 degrees. */
+  .marquee-thumb {
+    filter: drop-shadow(0 4px 5px rgba(4, 41, 58, 0.45));
+  }
+
+  /* ---- Landing postcard ----
+     50% of the screen width, but capped by height so it never crowds the header, buttons and
+     marquee on wide or short screens. Square; the artwork carries its own tilt. */
+  .landing-postcard {
+    width: min(50vw, calc(var(--app-h, 100dvh) * 0.34));
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
+    perspective: 700px;
+  }
+  .landing-postcard-img {
+    display: block;
+    filter: drop-shadow(0 14px 14px rgba(4, 41, 58, 0.4));
+    transform-origin: 50% 85%;
+  }
+  .landing-postcard.is-flapping .landing-postcard-img {
+    animation: paperFlap 1.3s ease-in-out;
+  }
+
+  /* ---- Right edge panel: spinning logo ---- */
+  .edge-hero {
+    width: min(50vw, calc(var(--app-h, 100dvh) * 0.8));
+    aspect-ratio: 1 / 1;
+    border-radius: 8%;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 2.6s ease-in-out;
+  }
+  .edge-hero.is-shown {
+    opacity: 1;
   }
 
   /* ---- Progress wave bar ---- */
@@ -260,6 +300,26 @@
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
+}
+@keyframes paperFlap {
+  0% {
+    transform: rotateX(0deg) rotateZ(0deg) translateY(0);
+  }
+  18% {
+    transform: rotateX(calc(var(--flap-dir, 1) * 16deg)) rotateZ(calc(var(--flap-dir, 1) * -1.5deg)) translateY(-6px);
+  }
+  38% {
+    transform: rotateX(calc(var(--flap-dir, 1) * -9deg)) rotateZ(calc(var(--flap-dir, 1) * 1deg)) translateY(1px);
+  }
+  58% {
+    transform: rotateX(calc(var(--flap-dir, 1) * 5deg)) rotateZ(calc(var(--flap-dir, 1) * -0.5deg)) translateY(-2px);
+  }
+  78% {
+    transform: rotateX(calc(var(--flap-dir, 1) * -2deg)) rotateZ(0deg) translateY(0);
+  }
+  100% {
+    transform: rotateX(0deg) rotateZ(0deg) translateY(0);
+  }
 }
 @keyframes marquee {
   from { transform: translateX(0); }

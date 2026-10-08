@@ -11,4 +11,6 @@ export function assetUrl(filename: string): string {
 export const UI_IMAGES = {
   header: { slot: 601, filename: 'header.webp' },
   homeButton: { slot: 602, filename: 'homebutton.webp' },
+  postcard: { slot: 603, filename: 'postcard.webp' },
+  logoSpin: { slot: 604, filename: 'logospin.mp4' },
 } as const;

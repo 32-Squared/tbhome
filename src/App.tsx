@@ -8,12 +8,37 @@ import CategoryPanelComp from '@/components/CategoryPanel';
 import ExpansionOverlay from '@/components/ExpansionOverlay';
 import FullscreenViewer from '@/components/FullscreenViewer';
 import BackgroundSwell from '@/components/BackgroundSwell';
+import EdgePanel from '@/components/EdgePanel';
+
+// Scroll order: [blank edge] [left panels, farthest first] [landing] [right panels] [logo edge].
+// `order` counts category panels only, so each home button keeps its own tilt.
+type Slot =
+  | { type: 'edge'; side: 'left' | 'right' }
+  | { type: 'landing' }
+  | { type: 'category'; panel: CategoryPanel; isLeft: boolean; order: number };
+
+function buildSlots(): Slot[] {
+  const slots: Slot[] = [{ type: 'edge', side: 'left' }];
+  let order = 0;
+  [...collection.leftPanels].reverse().forEach((panel) => {
+    slots.push({ type: 'category', panel, isLeft: true, order: order++ });
+  });
+  slots.push({ type: 'landing' });
+  collection.rightPanels.forEach((panel) => {
+    slots.push({ type: 'category', panel, isLeft: false, order: order++ });
+  });
+  slots.push({ type: 'edge', side: 'right' });
+  return slots;
+}
+
+const SLOTS = buildSlots();
+const LANDING_INDEX = SLOTS.findIndex((s) => s.type === 'landing');
 
 function App() {
   const trackRef = useRef<HTMLDivElement>(null);
-  // Panel layout: [left panels reversed] [landing] [right panels]; the site opens on landing.
-  const [currentIndex, setCurrentIndex] = useState(collection.leftPanels.length);
-  const currentIndexRef = useRef(collection.leftPanels.length);
+  // The site opens on the landing panel.
+  const [currentIndex, setCurrentIndex] = useState(LANDING_INDEX);
+  const currentIndexRef = useRef(LANDING_INDEX);
   const [progress, setProgress] = useState(0);
   const [expandedPanel, setExpandedPanel] = useState<CategoryPanel | null>(null);
   const [fullscreen, setFullscreen] = useState<{
@@ -23,24 +48,17 @@ function App() {
     alt: string;
   } | null>(null);
 
-  // Build the panel order: left panels (reversed so first left is right after landing going left),
-  // landing, right panels.
-  // Index layout: [leftN-1 ... left0] [landing] [right0 ... rightN-1]
-  const leftReversed = [...collection.leftPanels].reverse();
-  const allPanels = [...leftReversed, null, ...collection.rightPanels];
-  const landingIndex = leftReversed.length;
-
   // Scroll to a specific panel index
   const scrollToIndex = useCallback((index: number) => {
     const track = trackRef.current;
     if (!track) return;
-    const clamped = Math.max(0, Math.min(allPanels.length - 1, index));
+    const clamped = Math.max(0, Math.min(SLOTS.length - 1, index));
     const panels = track.querySelectorAll(':scope > .surf-panel');
     const target = panels[clamped] as HTMLElement;
     if (target) {
       target.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
     }
-  }, [allPanels.length]);
+  }, []);
 
   // Keep the app exactly as tall as the visible area. After leaving the page and coming back,
   // Android Chrome can keep a stale (taller) dvh for a moment, which clipped the bottom marquee.
@@ -83,11 +101,7 @@ function App() {
   useLayoutEffect(() => {
     const track = trackRef.current;
     if (!track) return;
-    const ids = [
-      ...[...collection.leftPanels].reverse().map((p) => p.id),
-      null,
-      ...collection.rightPanels.map((p) => p.id),
-    ];
+    const ids = SLOTS.map((slot) => (slot.type === 'category' ? slot.panel.id : ''));
     let hashId = '';
     try {
       hashId = decodeURIComponent(window.location.hash.slice(1));
@@ -95,13 +109,13 @@ function App() {
       /* malformed hash: ignore */
     }
     const hashIndex = hashId ? ids.indexOf(hashId) : -1;
-    const startIndex = hashIndex >= 0 ? hashIndex : landingIndex;
+    const startIndex = hashIndex >= 0 ? hashIndex : LANDING_INDEX;
     const start = track.querySelectorAll(':scope > .surf-panel')[startIndex] as HTMLElement | undefined;
     if (start) track.scrollTo({ left: start.offsetLeft, behavior: 'instant' });
     if (window.location.hash) {
       history.replaceState(null, '', window.location.pathname + window.location.search);
     }
-  }, [landingIndex]);
+  }, []);
 
   // Mouse wheel / vertical trackpad swipe steps one panel (native horizontal gestures untouched)
   useEffect(() => {
@@ -155,12 +169,12 @@ function App() {
       } else if (e.key === 'ArrowRight') {
         scrollToIndex(currentIndex + 1);
       } else if (e.key === 'Home') {
-        scrollToIndex(landingIndex);
+        scrollToIndex(LANDING_INDEX);
       }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [currentIndex, scrollToIndex, expandedPanel, fullscreen, landingIndex]);
+  }, [currentIndex, scrollToIndex, expandedPanel, fullscreen]);
 
   // Escape closes the topmost layer only: viewer first, then the section overlay
   useEffect(() => {
@@ -180,7 +194,7 @@ function App() {
     return () => document.removeEventListener('contextmenu', onContext);
   }, []);
 
-  const goLanding = () => scrollToIndex(landingIndex);
+  const goLanding = () => scrollToIndex(LANDING_INDEX);
 
   const handleEnlarge = useCallback((slot: number, kind: ImageKind, filename: string, alt: string) => {
     setFullscreen({ slot, kind, filename, alt });
@@ -192,23 +206,24 @@ function App() {
 
       {/* Horizontal scroll track */}
       <div ref={trackRef} className="surf-track">
-        <BackgroundSwell panelCount={allPanels.length} />
-        {allPanels.map((panel, i) => {
-          if (panel === null) {
+        <BackgroundSwell panelCount={SLOTS.length} />
+        {SLOTS.map((slot) => {
+          if (slot.type === 'edge') {
+            return <EdgePanel key={`edge-${slot.side}`} side={slot.side} />;
+          }
+
+          if (slot.type === 'landing') {
             return (
               <LandingPanel
                 key="landing"
                 data={collection}
-                onGoLeft={() => scrollToIndex(landingIndex - 1)}
-                onGoRight={() => scrollToIndex(landingIndex + 1)}
+                onGoLeft={() => scrollToIndex(LANDING_INDEX - 1)}
+                onGoRight={() => scrollToIndex(LANDING_INDEX + 1)}
               />
             );
           }
 
-          const isLeft = i < landingIndex;
-          // position among category panels in scroll order (landing excluded)
-          const order = isLeft ? i : i - 1;
-
+          const { panel, isLeft, order } = slot;
           return (
             <CategoryPanelComp
               key={panel.id}
