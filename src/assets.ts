@@ -13,4 +13,5 @@ export const UI_IMAGES = {
   homeButton: { slot: 602, filename: 'homebutton.webp' },
   postcard: { slot: 603, filename: 'postcard.webp' },
   logoSpin: { slot: 604, filename: 'logospin.mp4' },
+  honu: { slot: 605, filename: 'honu.webp' },
 } as const;

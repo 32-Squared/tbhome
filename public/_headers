@@ -31,6 +31,10 @@
   Cache-Control: no-cache
 /wave-5.html
   Cache-Control: no-cache
+/32-squared.html
+  Cache-Control: no-cache
+/on-the-horizon.html
+  Cache-Control: no-cache
 /wave.css
   Cache-Control: no-cache
 /pages.css

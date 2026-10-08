@@ -62,6 +62,14 @@ export interface CategoryPanel {
   href?: string;
   /** Label for the link button (defaults to "Open") */
   linkLabel?: string;
+  /** Show the button (using linkLabel) but make it inactive, for pages that are not built yet */
+  inactive?: boolean;
+  /** Tints the panel's glass card (default is the plain white glass) */
+  tint?: 'yellow' | 'purple';
+  /** 'oval' turns the card into a tall surfboard-shaped oval (used by the wave panels) */
+  shape?: 'oval';
+  /** Set the subtitle (the line above the title) in italics instead of spaced capitals */
+  subtitleItalic?: boolean;
   /** Hidden panels stay in the data but are left out of the scroll (e.g. waves not yet rotated in) */
   hidden?: boolean;
   /** Expansion content */

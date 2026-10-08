@@ -1,12 +1,14 @@
 /* Shared behaviour for every standalone page. Usage: <body data-title="Page title" data-back="panel-id">
-   - injects the top bar (bold title left, "Back to the boards" right, returning to that panel)
+   - injects the top bar (bold title left, back link right, returning to that panel: "Back to the Boards" for panels
+     left of Home, "Back to the Beach" for panels right of Home)
    - any <a data-back> link also returns to that panel
    - keeps the browser's address-bar color in step with the page spectrum */
 (function () {
+  var LEFT = ['dry-off', 'collection-details', 'malecon-plaza', 'thirty-two-squared', 'visitor-center']; // panels left of Home
   var b = document.body, back = b.dataset.back || '', href = '/' + (back ? '#' + back : '');
   var plain = b.dataset.title === undefined; // no data-title: just an unpinned back link, top right
   var bar = document.createElement('div'), t = document.createElement('span'), a = document.createElement('a');
-  bar.className = plain ? 'backrow' : 'bar'; t.textContent = b.dataset.title || ''; a.href = href; a.textContent = 'Back to the boards';
+  bar.className = plain ? 'backrow' : 'bar'; t.textContent = b.dataset.title || ''; a.href = href; a.textContent = LEFT.indexOf(back) >= 0 ? 'Back to the Boards' : 'Back to the Beach';
   if (!plain) bar.appendChild(t);
   bar.appendChild(a); b.insertBefore(bar, b.firstChild);
   [].forEach.call(document.querySelectorAll('a[data-back]'), function (l) { l.href = href; });

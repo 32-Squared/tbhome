@@ -18,6 +18,11 @@ interface CategoryPanelProps {
 function CategoryPanel({ panel, isLeft, homeRotation, homeBob, onExpand, onReturn }: CategoryPanelProps) {
   const cardRef = useRef<HTMLDivElement>(null);
 
+  const backLabel = isLeft ? 'Back to the Boards' : 'Back to the Beach';
+  const isOval = panel.shape === 'oval';
+  const buttonClass =
+    'inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/25 hover:bg-white/35 border border-white/40 font-display font-semibold text-white transition-all hover:scale-105 active:scale-95';
+
   // homeCorner override takes precedence; otherwise left panels show home on right, right panels on left
   const homeOnLeft = panel.homeCorner ? panel.homeCorner === 'left' : !isLeft;
 
@@ -68,7 +73,7 @@ function CategoryPanel({ panel, isLeft, homeRotation, homeBob, onExpand, onRetur
       <button
         onClick={onReturn}
         className={`absolute z-20 rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-white ${homeBob} ${homeOnLeft ? 'top-12 left-6' : 'top-12 right-6'}`}
-        aria-label="Return to Turtleboards"
+        aria-label={backLabel}
       >
         <span className="block transition-transform hover:scale-110 active:scale-95">
           <span className="block" style={{ transform: `rotate(${homeRotation}deg)` }}>
@@ -76,7 +81,7 @@ function CategoryPanel({ panel, isLeft, homeRotation, homeBob, onExpand, onRetur
               slot={UI_IMAGES.homeButton.slot}
               kind="thumb"
               filename={UI_IMAGES.homeButton.filename}
-              alt="Home — Turtleboards"
+              alt={backLabel}
               className="w-14 h-14 md:w-16 md:h-16 object-contain board-glow"
             />
           </span>
@@ -84,13 +89,27 @@ function CategoryPanel({ panel, isLeft, homeRotation, homeBob, onExpand, onRetur
       </button>
 
       {/* Content card — drops down and fades in as panel enters view */}
-      <div ref={cardRef} className="glass-card enter-drop p-8 md:p-12 max-w-2xl text-center relative z-10">
+      <div
+        ref={cardRef}
+        data-tint={panel.tint}
+        className={`glass-card enter-drop text-center relative z-10 ${
+          isOval ? 'glass-card-oval' : 'p-8 md:p-12 max-w-2xl'
+        }`}
+      >
         {panel.subtitle && (
-          <p className="font-body text-white/70 text-sm md:text-base mb-2 uppercase tracking-wide">
+          <p
+            className={`font-body text-white/70 text-sm md:text-base mb-2 ${
+              panel.subtitleItalic ? 'italic' : 'uppercase tracking-wide'
+            }`}
+          >
             {panel.subtitle}
           </p>
         )}
-        <h2 className="font-display text-3xl md:text-5xl text-white text-shadow-strong font-bold mb-4">
+        <h2
+          className={`font-display text-3xl text-white text-shadow-strong font-bold mb-4 ${
+            isOval ? 'md:text-4xl' : 'md:text-5xl'
+          }`}
+        >
           {panel.title}
         </h2>
         {panel.intro && (
@@ -103,7 +122,7 @@ function CategoryPanel({ panel, isLeft, homeRotation, homeBob, onExpand, onRetur
         {panel.expansionType && (
           <button
             onClick={onExpand}
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/25 hover:bg-white/35 border border-white/40 font-display font-semibold text-white transition-all hover:scale-105 active:scale-95"
+            className={buttonClass}
           >
             <Expand className="w-5 h-5" />
             Explore Section
@@ -116,11 +135,23 @@ function CategoryPanel({ panel, isLeft, homeRotation, homeBob, onExpand, onRetur
           <a
             href={panel.href}
             onClick={() => history.replaceState(null, '', `#${panel.id}`)}
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/25 hover:bg-white/35 border border-white/40 font-display font-semibold text-white transition-all hover:scale-105 active:scale-95"
+            className={buttonClass}
           >
             {panel.linkLabel ?? 'Open'}
             <ChevronRight className="w-4 h-4" />
           </a>
+        )}
+
+        {/* Placeholder button for a page that is not built yet: visible, but not clickable */}
+        {panel.inactive && (
+          <button
+            type="button"
+            disabled
+            aria-disabled="true"
+            className="inline-flex items-center px-6 py-3 rounded-full bg-white/10 border border-white/25 font-display font-semibold text-white/60 cursor-not-allowed"
+          >
+            {panel.linkLabel}
+          </button>
         )}
       </div>
     </section>
