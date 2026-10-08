@@ -1,5 +1,29 @@
 import type { CollectionData } from './types';
 
+// Card colours (semi-transparent, so the backdrop still shows through the glass).
+// Wave drops: very light blue (1) to dark blue (5). Beach square cards: very light yellow to orange,
+// left to right. Boardwalk cards: each its own colour.
+const CARD = {
+  wave: [
+    'rgba(200, 235, 255, 0.40)',
+    'rgba(140, 200, 245, 0.42)',
+    'rgba(80, 150, 225, 0.45)',
+    'rgba(40, 95, 190, 0.50)',
+    'rgba(20, 50, 140, 0.55)',
+  ],
+  beach: [
+    'rgba(255, 246, 185, 0.34)', // Beach Dreams
+    'rgba(255, 232, 130, 0.34)', // Summer Postcards
+    'rgba(255, 212, 90, 0.36)', // Behind the Sunscreen
+    'rgba(255, 170, 60, 0.38)', // Add It Up
+    'rgba(255, 130, 40, 0.40)', // On the Horizon
+  ],
+  purple: 'rgba(150, 105, 220, 0.32)', // Visitor Center, Malecón Plaza
+  yellow: 'rgba(255, 205, 70, 0.30)', // Information Kiosk
+  green: 'rgba(150, 225, 160, 0.36)', // Dry Off
+  red: 'rgba(215, 60, 60, 0.40)', // 32 Squared
+};
+
 // Landing marquee: how many boards scroll past, starting at board401-ui.webp.
 // 12 = first dozen; 32 = the whole lineup (401–432). The scroll speed adjusts automatically.
 const MARQUEE_FIRST_SLOT = 401;
@@ -27,7 +51,7 @@ export const collection: CollectionData = {
       title: 'Visitor Center',
       subtitle: 'New to Enjin?',
       direction: 'left',
-      tint: 'purple',
+      cardColor: CARD.purple,
       intro: 'A simple step-by-step guide to begin collecting NFTs on the Enjin Matrixchain.',
       href: '/guide.html',
       linkLabel: 'Open the Guide',
@@ -38,6 +62,7 @@ export const collection: CollectionData = {
       subtitle: 'Presented by...',
       subtitleItalic: true,
       direction: 'left',
+      cardColor: CARD.red,
       homeCorner: 'left',
       intro:
         'A chaotic world of ideas, dreams and confusions ultimately pointed towards making all look twice at the world. Maybe even three times.',
@@ -53,6 +78,7 @@ export const collection: CollectionData = {
       title: 'Malecón Plaza',
       subtitle: 'The Whole Party',
       direction: 'left',
+      cardColor: CARD.purple,
       intro: 'Everything going on from the world of 32 Squared on Enjin.',
       linkLabel: 'Setting Up',
       inactive: true, // build the page, then replace this with href: '/…html'
@@ -66,7 +92,7 @@ export const collection: CollectionData = {
       title: 'Information Kiosk',
       subtitle: 'Official Stuff',
       direction: 'left',
-      tint: 'yellow',
+      cardColor: CARD.yellow,
       href: '/information-kiosk.html',
       linkLabel: 'Always Open',
       decorations: [
@@ -78,6 +104,7 @@ export const collection: CollectionData = {
       title: 'Dry Off',
       subtitle: 'The Mainland',
       direction: 'left',
+      cardColor: CARD.green,
       homeCorner: 'left',
       intro: 'Head inland to check out all the off-chain projects from 32 Squared.',
       linkLabel: 'Road Closed',
@@ -97,8 +124,8 @@ export const collection: CollectionData = {
       title: 'Beach Dreams',
       subtitle: 'The Story',
       direction: 'right',
+      cardColor: CARD.beach[0],
       homeCorner: 'right',
-      tint: 'yellow',
       intro: 'How and Why Turtleboards came to exist.',
       href: '/beach-dreams.html',
       linkLabel: "It's Not Long",
@@ -112,6 +139,7 @@ export const collection: CollectionData = {
       title: 'Wave One',
       subtitle: 'Summer Postcards',
       direction: 'right',
+      cardColor: CARD.wave[0],
       shape: 'oval',
       intro: 'Keeping summer alive year round.',
       href: '/wave-1.html',
@@ -125,8 +153,8 @@ export const collection: CollectionData = {
       title: 'Summer Postcards',
       subtitle: 'The Full Lineup',
       direction: 'right',
+      cardColor: CARD.beach[1],
       homeCorner: 'right',
-      tint: 'yellow',
       intro: 'Have a closer look at all 32 Turtleboards.',
       href: '/postcards.html',
       linkLabel: 'See the Lineup',
@@ -140,6 +168,7 @@ export const collection: CollectionData = {
       title: 'Wave Two',
       subtitle: 'Leafing Autumn',
       direction: 'right',
+      cardColor: CARD.wave[1],
       shape: 'oval',
       intro: 'Riding out the sunset vibes.',
       href: '/wave-2.html',
@@ -153,8 +182,8 @@ export const collection: CollectionData = {
       title: 'Behind The Sunscreen',
       subtitle: 'The Factory',
       direction: 'right',
+      cardColor: CARD.beach[2],
       homeCorner: 'right',
-      tint: 'yellow',
       intro: "How do you create a million surfboards? Here's my step-by-step process.",
       href: '/behind-the-sunscreen.html',
       linkLabel: 'Step inside',
@@ -167,6 +196,7 @@ export const collection: CollectionData = {
       title: 'Wave Three',
       subtitle: 'Iceboards',
       direction: 'right',
+      cardColor: CARD.wave[2],
       shape: 'oval',
       intro: 'Enjoyment takes on many states.',
       href: '/wave-3.html',
@@ -180,6 +210,7 @@ export const collection: CollectionData = {
       title: 'Add It Up',
       subtitle: 'The Mathematics',
       direction: 'right',
+      cardColor: CARD.beach[3],
       homeCorner: 'right',
       intro: 'Specific numbers behind the not-so-complicated selection process.',
       href: '/add-it-up.html',
@@ -194,6 +225,7 @@ export const collection: CollectionData = {
       title: 'Wave Four',
       subtitle: 'Spring in Session',
       direction: 'right',
+      cardColor: CARD.wave[3],
       homeCorner: 'right',
       shape: 'oval',
       intro: 'Expectation is a forward force.',
@@ -206,6 +238,7 @@ export const collection: CollectionData = {
       title: 'On the Horizon',
       subtitle: 'The Sun Never Sets',
       direction: 'right',
+      cardColor: CARD.beach[4],
       intro: "There's still more planned on this itinerary.",
       href: '/on-the-horizon.html',
       linkLabel: 'Gaze Ahead',
@@ -219,6 +252,7 @@ export const collection: CollectionData = {
       title: 'Wave Five',
       subtitle: 'Celebrate Summer',
       direction: 'right',
+      cardColor: CARD.wave[4],
       homeCorner: 'right',
       shape: 'oval',
       intro: 'Harmony in completion.',

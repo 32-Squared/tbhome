@@ -64,9 +64,9 @@ export interface CategoryPanel {
   linkLabel?: string;
   /** Show the button (using linkLabel) but make it inactive, for pages that are not built yet */
   inactive?: boolean;
-  /** Tints the panel's glass card (default is the plain white glass) */
-  tint?: 'yellow' | 'purple';
-  /** 'oval' turns the card into a tall surfboard-shaped oval (used by the wave panels) */
+  /** Card colour: any CSS colour, ideally semi-transparent (default is the plain white glass) */
+  cardColor?: string;
+  /** 'oval' turns the card into a tall water-drop shape (used by the wave panels) */
   shape?: 'oval';
   /** Set the subtitle (the line above the title) in italics instead of spaced capitals */
   subtitleItalic?: boolean;

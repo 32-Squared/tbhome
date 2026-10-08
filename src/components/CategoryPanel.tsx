@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react';
 import { useRef, useEffect } from 'react';
 import { ChevronRight, Expand } from 'lucide-react';
 import type { CategoryPanel as CategoryPanelType } from '@/types';
@@ -91,14 +92,14 @@ function CategoryPanel({ panel, isLeft, homeRotation, homeBob, onExpand, onRetur
       {/* Content card — drops down and fades in as panel enters view */}
       <div
         ref={cardRef}
-        data-tint={panel.tint}
+        style={panel.cardColor ? ({ '--card-bg': panel.cardColor } as CSSProperties) : undefined}
         className={`glass-card enter-drop text-center relative z-10 ${
           isOval ? 'glass-card-oval' : 'p-8 md:p-12 max-w-2xl'
         }`}
       >
         {isOval && (
-          <svg className="board-outline" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-            <path d="M50 0 C70 12 100 30 100 50 C100 70 70 88 50 100 C30 88 0 70 0 50 C0 30 30 12 50 0 Z" vectorEffect="non-scaling-stroke" />
+          <svg className="board-outline" viewBox="0 0 100 190" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M50 0 C72 40 100 90 100 140 A50 50 0 0 1 0 140 C0 90 28 40 50 0 Z" vectorEffect="non-scaling-stroke" />
           </svg>
         )}
         {panel.subtitle && (
