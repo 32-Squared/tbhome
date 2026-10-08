@@ -43,6 +43,9 @@
     width: 100%;
     height: 100vh;
     height: 100dvh;
+    /* Measured by App.tsx from the visual viewport; fixes a stale, too-tall dvh after the page
+       returns from another app/tab on Android (it clipped the bottom marquee). */
+    height: var(--app-h, 100dvh);
     overflow: hidden;
   }
 
@@ -50,6 +53,7 @@
   .wave-bg {
     position: fixed;
     inset: 0;
+    height: var(--app-h, auto);
     z-index: 0;
     overflow: hidden;
     pointer-events: none;

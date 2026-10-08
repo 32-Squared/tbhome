@@ -4,9 +4,11 @@
    - keeps the browser's address-bar color in step with the page spectrum */
 (function () {
   var b = document.body, back = b.dataset.back || '', href = '/' + (back ? '#' + back : '');
+  var plain = b.dataset.title === undefined; // no data-title: just an unpinned back link, top right
   var bar = document.createElement('div'), t = document.createElement('span'), a = document.createElement('a');
-  bar.className = 'bar'; t.textContent = b.dataset.title || ''; a.href = href; a.textContent = 'Back to the boards';
-  bar.appendChild(t); bar.appendChild(a); b.insertBefore(bar, b.firstChild);
+  bar.className = plain ? 'backrow' : 'bar'; t.textContent = b.dataset.title || ''; a.href = href; a.textContent = 'Back to the boards';
+  if (!plain) bar.appendChild(t);
+  bar.appendChild(a); b.insertBefore(bar, b.firstChild);
   [].forEach.call(document.querySelectorAll('a[data-back]'), function (l) { l.href = href; });
 
   // same stops as --spectrum in pages.css: [position %, r, g, b]

@@ -62,6 +62,8 @@ export interface CategoryPanel {
   href?: string;
   /** Label for the link button (defaults to "Open") */
   linkLabel?: string;
+  /** Hidden panels stay in the data but are left out of the scroll (e.g. waves not yet rotated in) */
+  hidden?: boolean;
   /** Expansion content */
   expansion?: {
     title: string;

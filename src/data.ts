@@ -96,8 +96,8 @@ export const collection: CollectionData = {
   ],
 
   // ─── RIGHT (scroll right from landing) ───
-  // Order: Beach Dreams, Featured 1, Summer Postcards, Featured 2, Add It Up,
-  //         Featured 3, Behind the Sunscreen, On the Horizon
+  // Order: Beach Dreams, Wave 1, Summer Postcards, Wave 2, Add It Up,
+  //         Wave 3, Behind the Sunscreen, On the Horizon, (Wave 4, Wave 5: can be hidden)
   rightPanels: [
     {
       id: 'beach-dreams',
@@ -113,21 +113,13 @@ export const collection: CollectionData = {
       ],
     },
     {
-      id: 'featured-board-1',
-      title: 'Featured Board I',
-      subtitle: 'A closer look',
+      id: 'wave-1',
+      title: 'Wave One',
+      subtitle: 'Summer Postcards',
       direction: 'right',
-      intro: '[Placeholder] A featured board shown as a webm animation. Longer description but not itemised.',
-      expansionType: 'featured-board',
-      expansion: {
-        title: 'Featured Board I',
-        featured: {
-          slot: 501,
-          filename: 'featured-501.webm',
-          name: '[Featured Board I name — replace]',
-          description: '[Placeholder] A longer description of this featured board — the design story, the inspiration, the details that make it special. Not itemised, just flowing text.',
-        },
-      },
+      intro: 'Keeping summer alive year round.',
+      href: '/wave-1.html',
+      linkLabel: 'Surf In',
       decorations: [
         { slot: 112, kind: 'thumb', filename: 'thumb-112.webp', alt: 'Decorative thumb', sizeClass: 'w-20 h-20', positionClass: 'top-14 right-8', rotation: 7, floatAnim: 'animate-float-soft', zIndex: 2 },
       ],
@@ -147,21 +139,13 @@ export const collection: CollectionData = {
       ],
     },
     {
-      id: 'featured-board-2',
-      title: 'Featured Board II',
-      subtitle: 'Another closer look',
+      id: 'wave-2',
+      title: 'Wave Two',
+      subtitle: 'Leafing Autumn',
       direction: 'right',
-      intro: '[Placeholder] A second featured board shown as a webm animation. Longer description but not itemised.',
-      expansionType: 'featured-board',
-      expansion: {
-        title: 'Featured Board II',
-        featured: {
-          slot: 502,
-          filename: 'featured-502.webm',
-          name: '[Featured Board II name — replace]',
-          description: '[Placeholder] A longer description of this second featured board — the design story, the inspiration, the details.',
-        },
-      },
+      intro: 'Riding out the sunset vibes.',
+      href: '/wave-2.html',
+      linkLabel: 'Drop By',
       decorations: [
         { slot: 115, kind: 'board', filename: 'board-115.webp', alt: 'Decorative board', sizeClass: 'w-28 h-28', positionClass: 'bottom-14 left-10', rotation: 5, floatAnim: 'animate-float-gentle', zIndex: 2 },
       ],
@@ -181,21 +165,13 @@ export const collection: CollectionData = {
       ],
     },
     {
-      id: 'featured-board-3',
-      title: 'Featured Board III',
-      subtitle: 'Yet another closer look',
+      id: 'wave-3',
+      title: 'Wave Three',
+      subtitle: 'Iceboards',
       direction: 'right',
-      intro: '[Placeholder] A third featured board shown as a webm animation. Longer description but not itemised.',
-      expansionType: 'featured-board',
-      expansion: {
-        title: 'Featured Board III',
-        featured: {
-          slot: 503,
-          filename: 'featured-503.webm',
-          name: '[Featured Board III name — replace]',
-          description: '[Placeholder] A longer description of this third featured board — the design story, the inspiration, the details.',
-        },
-      },
+      intro: 'Enjoyment takes on many states.',
+      href: '/wave-3.html',
+      linkLabel: 'Slide In',
       decorations: [
         { slot: 116, kind: 'thumb', filename: 'thumb-116.webp', alt: 'Decorative thumb', sizeClass: 'w-20 h-20', positionClass: 'top-14 left-8', rotation: -7, floatAnim: 'animate-float-soft', zIndex: 2 },
       ],
@@ -229,5 +205,30 @@ export const collection: CollectionData = {
         { slot: 118, kind: 'thumb', filename: 'thumb-118.webp', alt: 'Decorative thumb', sizeClass: 'w-16 h-16', positionClass: 'top-16 left-12', rotation: -12, floatAnim: 'animate-float-soft', zIndex: 2 },
       ],
     },
+    {
+      id: 'wave-4',
+      title: 'Wave Four',
+      subtitle: 'Spring in Session',
+      direction: 'right',
+      homeCorner: 'right',
+      intro: 'Expectation is a forward force.',
+      href: '/wave-4.html',
+      linkLabel: 'Roll Through',
+      hidden: false, // set to true to hide until this wave rotates in
+    },
+    {
+      id: 'wave-5',
+      title: 'Wave Five',
+      subtitle: 'Celebrate Summer',
+      direction: 'right',
+      homeCorner: 'right',
+      intro: 'Harmony in completion.',
+      href: '/wave-5.html',
+      linkLabel: 'Check it Out',
+      hidden: false, // set to true to hide until this wave rotates in
+    },
   ],
 };
+
+// Panels marked hidden: true stay in the data but are left out of the scroll until they rotate in.
+collection.rightPanels = collection.rightPanels.filter((p) => !p.hidden);

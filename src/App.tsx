@@ -42,6 +42,42 @@ function App() {
     }
   }, [allPanels.length]);
 
+  // Keep the app exactly as tall as the visible area. After leaving the page and coming back,
+  // Android Chrome can keep a stale (taller) dvh for a moment, which clipped the bottom marquee.
+  useEffect(() => {
+    const root = document.documentElement;
+    let timers: number[] = [];
+    const measure = () => {
+      const h = window.visualViewport?.height ?? window.innerHeight;
+      root.style.setProperty('--app-h', `${Math.round(h)}px`);
+    };
+    // The browser can report the new size a beat late on resume, so measure a few times.
+    const remeasure = () => {
+      measure();
+      timers.forEach((t) => window.clearTimeout(t));
+      timers = [100, 300, 800].map((ms) => window.setTimeout(measure, ms));
+    };
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') remeasure();
+    };
+    measure();
+    window.addEventListener('resize', measure);
+    window.addEventListener('orientationchange', remeasure);
+    window.addEventListener('pageshow', remeasure);
+    window.addEventListener('focus', remeasure);
+    document.addEventListener('visibilitychange', onVisible);
+    window.visualViewport?.addEventListener('resize', measure);
+    return () => {
+      timers.forEach((t) => window.clearTimeout(t));
+      window.removeEventListener('resize', measure);
+      window.removeEventListener('orientationchange', remeasure);
+      window.removeEventListener('pageshow', remeasure);
+      window.removeEventListener('focus', remeasure);
+      document.removeEventListener('visibilitychange', onVisible);
+      window.visualViewport?.removeEventListener('resize', measure);
+    };
+  }, []);
+
   // Open on the landing panel, or on the panel named in the URL hash (e.g. /#summer-postcards,
   // used by the section pages' "Back to the boards" links). Instant: overrides smooth scrolling.
   useLayoutEffect(() => {

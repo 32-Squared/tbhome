@@ -21,6 +21,18 @@
   Cache-Control: no-cache
 /information-kiosk.html
   Cache-Control: no-cache
+/wave-1.html
+  Cache-Control: no-cache
+/wave-2.html
+  Cache-Control: no-cache
+/wave-3.html
+  Cache-Control: no-cache
+/wave-4.html
+  Cache-Control: no-cache
+/wave-5.html
+  Cache-Control: no-cache
+/wave.css
+  Cache-Control: no-cache
 /pages.css
   Cache-Control: no-cache
 /pages.js

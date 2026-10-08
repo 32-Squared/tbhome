@@ -1,0 +1,17 @@
+/* Featured Wave pages (wave-1.html ... wave-5.html). Loaded after pages.css. */
+.top{display:flex;align-items:center;gap:18px;max-width:680px;margin:0 auto;padding:18px 18px 8px}
+.top.flip{flex-direction:row-reverse}
+.top.solo{padding-bottom:56px}
+.chr{flex:0 0 clamp(124px,44%,240px)}
+.chr img{display:block;width:100%;aspect-ratio:1/2;object-fit:contain;filter:drop-shadow(0 12px 18px rgba(4,41,58,.45))}
+.info{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;text-align:center}
+.logo{display:block;width:min(100%,150px);aspect-ratio:1/1;object-fit:contain;margin-bottom:14px;filter:drop-shadow(0 8px 12px rgba(4,41,58,.45));animation:bob 3.4s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.info h1{font:700 var(--fs-h2)/1.15 var(--display);margin:0 0 4px}
+.info h2{font:500 var(--fs-lead)/1.2 var(--display);margin:0 0 14px}
+.info p{margin:0}
+main.wave{max-width:680px;margin:0 auto;padding:16px 18px 48px;display:grid;gap:22px}
+.wave .card{padding:24px 22px}
+.wave .card p{margin:0 0 12px;text-align:left}
+.wave .card>:last-child{margin-bottom:0}
+@media(prefers-reduced-motion:reduce){.logo{animation:none}}
