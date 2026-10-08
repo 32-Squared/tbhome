@@ -1,9 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import type { RefObject } from 'react';
 import { UI_IMAGES, assetUrl } from '@/assets';
+import { useDwellReveal } from '@/useDwellReveal';
 
-// How long the visitor must stay on an edge panel before its picture fades in.
-const DWELL_MS = 5000;
 // Honu: how long it stays visible (counted from when it starts to appear) before fading out.
 const HONU_HOLD_MS = 10000;
 
@@ -32,61 +30,6 @@ function EdgePanel({ side }: EdgePanelProps) {
   );
 }
 
-// Shared timing for both panels. The picture stays hidden until the visitor has been on the
-// panel for DWELL_MS (and the file is ready), then `shown` turns true. If holdMs is given,
-// `shown` turns false again after that long and stays false until the visitor leaves and returns.
-// `entered` becomes true the first time the panel is mostly on screen, so the file is only
-// downloaded when someone actually gets there.
-function useEdgeReveal(wrapRef: RefObject<HTMLDivElement>, mediaReady: boolean, holdMs?: number) {
-  const [entered, setEntered] = useState(false);
-  const [inView, setInView] = useState(false);
-  const [dwelled, setDwelled] = useState(false);
-  const [expired, setExpired] = useState(false);
-
-  // Watch the panel against the horizontal track (same approach as CategoryPanel)
-  useEffect(() => {
-    const section = wrapRef.current?.closest('.surf-panel');
-    if (!section) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.intersectionRatio > 0.6) {
-            setInView(true);
-            setEntered(true);
-          } else if (!entry.isIntersecting) {
-            setInView(false);
-          }
-        });
-      },
-      { root: section.parentElement, threshold: [0, 0.6, 1] }
-    );
-    observer.observe(section);
-    return () => observer.disconnect();
-  }, [wrapRef]);
-
-  // Dwell timer: starts on arrival; leaving resets everything for the next visit
-  useEffect(() => {
-    if (!inView) {
-      setDwelled(false);
-      setExpired(false);
-      return;
-    }
-    const t = window.setTimeout(() => setDwelled(true), DWELL_MS);
-    return () => window.clearTimeout(t);
-  }, [inView]);
-
-  const visible = inView && dwelled && mediaReady;
-
-  // Hold timer (Honu only)
-  useEffect(() => {
-    if (!visible || holdMs === undefined) return;
-    const t = window.setTimeout(() => setExpired(true), holdMs);
-    return () => window.clearTimeout(t);
-  }, [visible, holdMs]);
-
-  return { entered, shown: visible && !expired };
-}
-
 function SlotPlaceholder({ slot, filename }: { slot: number; filename: string }) {
   return (
     <div className="slot-placeholder w-full h-full" aria-hidden="true">
@@ -106,7 +49,7 @@ function LogoSpin() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [ready, setReady] = useState(false); // video can play
   const [failed, setFailed] = useState(false); // file missing: show the slot placeholder instead
-  const { entered, shown } = useEdgeReveal(wrapRef, ready || failed);
+  const { entered, shown } = useDwellReveal(wrapRef, { mediaReady: ready || failed });
 
   useEffect(() => {
     const v = videoRef.current;
@@ -150,7 +93,7 @@ function Honu() {
   const wrapRef = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState(false);
   const [failed, setFailed] = useState(false);
-  const { entered, shown } = useEdgeReveal(wrapRef, ready || failed, HONU_HOLD_MS);
+  const { entered, shown } = useDwellReveal(wrapRef, { mediaReady: ready || failed, holdMs: HONU_HOLD_MS });
 
   return (
     <div ref={wrapRef} className={`edge-hero edge-hero--bare${shown ? ' is-shown' : ''}`}>

@@ -66,8 +66,10 @@ export interface CategoryPanel {
   inactive?: boolean;
   /** Card colour: any CSS colour, ideally semi-transparent (default is the plain white glass) */
   cardColor?: string;
-  /** 'oval' turns the card into a tall water-drop shape (used by the wave panels) */
-  shape?: 'oval';
+  /** 'oval' = tall water drop (wave panels); 'square' = fixed 1:1 card (the other Beach panels) */
+  shape?: 'oval' | 'square';
+  /** Transparent 1:1 image laid over the card, behind the text. Fades in after a pause. */
+  cardArt?: string;
   /** Set the subtitle (the line above the title) in italics instead of spaced capitals */
   subtitleItalic?: boolean;
   /** Hidden panels stay in the data but are left out of the scroll (e.g. waves not yet rotated in) */

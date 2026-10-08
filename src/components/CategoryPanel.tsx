@@ -1,8 +1,9 @@
 import type { CSSProperties } from 'react';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { ChevronRight, Expand } from 'lucide-react';
 import type { CategoryPanel as CategoryPanelType } from '@/types';
-import { UI_IMAGES } from '@/assets';
+import { UI_IMAGES, assetUrl } from '@/assets';
+import { useDwellReveal } from '@/useDwellReveal';
 import ImageSlot from './ImageSlot';
 
 interface CategoryPanelProps {
@@ -16,11 +17,26 @@ interface CategoryPanelProps {
   onReturn: () => void;
 }
 
+// How long a visitor stays on a card before its overlay image fades in
+const CARD_ART_DELAY_MS = 10000;
+
 function CategoryPanel({ panel, isLeft, homeRotation, homeBob, onExpand, onReturn }: CategoryPanelProps) {
   const cardRef = useRef<HTMLDivElement>(null);
 
   const backLabel = isLeft ? 'Back to the Boards' : 'Back to the Beach';
   const isOval = panel.shape === 'oval';
+  const isSquare = panel.shape === 'square';
+
+  // Optional overlay image: starts loading when the panel is first reached, fades in after the
+  // delay, then stays
+  const [artReady, setArtReady] = useState(false);
+  const [artFailed, setArtFailed] = useState(false);
+  const art = useDwellReveal(cardRef, {
+    mediaReady: artReady,
+    dwellMs: CARD_ART_DELAY_MS,
+    once: true,
+    enabled: Boolean(panel.cardArt),
+  });
   const buttonClass =
     'inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/25 hover:bg-white/35 border border-white/40 font-display font-semibold text-white transition-all hover:scale-105 active:scale-95';
 
@@ -94,9 +110,21 @@ function CategoryPanel({ panel, isLeft, homeRotation, homeBob, onExpand, onRetur
         ref={cardRef}
         style={panel.cardColor ? ({ '--card-bg': panel.cardColor } as CSSProperties) : undefined}
         className={`glass-card enter-drop text-center relative z-10 ${
-          isOval ? 'glass-card-oval' : 'p-8 md:p-12 max-w-2xl'
+          isOval ? 'glass-card-oval' : isSquare ? 'glass-card-square' : 'p-8 md:p-12 max-w-2xl'
         }`}
       >
+        {panel.cardArt && art.entered && !artFailed && (
+          <img
+            src={assetUrl(panel.cardArt)}
+            alt=""
+            aria-hidden="true"
+            draggable={false}
+            decoding="async"
+            className={`card-art${art.shown ? ' is-shown' : ''}`}
+            onLoad={() => setArtReady(true)}
+            onError={() => setArtFailed(true)}
+          />
+        )}
         {isOval && (
           <svg className="board-outline" viewBox="0 0 100 190" preserveAspectRatio="none" aria-hidden="true">
             <path d="M50 0 C72 40 100 90 100 140 A50 50 0 0 1 0 140 C0 90 28 40 50 0 Z" vectorEffect="non-scaling-stroke" />
@@ -113,13 +141,13 @@ function CategoryPanel({ panel, isLeft, homeRotation, homeBob, onExpand, onRetur
         )}
         <h2
           className={`font-display text-3xl text-white text-shadow-strong font-bold mb-4 ${
-            isOval ? '' : 'md:text-5xl'
+            isOval ? '' : isSquare ? 'md:text-4xl' : 'md:text-5xl'
           }`}
         >
           {panel.title}
         </h2>
         {panel.intro && (
-          <p className="font-body text-white/85 text-base md:text-lg leading-relaxed mb-6">
+          <p className="font-body text-white/85 text-base md:text-lg leading-relaxed mb-6 whitespace-pre-line">
             {panel.intro}
           </p>
         )}
