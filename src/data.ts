@@ -58,6 +58,7 @@ export const collection: CollectionData = {
       linkLabel: 'Open the Guide',
       decorations: [
         { slot: 119, kind: 'thumb', filename: 'radiant.webp', alt: 'Radiant', sizeClass: 'w-16 h-16', positionClass: 'bottom-14 right-6', rotation: 0, floatAnim: 'animate-float-soft', zIndex: 2, framed: true },
+        { slot: 120, kind: 'thumb', filename: 'seascape.webp', alt: 'Seascape', sizeClass: 'w-32 h-32', positionClass: 'top-12 right-24', rotation: -4, floatAnim: 'animate-float-gentle', zIndex: 2, framed: true },
       ],
     },
     {
@@ -89,7 +90,7 @@ export const collection: CollectionData = {
       linkLabel: 'Setting Up',
       inactive: true, // build the page, then replace this with href: '/…html'
       decorations: [
-        { slot: 104, kind: 'board', filename: 'board-104.webp', alt: 'Decorative board', sizeClass: 'w-32 h-32', positionClass: 'bottom-12 right-12', rotation: 6, floatAnim: 'animate-float-gentle', zIndex: 2 },
+        { slot: 104, kind: 'thumb', filename: 'design.webp', alt: 'Design', sizeClass: 'w-32 h-32', positionClass: 'bottom-12 right-12', rotation: 6, floatAnim: 'animate-float-gentle', zIndex: 2, framed: true },
         { slot: 105, kind: 'thumb', filename: 'colorific.webp', alt: 'Colorific', sizeClass: 'w-16 h-16', positionClass: 'top-16 left-12', rotation: -12, floatAnim: 'animate-float-soft', zIndex: 2, framed: true },
       ],
     },
@@ -139,7 +140,7 @@ export const collection: CollectionData = {
       href: '/beach-dreams.html',
       linkLabel: "It's Not Long",
       decorations: [
-        { slot: 107, kind: 'board', filename: 'board-107.webp', alt: 'Decorative board', sizeClass: 'w-28 h-28', positionClass: 'top-10 right-6', rotation: -7, floatAnim: 'animate-float-gentle', zIndex: 2 },
+        { slot: 107, kind: 'thumb', filename: 'suns.webp', alt: 'Suns', sizeClass: 'w-28 h-28', positionClass: 'top-10 left-6', rotation: -7, floatAnim: 'animate-float-gentle', zIndex: 2, framed: true },
         { slot: 108, kind: 'thumb', filename: 'flower.webp', alt: 'Flower', sizeClass: 'w-20 h-20', positionClass: 'bottom-20 left-8', rotation: 8, floatAnim: 'animate-float-soft', zIndex: 2, framed: true },
       ],
     },
@@ -154,7 +155,7 @@ export const collection: CollectionData = {
       href: '/wave-1.html',
       linkLabel: 'Surf In',
       decorations: [
-        { slot: 112, kind: 'thumb', filename: 'thumb-112.webp', alt: 'Decorative thumb', sizeClass: 'w-20 h-20', positionClass: 'top-14 right-8', rotation: 7, floatAnim: 'animate-float-soft', zIndex: 2 },
+        { slot: 112, kind: 'thumb', filename: 'turtles.webp', alt: 'Turtles', sizeClass: 'w-20 h-20', positionClass: 'top-14 right-8', rotation: 7, floatAnim: 'animate-float-soft', zIndex: 2, framed: true },
       ],
     },
     {
@@ -170,7 +171,7 @@ export const collection: CollectionData = {
       href: '/postcards.html',
       linkLabel: 'See the Lineup',
       decorations: [
-        { slot: 110, kind: 'board', filename: 'board-110.webp', alt: 'Decorative board', sizeClass: 'w-32 h-32', positionClass: 'top-16 left-10', rotation: 4, floatAnim: 'animate-float-gentle', zIndex: 2 },
+        { slot: 110, kind: 'thumb', filename: 'boards.webp', alt: 'Boards', sizeClass: 'w-32 h-32', positionClass: 'top-16 left-10', rotation: 4, floatAnim: 'animate-float-gentle', zIndex: 2, framed: true },
         { slot: 111, kind: 'thumb', filename: 'swirl.webp', alt: 'Swirl', sizeClass: 'w-20 h-20', positionClass: 'bottom-10 right-10', rotation: -6, floatAnim: 'animate-float-soft', zIndex: 2, framed: true },
       ],
     },
@@ -185,7 +186,7 @@ export const collection: CollectionData = {
       href: '/wave-2.html',
       linkLabel: 'Drop By',
       decorations: [
-        { slot: 115, kind: 'board', filename: 'board-115.webp', alt: 'Decorative board', sizeClass: 'w-28 h-28', positionClass: 'bottom-14 left-10', rotation: 5, floatAnim: 'animate-float-gentle', zIndex: 2 },
+        { slot: 115, kind: 'thumb', filename: 'wave2logo.webp', alt: 'Wave Two logo', sizeClass: 'w-28 h-28', positionClass: 'top-14 right-8', rotation: 5, floatAnim: 'animate-float-gentle', zIndex: 2 },
       ],
     },
     {
@@ -202,7 +203,8 @@ export const collection: CollectionData = {
       href: '/behind-the-sunscreen.html',
       linkLabel: 'Step inside',
       decorations: [
-        { slot: 109, kind: 'thumb', filename: 'circle.webp', alt: 'Circle', sizeClass: 'w-16 h-16', positionClass: 'bottom-12 right-6', rotation: -10, floatAnim: 'animate-float-soft', zIndex: 2, framed: true },
+        { slot: 109, kind: 'thumb', filename: 'circle.webp', alt: 'Circle', sizeClass: 'w-16 h-16', positionClass: 'top-12 left-6', rotation: -10, floatAnim: 'animate-float-soft', zIndex: 2, framed: true },
+        { slot: 121, kind: 'thumb', filename: 'bloom.webp', alt: 'Bloom', sizeClass: 'w-32 h-32', positionClass: 'bottom-12 right-6', rotation: 6, floatAnim: 'animate-float-gentle', zIndex: 2, framed: true },
       ],
     },
     {
@@ -216,7 +218,7 @@ export const collection: CollectionData = {
       href: '/wave-3.html',
       linkLabel: 'Slide In',
       decorations: [
-        { slot: 116, kind: 'thumb', filename: 'thumb-116.webp', alt: 'Decorative thumb', sizeClass: 'w-20 h-20', positionClass: 'top-14 left-8', rotation: -7, floatAnim: 'animate-float-soft', zIndex: 2 },
+        { slot: 116, kind: 'thumb', filename: 'wave3logo.webp', alt: 'Wave Three logo', sizeClass: 'w-28 h-28', positionClass: 'top-14 right-8', rotation: -7, floatAnim: 'animate-float-soft', zIndex: 2 },
       ],
     },
     {
@@ -248,6 +250,9 @@ export const collection: CollectionData = {
       href: '/wave-4.html',
       linkLabel: 'Roll Through',
       hidden: false, // set to true to hide until this wave rotates in
+      decorations: [
+        { slot: 122, kind: 'thumb', filename: 'wave4logo.webp', alt: 'Wave Four logo', sizeClass: 'w-28 h-28', positionClass: 'top-14 left-8', rotation: -5, floatAnim: 'animate-float-soft', zIndex: 2 },
+      ],
     },
     {
       id: 'on-the-horizon',
@@ -261,7 +266,7 @@ export const collection: CollectionData = {
       href: '/on-the-horizon.html',
       linkLabel: 'Gaze Ahead',
       decorations: [
-        { slot: 117, kind: 'board', filename: 'board-117.webp', alt: 'Decorative board', sizeClass: 'w-32 h-32', positionClass: 'bottom-12 right-12', rotation: 6, floatAnim: 'animate-float-gentle', zIndex: 2 },
+        { slot: 117, kind: 'thumb', filename: 'vista.webp', alt: 'Vista', sizeClass: 'w-32 h-32', positionClass: 'bottom-12 right-12', rotation: 6, floatAnim: 'animate-float-gentle', zIndex: 2, framed: true },
         { slot: 118, kind: 'thumb', filename: 'rainbow.webp', alt: 'Rainbow', sizeClass: 'w-16 h-16', positionClass: 'top-14 right-6', rotation: -12, floatAnim: 'animate-float-soft', zIndex: 2, framed: true },
       ],
     },
@@ -277,6 +282,9 @@ export const collection: CollectionData = {
       href: '/wave-5.html',
       linkLabel: 'Check it Out',
       hidden: false, // set to true to hide until this wave rotates in
+      decorations: [
+        { slot: 123, kind: 'thumb', filename: 'wave5logo.webp', alt: 'Wave Five logo', sizeClass: 'w-28 h-28', positionClass: 'top-14 left-8', rotation: 5, floatAnim: 'animate-float-gentle', zIndex: 2 },
+      ],
     },
   ],
 };

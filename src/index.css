@@ -264,7 +264,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.12);
+    background: var(--card-bg, rgba(255, 255, 255, 0.12));
     border: 2px dashed rgba(255, 255, 255, 0.35);
     border-radius: 16px;
     color: rgba(255, 255, 255, 0.7);
@@ -274,7 +274,7 @@
 
   /* A real thumbnail shown in the same dotted frame and soft background as an empty slot */
   .thumb-frame {
-    background: rgba(255, 255, 255, 0.12);
+    background: var(--card-bg, rgba(255, 255, 255, 0.12)); /* --card-bg = the panel's card colour */
     border: 2px dashed rgba(255, 255, 255, 0.35);
     border-radius: 16px;
   }

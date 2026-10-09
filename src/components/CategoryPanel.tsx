@@ -75,10 +75,14 @@ function CategoryPanel({ panel, isLeft, homeRotation, homeBob, onExpand, onRetur
         <div
           key={dec.slot}
           className={`absolute ${dec.positionClass} ${dec.floatAnim ?? ''}`}
-          style={{
-            transform: `rotate(${dec.rotation ?? 0}deg)`,
-            zIndex: dec.zIndex ?? 2,
-          }}
+          style={
+            {
+              transform: `rotate(${dec.rotation ?? 0}deg)`,
+              zIndex: dec.zIndex ?? 2,
+              // Framed thumbnails take the card's colour (wave panels keep the default)
+              ...(dec.framed && !isOval && panel.cardColor ? { '--card-bg': panel.cardColor } : {}),
+            } as CSSProperties
+          }
         >
           <ImageSlot
             slot={dec.slot}
