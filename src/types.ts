@@ -44,6 +44,15 @@ export interface FeaturedBoard {
   description: string;
 }
 
+/** How a phosphene floats: each image has its own character */
+export type PhospheneMotion = 'bubble' | 'balloon' | 'fluff' | 'fly' | 'spin';
+
+export interface PhospheneConfig {
+  /** Small transparent image on the asset host */
+  filename: string;
+  motion: PhospheneMotion;
+}
+
 export interface CategoryPanel {
   id: string;
   title: string;
@@ -68,6 +77,8 @@ export interface CategoryPanel {
   cardColor?: string;
   /** 'oval' = tall water drop (wave panels); 'square' = fixed 1:1 card (the other Beach panels) */
   shape?: 'oval' | 'square';
+  /** A sparse little image that randomly fades in, floats and fades out behind the card */
+  phosphene?: PhospheneConfig;
   /** Transparent 1:1 image laid over the card, behind the text. Fades in after a pause. */
   cardArt?: string;
   /** Set the subtitle (the line above the title) in italics instead of spaced capitals */

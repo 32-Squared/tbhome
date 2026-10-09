@@ -5,6 +5,7 @@ import type { CategoryPanel as CategoryPanelType } from '@/types';
 import { UI_IMAGES, assetUrl } from '@/assets';
 import { useDwellReveal } from '@/useDwellReveal';
 import ImageSlot from './ImageSlot';
+import Phosphenes from './Phosphenes';
 
 interface CategoryPanelProps {
   panel: CategoryPanelType;
@@ -18,7 +19,7 @@ interface CategoryPanelProps {
 }
 
 // How long a visitor stays on a card before its overlay image fades in
-const CARD_ART_DELAY_MS = 10000;
+const CARD_ART_DELAY_MS = 5000;
 
 function CategoryPanel({ panel, isLeft, homeRotation, homeBob, onExpand, onReturn }: CategoryPanelProps) {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -66,6 +67,9 @@ function CategoryPanel({ panel, isLeft, homeRotation, homeBob, onExpand, onRetur
 
   return (
     <section className="surf-panel flex flex-col items-center justify-center px-6 md:px-12 relative">
+      {/* Sparse floating image (fades in, drifts, fades out), behind the card */}
+      {panel.phosphene && <Phosphenes config={panel.phosphene} />}
+
       {/* Decorative images */}
       {panel.decorations?.map((dec) => (
         <div

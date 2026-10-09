@@ -19,7 +19,7 @@ Behind the Sunscreen, Wave Three, Add It Up, Wave Four, On the Horizon, Wave Fiv
 The order lives in `src/data.ts` (left list is nearest-Home first). Edge panels: `src/components/EdgePanel.tsx`.
 Back links on the standalone pages read "Back to the Boards" for panels left of Home and "Back to the Beach" for
 panels right of Home (the list of left panel ids is at the top of `public/pages.js`).
-Panel options in `data.ts`: `shape: 'square'` + `cardArt` (1:1 card with a fading-in overlay image after 10s), `cardColor` (card tint, any CSS colour), `shape: 'oval'` (wave cards, water-drop shape), `subtitleItalic`,
+Panel options in `data.ts`: `phosphene` (a sparse little image that fades in, floats and fades out behind the card; `src/components/Phosphenes.tsx`), `shape: 'square'` + `cardArt` (1:1 card with a fading-in overlay image after 5s), `cardColor` (card tint, any CSS colour), `shape: 'oval'` (wave cards, water-drop shape), `subtitleItalic`,
 `inactive` (shows `linkLabel` as a disabled button until the page exists).
 The landing postcard flaps at random every 5-15s (`src/usePaperFlap.ts`). The landing marquee scrolls right and shows
 `board401-ui.webp` onward; change `MARQUEE_COUNT` in `src/data.ts` (12 now, 32 = all boards).
@@ -29,7 +29,7 @@ The landing postcard flaps at random every 5-15s (`src/usePaperFlap.ts`). The la
 All images are served from Cloudflare R2: `https://assets.chainpaint.app/sites/tbhome/` (see `src/assets.ts`).
 Filenames in `src/data.ts` are relative to that base. Any slot whose file isn't uploaded yet shows a numbered placeholder.
 
-- `header.webp`, `homebutton.webp`, `postcard.webp` — UI images (slots 601-603); `logospin.mp4` (slot 604, 1:1 looping video), `honu.webp` (slot 605, 1:1 still), `32squared.webp` (used on /32-squared.html)
+- `header.webp`, `homebutton.webp`, `postcard.webp` — UI images (slots 601-603); `logospin.mp4` (slot 604, 1:1 looping video), `honu.webp` (slot 605, 1:1 still), `32squared.webp` (used on /32-squared.html); phosphene images `bubble.webp`, `balloon.webp`, `fluff.webp`, `fly.webp`, `enjin.webp`
 - Summer Postcards: `board###.webp` (full size, 1:3 tall) and `board###-ui.webp` (thumbnail, 1:1), slots 401–432
 - Other sections still use the older placeholder names (`thumb-###.webp`, `board-###.webp`, `featured-###.webm`) until the layout is final
 

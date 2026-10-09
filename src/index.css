@@ -169,6 +169,24 @@
     box-shadow: 0 12px 40px rgba(8, 77, 106, 0.25);
   }
 
+  /* Phosphenes: tiny images that fade in, float and fade out (see Phosphenes.tsx). They live in a
+     layer behind the card, so they can drift under the glass but never over the text. */
+  .phosphene-layer {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .phosphene {
+    position: absolute;
+    object-fit: contain;
+    opacity: 0;
+    pointer-events: none;
+    user-select: none;
+    will-change: transform, opacity;
+  }
+
   /* Square cards (Beach panels that are not waves): fixed 1:1, rounded corners kept. Width is capped
      by height so it fits short screens; if the text ever needs more room the card grows rather
      than clipping it. */
