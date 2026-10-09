@@ -67,7 +67,7 @@ function CategoryPanel({ panel, isLeft, homeRotation, homeBob, onExpand, onRetur
 
   return (
     <section className="surf-panel flex flex-col items-center justify-center px-6 md:px-12 relative">
-      {/* Sparse floating image (fades in, drifts, fades out), behind the card */}
+      {/* Sparse floating image (fades in, drifts, fades out), on the top layer */}
       {panel.phosphene && <Phosphenes config={panel.phosphene} />}
 
       {/* Decorative images */}
@@ -85,7 +85,7 @@ function CategoryPanel({ panel, isLeft, homeRotation, homeBob, onExpand, onRetur
             kind={dec.kind}
             filename={dec.filename}
             alt={dec.alt}
-            className={`${dec.sizeClass} object-contain board-glow`}
+            className={`${dec.sizeClass} object-contain board-glow${dec.framed ? ' thumb-frame' : ''}`}
           />
         </div>
       ))}

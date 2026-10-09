@@ -170,13 +170,13 @@
   }
 
   /* Phosphenes: tiny images that fade in, float and fade out (see Phosphenes.tsx). They live in a
-     layer behind the card, so they can drift under the glass but never over the text. */
+     top layer that ignores taps, so they can drift over everything. */
   .phosphene-layer {
     position: absolute;
     inset: 0;
     overflow: hidden;
     pointer-events: none;
-    z-index: 1;
+    z-index: 30; /* top layer, above the card, decorations and home button; never blocks taps */
   }
   .phosphene {
     position: absolute;
@@ -270,6 +270,13 @@
     color: rgba(255, 255, 255, 0.7);
     font-family: 'Fredoka Variable', 'Fredoka', sans-serif;
     font-weight: 600;
+  }
+
+  /* A real thumbnail shown in the same dotted frame and soft background as an empty slot */
+  .thumb-frame {
+    background: rgba(255, 255, 255, 0.12);
+    border: 2px dashed rgba(255, 255, 255, 0.35);
+    border-radius: 16px;
   }
 
   /* ---- Thumbnail marquee ---- */

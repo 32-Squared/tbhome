@@ -25,6 +25,8 @@ export interface DecorativeImage {
   floatAnim?: string;
   /** Z-index */
   zIndex?: number;
+  /** Show the image inside the dotted frame with the soft background (same look as an empty slot) */
+  framed?: boolean;
 }
 
 export interface SummerBoard {

@@ -19,7 +19,7 @@ Behind the Sunscreen, Wave Three, Add It Up, Wave Four, On the Horizon, Wave Fiv
 The order lives in `src/data.ts` (left list is nearest-Home first). Edge panels: `src/components/EdgePanel.tsx`.
 Back links on the standalone pages read "Back to the Boards" for panels left of Home and "Back to the Beach" for
 panels right of Home (the list of left panel ids is at the top of `public/pages.js`).
-Panel options in `data.ts`: `phosphene` (a sparse little image that fades in, floats and fades out behind the card; `src/components/Phosphenes.tsx`), `shape: 'square'` + `cardArt` (1:1 card with a fading-in overlay image after 5s), `cardColor` (card tint, any CSS colour), `shape: 'oval'` (wave cards, water-drop shape), `subtitleItalic`,
+Panel options in `data.ts`: `phosphene` (a sparse little image that fades in, floats and fades out on the top layer; `src/components/Phosphenes.tsx`), `shape: 'square'` + `cardArt` (1:1 card with a fading-in overlay image after 5s), `cardColor` (card tint, any CSS colour), `shape: 'oval'` (wave cards, water-drop shape), `subtitleItalic`,
 `inactive` (shows `linkLabel` as a disabled button until the page exists).
 The landing postcard flaps at random every 5-15s (`src/usePaperFlap.ts`). The landing marquee scrolls right and shows
 `board401-ui.webp` onward; change `MARQUEE_COUNT` in `src/data.ts` (12 now, 32 = all boards).
