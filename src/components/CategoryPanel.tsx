@@ -6,6 +6,7 @@ import { UI_IMAGES, assetUrl } from '@/assets';
 import { useDwellReveal } from '@/useDwellReveal';
 import ImageSlot from './ImageSlot';
 import Phosphenes from './Phosphenes';
+import BlinkThumb from './BlinkThumb';
 
 interface CategoryPanelProps {
   panel: CategoryPanelType;
@@ -19,7 +20,7 @@ interface CategoryPanelProps {
 }
 
 // How long a visitor stays on a card before its overlay image fades in
-const CARD_ART_DELAY_MS = 5000;
+const CARD_ART_DELAY_MS = 3000;
 
 function CategoryPanel({ panel, isLeft, homeRotation, homeBob, onExpand, onReturn }: CategoryPanelProps) {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -42,7 +43,13 @@ function CategoryPanel({ panel, isLeft, homeRotation, homeBob, onExpand, onRetur
     'inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/25 hover:bg-white/35 border border-white/40 font-display font-semibold text-white transition-all hover:scale-105 active:scale-95';
 
   // homeCorner override takes precedence; otherwise left panels show home on right, right panels on left
-  const homeOnLeft = panel.homeCorner ? panel.homeCorner === 'left' : !isLeft;
+  const homeCorner = panel.homeCorner ?? (isLeft ? 'right' : 'left');
+  const homeCornerClass = {
+    left: 'top-12 left-6',
+    right: 'top-12 right-6',
+    'bottom-left': 'bottom-12 left-6',
+    'bottom-right': 'bottom-12 right-6',
+  }[homeCorner];
 
   // Trigger enter animation on the content card when the panel scrolls into view
   useEffect(() => {
@@ -74,7 +81,7 @@ function CategoryPanel({ panel, isLeft, homeRotation, homeBob, onExpand, onRetur
       {panel.decorations?.map((dec) => (
         <div
           key={dec.slot}
-          className={`absolute ${dec.positionClass} ${dec.floatAnim ?? ''}`}
+          className={`absolute ${dec.positionClass} ${dec.centerX ? 'inset-x-0 flex justify-center pointer-events-none' : ''} ${dec.floatAnim ?? ''}`}
           style={
             {
               transform: `rotate(${dec.rotation ?? 0}deg)`,
@@ -84,20 +91,26 @@ function CategoryPanel({ panel, isLeft, homeRotation, homeBob, onExpand, onRetur
             } as CSSProperties
           }
         >
-          <ImageSlot
-            slot={dec.slot}
-            kind={dec.kind}
-            filename={dec.filename}
-            alt={dec.alt}
-            className={`${dec.sizeClass} object-contain board-glow${dec.framed ? ' thumb-frame' : ''}`}
-          />
+          {dec.blink ? (
+            <BlinkThumb dec={dec} />
+          ) : (
+            <ImageSlot
+              slot={dec.slot}
+              kind={dec.kind}
+              filename={dec.filename}
+              alt={dec.alt}
+              className={`${dec.sizeClass} object-contain board-glow${dec.framed ? ' thumb-frame' : ''}${
+                dec.spin ? (dec.spin === 'ccw' ? ' spin-ccw-slow' : ' spin-cw-slow') : ''
+              }`}
+            />
+          )}
         </div>
       ))}
 
       {/* Floating home button: bobs gently (outer), tilted (inner), no frame */}
       <button
         onClick={onReturn}
-        className={`absolute z-20 rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-white ${homeBob} ${homeOnLeft ? 'top-12 left-6' : 'top-12 right-6'}`}
+        className={`absolute z-20 rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-white ${homeBob} ${homeCornerClass}`}
         aria-label={backLabel}
       >
         <span className="block transition-transform hover:scale-110 active:scale-95">

@@ -7,8 +7,10 @@ import { assetUrl } from '@/assets';
 // is hidden or the visitor prefers reduced motion. Each one gets a random size, position,
 // rotation and path, shaped by the image's motion type.
 
-const MAX_AT_ONCE = 2;
-const FIRST_DELAY_MS: [number, number] = [2500, 5000]; // after arriving on the panel
+const MAX_AT_ONCE = 4; // a safety limit; with the gaps below, 1-3 is what you will normally see
+const FIRST_DELAY_MS = 1000; // after arriving on the panel
+const DURATION_SCALE = 1.5; // each one stays on screen 50% longer
+const SAMPLES = 48; // points along a smooth path; more = smoother
 const GAP_MS: [number, number] = [5000, 12000]; // between appearances
 const SIZE_PX: [number, number] = [28, 60]; // on-screen size (the files are 3x that or more)
 
@@ -17,6 +19,8 @@ const sign = () => (Math.random() < 0.5 ? -1 : 1);
 
 interface Flight {
   durationMs: number;
+  /** Smooth paths glide at a constant pace; the fly keeps its hop-and-pause */
+  smooth: boolean;
   /** Evenly spaced transform frames, relative to the start position */
   frames: { x: number; y: number; rot: number }[];
   /** Where it starts, as a fraction of the panel */
@@ -31,7 +35,7 @@ function steps(n: number, fn: (t: number, i: number) => { x: number; y: number; 
   return Array.from({ length: n }, (_, i) => fn(i / (n - 1), i));
 }
 
-function planFlight(motion: PhospheneMotion): Flight {
+function planPath(motion: PhospheneMotion): Omit<Flight, 'smooth'> {
   const dir = sign();
   const phase = rand(0, Math.PI * 2);
   const rot0 = rand(-40, 40);
@@ -43,7 +47,7 @@ function planFlight(motion: PhospheneMotion): Flight {
       const amp = rand(8, 16);
       return {
         durationMs: rand(7000, 10000),
-        frames: steps(8, (t) => ({
+        frames: steps(SAMPLES, (t) => ({
           x: amp * Math.sin(phase + t * Math.PI * 3),
           y: -rise * t,
           rot: rot0 + 8 * Math.sin(phase + t * Math.PI * 2),
@@ -60,7 +64,7 @@ function planFlight(motion: PhospheneMotion): Flight {
       const amp = rand(10, 20);
       return {
         durationMs: rand(9000, 12000),
-        frames: steps(7, (t) => ({
+        frames: steps(SAMPLES, (t) => ({
           x: amp * Math.sin(phase + t * Math.PI * 1.5),
           y: -rise * t,
           rot: 12 * Math.sin(phase + t * Math.PI * 1.5),
@@ -79,7 +83,7 @@ function planFlight(motion: PhospheneMotion): Flight {
       const spin = rand(60, 160) * dir;
       return {
         durationMs: rand(9000, 13000),
-        frames: steps(8, (t) => ({
+        frames: steps(SAMPLES, (t) => ({
           x: run * t,
           y: amp * Math.sin(phase + t * Math.PI * 2.4) + lift * t,
           rot: rot0 + spin * t,
@@ -121,7 +125,7 @@ function planFlight(motion: PhospheneMotion): Flight {
       const lift = rand(20, 50);
       return {
         durationMs: rand(9000, 13000),
-        frames: steps(5, (t) => ({ x: 8 * Math.sin(phase + t * Math.PI), y: -lift * t, rot: rot0 + turn * t })),
+        frames: steps(SAMPLES, (t) => ({ x: 8 * Math.sin(phase + t * Math.PI), y: -lift * t, rot: rot0 + turn * t })),
         start: { x: rand(0.1, 0.9), y: rand(0.15, 0.85) },
         fadeIn: 0.28,
         fadeOut: 0.35,
@@ -129,6 +133,11 @@ function planFlight(motion: PhospheneMotion): Flight {
       };
     }
   }
+}
+
+function planFlight(motion: PhospheneMotion): Flight {
+  const base = planPath(motion);
+  return { ...base, durationMs: base.durationMs * DURATION_SCALE, smooth: motion !== 'fly' };
 }
 
 function Phosphenes({ config }: { config: PhospheneConfig }) {
@@ -145,7 +154,13 @@ function Phosphenes({ config }: { config: PhospheneConfig }) {
     let timer = 0;
     let active = false;
     let loaded = false;
-    let probeStarted = false;
+
+    // Download the picture right away so the first one can appear 1 second after arriving
+    const probe = new Image();
+    probe.onload = () => {
+      loaded = true;
+    };
+    probe.src = url;
 
     const spawn = () => {
       const { width, height } = layer.getBoundingClientRect();
@@ -170,7 +185,7 @@ function Phosphenes({ config }: { config: PhospheneConfig }) {
         flight.frames.map((f, i) => ({
           transform: `translate(${f.x}px, ${f.y}px) rotate(${f.rot}deg)`,
           offset: i / last,
-          easing: 'ease-in-out',
+          easing: flight.smooth ? 'linear' : 'ease-in-out',
         })),
         { duration: flight.durationMs, fill: 'both' }
       );
@@ -189,27 +204,23 @@ function Phosphenes({ config }: { config: PhospheneConfig }) {
       };
     };
 
-    const schedule = (first: boolean) => {
-      const [min, max] = first ? FIRST_DELAY_MS : GAP_MS;
+    const schedule = (delayMs: number) => {
       timer = window.setTimeout(() => {
-        if (active && !document.hidden) spawn();
-        schedule(false);
-      }, rand(min, max));
+        if (active && !document.hidden) {
+          if (!loaded) {
+            schedule(500); // not downloaded yet: try again shortly
+            return;
+          }
+          spawn();
+        }
+        schedule(rand(GAP_MS[0], GAP_MS[1]));
+      }, delayMs);
     };
 
     const start = () => {
       if (active) return;
       active = true;
-      if (!probeStarted) {
-        // Make sure the picture is downloaded before the first one appears
-        probeStarted = true;
-        const probe = new Image();
-        probe.onload = () => {
-          loaded = true;
-        };
-        probe.src = url;
-      }
-      schedule(true);
+      schedule(FIRST_DELAY_MS);
     };
 
     const stop = () => {

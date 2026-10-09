@@ -1,9 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { UI_IMAGES, assetUrl } from '@/assets';
-import { useDwellReveal } from '@/useDwellReveal';
+import { useDwellReveal, useVisitTimeline } from '@/useDwellReveal';
 
-// Honu: how long it stays visible (counted from when it starts to appear) before fading out.
-const HONU_HOLD_MS = 10000;
+// Honu timeline, in ms after arriving on the panel. It plays once per visit (no loop) and starts
+// over only after the visitor leaves and comes back.
+//   10s honu fades in, 15s turtles fades in (laid exactly over honu), 20s honu fades out,
+//   25s turtles fades out.
+const HONU_MARKS_MS = [10000, 15000, 20000, 25000];
 
 interface EdgePanelProps {
   side: 'left' | 'right';
@@ -11,7 +14,7 @@ interface EdgePanelProps {
 
 // The two end-of-the-line panels.
 //   left  = "Under Construction": only the spinning logo video, no visible title, no home button.
-//   right = Honu: only a still image that fades in, then out, once per visit.
+//   right = Honu: a still image, then a second one over it, fading in and out once per visit.
 function EdgePanel({ side }: EdgePanelProps) {
   return (
     <section className="surf-panel flex items-center justify-center">
@@ -87,28 +90,48 @@ function LogoSpin() {
   );
 }
 
-// honu.webp (1:1 still). Same delayed fade-in, no border / background / shadow, then fades out
-// HONU_HOLD_MS later and does not come back until the visitor leaves and returns.
+// honu.webp and turtles.webp are the same size and sit exactly on top of each other (turtles was
+// made to overlay). No border, background or shadow.
 function Honu() {
   const wrapRef = useRef<HTMLDivElement>(null);
-  const [ready, setReady] = useState(false);
-  const [failed, setFailed] = useState(false);
-  const { entered, shown } = useDwellReveal(wrapRef, { mediaReady: ready || failed, holdMs: HONU_HOLD_MS });
+  const [honuFailed, setHonuFailed] = useState(false);
+  const [turtlesFailed, setTurtlesFailed] = useState(false);
+  const { entered, passed } = useVisitTimeline(wrapRef, HONU_MARKS_MS);
+
+  const honuShown = passed >= 1 && passed < 3;
+  const turtlesShown = passed >= 2 && passed < 4;
 
   return (
-    <div ref={wrapRef} className={`edge-hero edge-hero--bare${shown ? ' is-shown' : ''}`}>
-      {entered && !failed && (
-        <img
-          src={assetUrl(UI_IMAGES.honu.filename)}
-          alt="A honu, the Hawaiian green sea turtle"
-          className="w-full h-full object-contain"
-          draggable={false}
-          decoding="async"
-          onLoad={() => setReady(true)}
-          onError={() => setFailed(true)}
-        />
+    <div ref={wrapRef} className="honu-stack">
+      {entered && (
+        <>
+          {honuFailed ? (
+            <div className={`honu-layer${honuShown ? ' is-shown' : ''}`}>
+              <SlotPlaceholder slot={UI_IMAGES.honu.slot} filename={UI_IMAGES.honu.filename} />
+            </div>
+          ) : (
+            <img
+              src={assetUrl(UI_IMAGES.honu.filename)}
+              alt="A honu, the Hawaiian green sea turtle"
+              className={`honu-layer${honuShown ? ' is-shown' : ''}`}
+              draggable={false}
+              decoding="async"
+              onError={() => setHonuFailed(true)}
+            />
+          )}
+          {!turtlesFailed && (
+            <img
+              src={assetUrl(UI_IMAGES.honuTurtles.filename)}
+              alt=""
+              aria-hidden="true"
+              className={`honu-layer${turtlesShown ? ' is-shown' : ''}`}
+              draggable={false}
+              decoding="async"
+              onError={() => setTurtlesFailed(true)}
+            />
+          )}
+        </>
       )}
-      {failed && <SlotPlaceholder slot={UI_IMAGES.honu.slot} filename={UI_IMAGES.honu.filename} />}
     </div>
   );
 }

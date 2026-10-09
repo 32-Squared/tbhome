@@ -15,7 +15,7 @@ npm run build
 
 Scroll order, left to right: Under Construction (edge: spinning logo video), Dry Off, Information Kiosk,
 Malecón Plaza, 32 Squared, Visitor Center, **Home**, Beach Dreams, Wave One, Summer Postcards, Wave Two,
-Behind the Sunscreen, Wave Three, Add It Up, Wave Four, On the Horizon, Wave Five, Honu (edge: fades in, then out).
+Behind the Sunscreen, Wave Three, Add It Up, Wave Four, On the Horizon, Wave Five, Honu (edge: honu fades in at 10s, turtles over it at 15s, honu out at 20s, turtles out at 25s, once per visit).
 The order lives in `src/data.ts` (left list is nearest-Home first). Edge panels: `src/components/EdgePanel.tsx`.
 Back links on the standalone pages read "Back to the Boards" for panels left of Home and "Back to the Beach" for
 panels right of Home (the list of left panel ids is at the top of `public/pages.js`).

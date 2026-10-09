@@ -27,6 +27,12 @@ export interface DecorativeImage {
   zIndex?: number;
   /** Show the image inside the dotted frame with the soft background (same look as an empty slot) */
   framed?: boolean;
+  /** Center horizontally in the panel (positionClass then only needs the vertical part, e.g. "bottom-16") */
+  centerX?: boolean;
+  /** Turn slowly and forever (the whole thumbnail, frame included) */
+  spin?: 'cw' | 'ccw';
+  /** The picture briefly blinks off now and then (at most once every 3 seconds); frame and background stay */
+  blink?: boolean;
 }
 
 export interface SummerBoard {
@@ -62,7 +68,7 @@ export interface CategoryPanel {
   direction: PanelDirection;
   /** Background gradient classes */
   /** Override home icon corner: 'left' or 'right' (defaults based on isLeft) */
-  homeCorner?: 'left' | 'right';
+  homeCorner?: 'left' | 'right' | 'bottom-left' | 'bottom-right';
   /** Decorative images scattered on this panel */
   decorations?: DecorativeImage[];
   /** Short intro text shown on the panel */

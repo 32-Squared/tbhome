@@ -14,4 +14,5 @@ export const UI_IMAGES = {
   postcard: { slot: 603, filename: 'postcard.webp' },
   logoSpin: { slot: 604, filename: 'logospin.mp4' },
   honu: { slot: 605, filename: 'honu.webp' },
+  honuTurtles: { slot: 606, filename: 'turtles.webp' }, // overlays honu.webp exactly
 } as const;

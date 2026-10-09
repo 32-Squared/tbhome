@@ -19,9 +19,8 @@ const CARD = {
     'rgba(255, 130, 40, 0.40)', // On the Horizon
   ],
   purple: 'rgba(150, 105, 220, 0.32)', // Visitor Center, Malecón Plaza
-  yellow: 'rgba(255, 205, 70, 0.30)', // Information Kiosk
   green: 'rgba(150, 225, 160, 0.36)', // Dry Off
-  red: 'rgba(215, 60, 60, 0.40)', // 32 Squared
+  red: 'rgba(215, 60, 60, 0.40)', // Information Kiosk
 };
 
 // Landing marquee: how many boards scroll past, starting at board401-ui.webp.
@@ -57,8 +56,8 @@ export const collection: CollectionData = {
       href: '/guide.html',
       linkLabel: 'Open the Guide',
       decorations: [
-        { slot: 119, kind: 'thumb', filename: 'radiant.webp', alt: 'Radiant', sizeClass: 'w-16 h-16', positionClass: 'bottom-14 right-6', rotation: 0, floatAnim: 'animate-float-soft', zIndex: 2, framed: true },
-        { slot: 120, kind: 'thumb', filename: 'seascape.webp', alt: 'Seascape', sizeClass: 'w-32 h-32', positionClass: 'top-12 right-24', rotation: -4, floatAnim: 'animate-float-gentle', zIndex: 2, framed: true },
+        { slot: 119, kind: 'thumb', filename: 'radiant.webp', alt: 'Radiant', sizeClass: 'w-16 h-16', positionClass: 'top-12 left-6', rotation: 0, floatAnim: 'animate-float-soft', zIndex: 2, framed: true },
+        { slot: 120, kind: 'thumb', filename: 'seascape.webp', alt: 'Seascape', sizeClass: 'w-32 h-32', positionClass: 'bottom-12 right-6', rotation: -4, floatAnim: 'animate-float-gentle', zIndex: 2, framed: true },
       ],
     },
     {
@@ -68,15 +67,15 @@ export const collection: CollectionData = {
       subtitleItalic: true,
       direction: 'left',
       phosphene: { filename: 'fly.webp', motion: 'fly' },
-      cardColor: CARD.red,
+      cardColor: CARD.beach[0],
       homeCorner: 'left',
       intro:
         'A chaotic world of ideas, dreams and confusions ultimately pointed towards making all look twice at the world. Maybe even three times.',
       href: '/32-squared.html',
       linkLabel: 'What?',
       decorations: [
-        { slot: 101, kind: 'board', filename: 'board-101.webp', alt: 'Decorative board', sizeClass: 'w-28 h-28', positionClass: 'top-12 right-8', rotation: -8, floatAnim: 'animate-float-gentle', zIndex: 2 },
-        { slot: 102, kind: 'thumb', filename: 'flies.webp', alt: 'Flies', sizeClass: 'w-20 h-20', positionClass: 'bottom-16 left-10', rotation: 5, floatAnim: 'animate-float-soft', zIndex: 2, framed: true },
+        { slot: 101, kind: 'board', filename: 'diesel.webp', alt: 'Diesel', sizeClass: 'w-28 h-28', positionClass: 'top-12 right-8', rotation: -8, floatAnim: 'animate-float-gentle', zIndex: 2 },
+        { slot: 102, kind: 'thumb', filename: 'flies.webp', alt: 'Flies', sizeClass: 'w-20 h-20', positionClass: 'bottom-16', rotation: 5, floatAnim: 'animate-float-soft', zIndex: 2, framed: true, centerX: true },
       ],
     },
     {
@@ -99,7 +98,8 @@ export const collection: CollectionData = {
       title: 'Information Kiosk',
       subtitle: 'Official Stuff',
       direction: 'left',
-      cardColor: CARD.yellow,
+      cardColor: CARD.red,
+      homeCorner: 'bottom-right',
       href: '/information-kiosk.html',
       linkLabel: 'Always Open',
       decorations: [
@@ -113,7 +113,7 @@ export const collection: CollectionData = {
       direction: 'left',
       phosphene: { filename: 'fluff.webp', motion: 'fluff' },
       cardColor: CARD.green,
-      homeCorner: 'left',
+      homeCorner: 'bottom-left',
       intro: 'Head inland to check out all the off-chain projects from 32 Squared.',
       linkLabel: 'Road Closed',
       inactive: true, // build the page, then replace this with href: '/…html'
@@ -141,7 +141,7 @@ export const collection: CollectionData = {
       linkLabel: "It's Not Long",
       decorations: [
         { slot: 107, kind: 'thumb', filename: 'suns.webp', alt: 'Suns', sizeClass: 'w-28 h-28', positionClass: 'top-10 left-6', rotation: -7, floatAnim: 'animate-float-gentle', zIndex: 2, framed: true },
-        { slot: 108, kind: 'thumb', filename: 'flower.webp', alt: 'Flower', sizeClass: 'w-20 h-20', positionClass: 'bottom-20 left-8', rotation: 8, floatAnim: 'animate-float-soft', zIndex: 2, framed: true },
+        { slot: 108, kind: 'thumb', filename: 'flower.webp', alt: 'Flower', sizeClass: 'w-20 h-20', positionClass: 'bottom-20', rotation: 8, floatAnim: 'animate-float-soft', zIndex: 2, framed: true, centerX: true },
       ],
     },
     {
@@ -155,7 +155,7 @@ export const collection: CollectionData = {
       href: '/wave-1.html',
       linkLabel: 'Surf In',
       decorations: [
-        { slot: 112, kind: 'thumb', filename: 'turtles.webp', alt: 'Turtles', sizeClass: 'w-20 h-20', positionClass: 'top-14 right-8', rotation: 7, floatAnim: 'animate-float-soft', zIndex: 2, framed: true },
+        { slot: 112, kind: 'thumb', filename: 'wave1card.webp', alt: 'Wave One logo', sizeClass: 'w-28 h-28', positionClass: 'top-14 right-8', rotation: 7, floatAnim: 'animate-float-soft', zIndex: 2 },
       ],
     },
     {
@@ -171,8 +171,8 @@ export const collection: CollectionData = {
       href: '/postcards.html',
       linkLabel: 'See the Lineup',
       decorations: [
-        { slot: 110, kind: 'thumb', filename: 'boards.webp', alt: 'Boards', sizeClass: 'w-32 h-32', positionClass: 'top-16 left-10', rotation: 4, floatAnim: 'animate-float-gentle', zIndex: 2, framed: true },
-        { slot: 111, kind: 'thumb', filename: 'swirl.webp', alt: 'Swirl', sizeClass: 'w-20 h-20', positionClass: 'bottom-10 right-10', rotation: -6, floatAnim: 'animate-float-soft', zIndex: 2, framed: true },
+        { slot: 110, kind: 'thumb', filename: 'boards.webp', alt: 'Boards', sizeClass: 'w-32 h-32', positionClass: 'bottom-10 right-10', rotation: 4, floatAnim: 'animate-float-gentle', zIndex: 2, framed: true },
+        { slot: 111, kind: 'thumb', filename: 'swirl.webp', alt: 'Swirl', sizeClass: 'w-20 h-20', positionClass: 'top-16 left-10', rotation: -6, floatAnim: 'animate-float-soft', zIndex: 2, framed: true, spin: 'ccw' },
       ],
     },
     {
@@ -234,7 +234,7 @@ export const collection: CollectionData = {
       href: '/add-it-up.html',
       linkLabel: "It's Simple",
       decorations: [
-        { slot: 113, kind: 'thumb', filename: 'lightning.webp', alt: 'Lightning', sizeClass: 'w-24 h-24', positionClass: 'top-16 left-8', rotation: -8, floatAnim: 'animate-float-gentle', zIndex: 2, framed: true },
+        { slot: 113, kind: 'thumb', filename: 'lightning.webp', alt: 'Lightning', sizeClass: 'w-24 h-24', positionClass: 'top-16 left-8', rotation: -8, floatAnim: 'animate-float-gentle', zIndex: 2, framed: true, blink: true },
         { slot: 114, kind: 'thumb', filename: 'warp.webp', alt: 'Warp', sizeClass: 'w-16 h-16', positionClass: 'bottom-16 right-12', rotation: 10, floatAnim: 'animate-float-soft', zIndex: 2, framed: true },
       ],
     },
@@ -248,7 +248,7 @@ export const collection: CollectionData = {
       shape: 'oval',
       intro: 'Expectation is a forward force.',
       href: '/wave-4.html',
-      linkLabel: 'Roll Through',
+      linkLabel: 'Roll By',
       hidden: false, // set to true to hide until this wave rotates in
       decorations: [
         { slot: 122, kind: 'thumb', filename: 'wave4logo.webp', alt: 'Wave Four logo', sizeClass: 'w-28 h-28', positionClass: 'top-14 left-8', rotation: -5, floatAnim: 'animate-float-soft', zIndex: 2 },
@@ -280,7 +280,7 @@ export const collection: CollectionData = {
       shape: 'oval',
       intro: 'Harmony in completion.',
       href: '/wave-5.html',
-      linkLabel: 'Check it Out',
+      linkLabel: 'Check In',
       hidden: false, // set to true to hide until this wave rotates in
       decorations: [
         { slot: 123, kind: 'thumb', filename: 'wave5logo.webp', alt: 'Wave Five logo', sizeClass: 'w-28 h-28', positionClass: 'top-14 left-8', rotation: 5, floatAnim: 'animate-float-gentle', zIndex: 2 },
