@@ -22,7 +22,7 @@
   </div>
 </header>
 
-<main class="story">
+<main class="story" style="--pc:#ffe45e;--pcs:rgba(255,228,94,.75)">
   <h2 class="wtitle">Sunny Summer Afternoon</h2>
 
   <p class="t1">What can I say? This is what it's all about. It's summer, get out and enjoy! And if it's not summer? Who cares, get out and enjoy.</p>
@@ -47,9 +47,13 @@
   The chance to do it all again!
   </p>
 
-  <div class="qr" role="img" aria-label="QR code placeholder">QR code</div>
+  <!-- QR spot: shows the "Revealed" note until the release moment (midnight UTC), then /qr-reveal.js swaps in the QR image -->
+  <div class="qr" data-reveal="2027-06-03T00:00:00Z" data-src="https://assets.chainpaint.app/sites/tbhome/wave5qr.webp" data-name="Wave Five" role="img" aria-label="QR code, revealed June 3">
+    <span>Revealed:</span><span>June</span><span>3</span>
+  </div>
 </main>
 
 <img class="wboard" src="https://assets.chainpaint.app/sites/tbhome/wave5board.webp" alt="" width="900" height="300" loading="lazy" decoding="async">
+<script src="/qr-reveal.js" defer></script>
 </body>
 </html>

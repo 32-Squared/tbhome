@@ -61,6 +61,16 @@ export interface PhospheneConfig {
   motion: PhospheneMotion;
 }
 
+/** A screen reached by "sliding down" from a panel's button (see BranchWorld.tsx); not part of the horizontal scroll */
+export interface BranchScene {
+  id: string;
+  title: string;
+  intro: string;
+  /** Label of the button that slides back */
+  linkLabel: string;
+  cardColor: string;
+}
+
 export interface CategoryPanel {
   id: string;
   title: string;
@@ -79,6 +89,8 @@ export interface CategoryPanel {
   href?: string;
   /** Label for the link button (defaults to "Open") */
   linkLabel?: string;
+  /** Id of a BranchScene: the button slides down into that scene instead of opening a page */
+  branch?: string;
   /** Show the button (using linkLabel) but make it inactive, for pages that are not built yet */
   inactive?: boolean;
   /** Card colour: any CSS colour, ideally semi-transparent (default is the plain white glass) */
@@ -125,4 +137,6 @@ export interface CollectionData {
   leftPanels: CategoryPanel[];
   /** Right categories (scroll right from landing) */
   rightPanels: CategoryPanel[];
+  /** Screens reached from a panel button by sliding down (not part of the horizontal scroll) */
+  branches: BranchScene[];
 }

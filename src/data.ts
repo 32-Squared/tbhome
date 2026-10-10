@@ -116,7 +116,7 @@ export const collection: CollectionData = {
       homeCorner: 'bottom-left',
       intro: 'Head inland to check out all the off-chain projects from 32 Squared.',
       linkLabel: 'Road Closed',
-      inactive: true, // build the page, then replace this with href: '/…html'
+      branch: 'free-parking', // slides down to the Free Parking scene (see `branches` below)
       decorations: [
         { slot: 106, kind: 'thumb', filename: 'butterflies.webp', alt: 'Butterflies', sizeClass: 'w-24 h-24', positionClass: 'top-14 right-10', rotation: -5, floatAnim: 'animate-float-gentle', zIndex: 2, framed: true },
       ],
@@ -285,6 +285,17 @@ export const collection: CollectionData = {
       decorations: [
         { slot: 123, kind: 'thumb', filename: 'wave5logo.webp', alt: 'Wave Five logo', sizeClass: 'w-28 h-28', positionClass: 'top-14 left-8', rotation: 5, floatAnim: 'animate-float-gentle', zIndex: 2 },
       ],
+    },
+  ],
+
+  // ─── BRANCH SCENES: slide-down screens, reached from a panel button with `branch: '<id>'` ───
+  branches: [
+    {
+      id: 'free-parking',
+      title: 'Free Parking',
+      intro: 'Head to the Boardwalk, Beach and Turtleboards.',
+      linkLabel: 'Go Surfing!',
+      cardColor: 'rgba(84, 86, 92, 0.82)', // asphalt grey
     },
   ],
 };

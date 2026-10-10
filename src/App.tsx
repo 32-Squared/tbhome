@@ -9,6 +9,7 @@ import ExpansionOverlay from '@/components/ExpansionOverlay';
 import FullscreenViewer from '@/components/FullscreenViewer';
 import BackgroundSwell from '@/components/BackgroundSwell';
 import EdgePanel from '@/components/EdgePanel';
+import BranchWorld from '@/components/BranchWorld';
 
 // Scroll order: [blank edge] [left panels, farthest first] [landing] [right panels] [logo edge].
 // `order` counts category panels only, so each home button keeps its own tilt.
@@ -32,6 +33,16 @@ function buildSlots(): Slot[] {
 }
 
 const SLOTS = buildSlots();
+
+// Branch scene sequence (a panel button with `branch` slides "down" into a scene, and back):
+//   enter:  fade-in (panels fade out and freeze, the green overlay fades in)
+//        -> slide-down (overlay slides up one screen) -> landed (card and home button fade in)
+//   leave:  card-out -> slide-up -> fade-out (overlay fades away, panels fade back in) -> closed
+// Times are in ms and match the CSS transitions in index.css (.branch-world, .branch-screen).
+type BranchPhase = 'closed' | 'fade-in' | 'slide-down' | 'landed' | 'card-out' | 'slide-up' | 'fade-out';
+const BRANCH_FADE_MS = 800;
+const BRANCH_SLIDE_MS = 1700;
+const BRANCH_CARD_MS = 500;
 const LANDING_INDEX = SLOTS.findIndex((s) => s.type === 'landing');
 
 function App() {
@@ -47,6 +58,56 @@ function App() {
     filename: string;
     alt: string;
   } | null>(null);
+
+  // ---- Branch scene state machine ----
+  const [branchPhase, setBranchPhase] = useState<BranchPhase>('closed');
+  const [branchId, setBranchId] = useState<string | null>(null);
+  const branchPhaseRef = useRef<BranchPhase>('closed');
+  const branchTimers = useRef<number[]>([]);
+  const returnFocusRef = useRef<HTMLElement | null>(null);
+
+  const goPhase = useCallback((phase: BranchPhase) => {
+    branchPhaseRef.current = phase;
+    setBranchPhase(phase);
+  }, []);
+
+  const later = useCallback((ms: number, fn: () => void) => {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    branchTimers.current.push(window.setTimeout(fn, reduce ? ms * 0.05 : ms));
+  }, []);
+
+  const openBranch = useCallback(
+    (id: string) => {
+      if (branchPhaseRef.current !== 'closed') return;
+      returnFocusRef.current = document.activeElement as HTMLElement | null;
+      setBranchId(id);
+      goPhase('fade-in');
+      later(BRANCH_FADE_MS, () => goPhase('slide-down'));
+      later(BRANCH_FADE_MS + BRANCH_SLIDE_MS, () => goPhase('landed'));
+    },
+    [goPhase, later]
+  );
+
+  const closeBranch = useCallback(() => {
+    if (branchPhaseRef.current !== 'landed') return;
+    goPhase('card-out');
+    later(BRANCH_CARD_MS, () => goPhase('slide-up'));
+    later(BRANCH_CARD_MS + BRANCH_SLIDE_MS, () => goPhase('fade-out'));
+    later(BRANCH_CARD_MS + BRANCH_SLIDE_MS + BRANCH_FADE_MS + 100, () => {
+      goPhase('closed');
+      setBranchId(null);
+      returnFocusRef.current?.focus({ preventScroll: true });
+    });
+  }, [goPhase, later]);
+
+  useEffect(() => {
+    const timers = branchTimers.current;
+    return () => timers.forEach((t) => window.clearTimeout(t));
+  }, []);
+
+  const branchActive = branchPhase !== 'closed' && branchPhase !== 'fade-out';
+  const branchSlid = branchPhase === 'slide-down' || branchPhase === 'landed' || branchPhase === 'card-out';
+  const branchScene = collection.branches.find((b) => b.id === branchId) ?? null;
 
   // Scroll to a specific panel index
   const scrollToIndex = useCallback((index: number) => {
@@ -163,7 +224,7 @@ function App() {
   // Keyboard navigation
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (expandedPanel || fullscreen) return;
+      if (expandedPanel || fullscreen || branchPhaseRef.current !== 'closed') return;
       if (e.key === 'ArrowLeft') {
         scrollToIndex(currentIndex - 1);
       } else if (e.key === 'ArrowRight') {
@@ -182,10 +243,11 @@ function App() {
       if (e.key !== 'Escape') return;
       if (fullscreen) setFullscreen(null);
       else if (expandedPanel) setExpandedPanel(null);
+      else if (branchPhaseRef.current === 'landed') closeBranch();
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [fullscreen, expandedPanel]);
+  }, [fullscreen, expandedPanel, closeBranch]);
 
   // Prevent context menu (long-press on mobile)
   useEffect(() => {
@@ -201,7 +263,7 @@ function App() {
   }, []);
 
   return (
-    <div className="app-viewport">
+    <div className={`app-viewport${branchActive ? ' branching' : ''}`}>
       {/* Water-drop outline used to cut the wave cards (see .glass-card-oval in index.css) */}
       <svg width="0" height="0" className="absolute" aria-hidden="true" focusable="false">
         <defs>
@@ -242,13 +304,23 @@ function App() {
               homeBob={order % 2 === 0 ? 'animate-float-soft' : 'animate-float-gentle'}
               onExpand={() => setExpandedPanel(panel)}
               onReturn={goLanding}
+              onBranch={openBranch}
             />
           );
         })}
       </div>
 
+      {/* Branch scene: slides up over the main scroll (see BranchWorld.tsx) */}
+      <BranchWorld
+        scene={branchScene}
+        active={branchActive}
+        slid={branchSlid}
+        landed={branchPhase === 'landed'}
+        onClose={closeBranch}
+      />
+
       {/* Progress wave bar */}
-      {!expandedPanel && !fullscreen && (
+      {!expandedPanel && !fullscreen && branchPhase === 'closed' && (
         <div className="progress-wave" style={{ width: `${progress}%` }} />
       )}
 

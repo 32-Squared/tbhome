@@ -28,8 +28,12 @@ main.story{max-width:644px;margin:0 auto;padding:12px 18px 8px}
 .pile{position:relative;width:100%;aspect-ratio:1/1.08;margin:0 0 20px;pointer-events:none;-webkit-user-select:none;user-select:none}
 .ph{position:absolute;width:36%;box-sizing:border-box;border:6px solid var(--pc,#fff);border-bottom-width:17px;background:var(--pc,#fff);box-shadow:0 3px 9px rgba(4,41,58,.4);transform:rotate(var(--r,0deg))}
 .ph img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;-webkit-user-drag:none}
-/* QR code spot (1:1). Replace the placeholder <div> with <img class="qr" src="..."> when ready. */
-.qr{display:flex;align-items:center;justify-content:center;width:min(55%,200px);aspect-ratio:1/1;margin:0 auto 24px;border:2px dashed rgba(255,255,255,.45);background:rgba(255,255,255,.12);border-radius:16px;font:600 var(--fs-body)/1.2 var(--display);text-align:center}
+/* QR spot (1:1). Before release: a dashed placeholder in the wave's photo colour with the reveal date in maroon
+   (colours come from --pc / --pcs on main.story). After release /qr-reveal.js swaps in the QR image: square
+   corners, solid border in the wave colour, shadow, no motion. */
+.qr{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:min(55%,200px);aspect-ratio:1/1;margin:0 auto 24px;border:3px dashed var(--pc,#fff);background:var(--pcs,rgba(255,255,255,.4));border-radius:16px;color:#7a1f2b;text-shadow:none;text-align:center;font:700 clamp(19px,5.4vw,26px)/1.15 var(--display)}
+.qr span:first-child{font-size:.78em;letter-spacing:.02em}
+.qr--live{display:block;object-fit:contain;border:8px solid var(--pc,#fff);border-radius:0;background:#fff;box-shadow:0 8px 18px rgba(4,41,58,.45)}
 /* bottom 3:1 image: 90% of the screen width (capped to the page column on wide screens), shadow, no motion */
 .wboard{display:block;width:min(90vw,680px);aspect-ratio:3/1;object-fit:contain;margin:8px auto 22px;filter:drop-shadow(0 10px 14px rgba(4,41,58,.45))}
 @media(prefers-reduced-motion:reduce){.logo{animation:none}}

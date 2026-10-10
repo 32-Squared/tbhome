@@ -135,6 +135,72 @@
     overflow: hidden;
   }
 
+  /* ---- Branch scene (Dry Off -> Free Parking): slide "down" without a second scroll axis ----
+     While a branch is open (.branching) the panels fade out and stop animating. The overlay is two
+     screens tall (light green at the top, to dark green, to earth brown); it fades in, slides up one
+     screen, and then the card fades in. Times match BRANCH_* in App.tsx. */
+  .surf-panel {
+    transition: opacity 0.6s ease;
+  }
+  .branching .surf-panel {
+    opacity: 0;
+  }
+  .branching .surf-panel * {
+    animation: none !important;
+  }
+  .branch-world {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 200%;
+    z-index: 60;
+    background: linear-gradient(
+      180deg,
+      #c9efb6 0%,
+      #8fd08a 22%,
+      #4f9d5a 42%,
+      #2f6f45 50%,
+      #55683a 70%,
+      #7a5a37 88%,
+      #5f432a 100%
+    );
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    touch-action: none;
+    transform: translateY(0);
+    transition: opacity 0.8s ease-in-out, transform 1.6s cubic-bezier(0.65, 0, 0.35, 1), visibility 0s linear 0.8s;
+  }
+  .branch-world.is-on {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition: opacity 0.8s ease-in-out, transform 1.6s cubic-bezier(0.65, 0, 0.35, 1), visibility 0s;
+  }
+  .branch-world.is-slid {
+    transform: translateY(-50%);
+  }
+  /* the lower half of the overlay: the scene itself */
+  .branch-screen {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .branch-screen > * {
+    opacity: 0;
+    transition: opacity 0.7s ease;
+  }
+  .branch-world.is-landed .branch-screen > * {
+    opacity: 1;
+  }
+
   /* ---- Section expansion overlay ---- */
   .section-expansion {
     position: absolute;

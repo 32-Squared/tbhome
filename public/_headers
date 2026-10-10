@@ -41,3 +41,5 @@
   Cache-Control: no-cache
 /pages.js
   Cache-Control: no-cache
+/qr-reveal.js
+  Cache-Control: no-cache

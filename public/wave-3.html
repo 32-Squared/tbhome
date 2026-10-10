@@ -22,7 +22,7 @@
   </div>
 </header>
 
-<main class="story">
+<main class="story" style="--pc:#cfe8ff;--pcs:rgba(207,232,255,.75)">
   <h2 class="wtitle">Winter Nights</h2>
 
   <p class="t1">Tranquility and beauty go hand in hand this season, and regardless of your taste for the temperature, Winter is undeniably fun. When the water takes a new state, your board can too... A state of nature, a state of mind.</p>
@@ -46,9 +46,13 @@
   (But close them when not in motion.)
   </p>
 
-  <div class="qr" role="img" aria-label="QR code placeholder">QR code</div>
+  <!-- QR spot: shows the "Revealed" note until the release moment (midnight UTC), then /qr-reveal.js swaps in the QR image -->
+  <div class="qr" data-reveal="2027-01-31T00:00:00Z" data-src="https://assets.chainpaint.app/sites/tbhome/wave3qr.webp" data-name="Wave Three" role="img" aria-label="QR code, revealed January 31">
+    <span>Revealed:</span><span>January</span><span>31</span>
+  </div>
 </main>
 
 <img class="wboard" src="https://assets.chainpaint.app/sites/tbhome/wave3board.webp" alt="" width="900" height="300" loading="lazy" decoding="async">
+<script src="/qr-reveal.js" defer></script>
 </body>
 </html>

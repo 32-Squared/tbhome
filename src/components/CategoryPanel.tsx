@@ -17,12 +17,14 @@ interface CategoryPanelProps {
   homeBob: string;
   onExpand: () => void;
   onReturn: () => void;
+  /** Slide down into a branch scene (panels with `branch` set) */
+  onBranch?: (id: string) => void;
 }
 
 // How long a visitor stays on a card before its overlay image fades in
 const CARD_ART_DELAY_MS = 3000;
 
-function CategoryPanel({ panel, isLeft, homeRotation, homeBob, onExpand, onReturn }: CategoryPanelProps) {
+function CategoryPanel({ panel, isLeft, homeRotation, homeBob, onExpand, onReturn, onBranch }: CategoryPanelProps) {
   const cardRef = useRef<HTMLDivElement>(null);
 
   const backLabel = isLeft ? 'Back to the Boards' : 'Back to the Beach';
@@ -195,6 +197,13 @@ function CategoryPanel({ panel, isLeft, homeRotation, homeBob, onExpand, onRetur
             {panel.linkLabel ?? 'Open'}
             <ChevronRight className="w-4 h-4" />
           </a>
+        )}
+
+        {/* Button that slides down into a branch scene */}
+        {panel.branch && (
+          <button type="button" onClick={() => onBranch?.(panel.branch as string)} className={buttonClass}>
+            {panel.linkLabel ?? 'Open'}
+          </button>
         )}
 
         {/* Placeholder button for a page that is not built yet: visible, but not clickable */}

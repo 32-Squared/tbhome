@@ -22,7 +22,7 @@
   </div>
 </header>
 
-<main class="story">
+<main class="story" style="--pc:#d4f0c8;--pcs:rgba(212,240,200,.75)">
   <h2 class="wtitle">Spring Sunrise</h2>
 
   <p class="t1">In so many ways, Spring is dawn, and dawn is Spring. This is Dawn, she is Spring, and she's springing into Spring. Spring Dawn. We all should be Spring Dawn and spring into Spring.</p>
@@ -48,9 +48,13 @@
   And a mini-game especially to spring into Spring Dawn's Spring dawns!
   </p>
 
-  <div class="qr" role="img" aria-label="QR code placeholder">QR code</div>
+  <!-- QR spot: shows the "Revealed" note until the release moment (midnight UTC), then /qr-reveal.js swaps in the QR image -->
+  <div class="qr" data-reveal="2027-03-31T00:00:00Z" data-src="https://assets.chainpaint.app/sites/tbhome/wave4qr.webp" data-name="Wave Four" role="img" aria-label="QR code, revealed March 31">
+    <span>Revealed:</span><span>March</span><span>31</span>
+  </div>
 </main>
 
 <img class="wboard" src="https://assets.chainpaint.app/sites/tbhome/wave4board.webp" alt="" width="900" height="300" loading="lazy" decoding="async">
+<script src="/qr-reveal.js" defer></script>
 </body>
 </html>
