@@ -418,13 +418,36 @@
   /* ---- Landing postcard ----
      50% of the screen width, but capped by height so it never crowds the header, buttons and
      marquee on wide or short screens. Square; the artwork carries its own tilt. */
+  /* Home: the map icon (left) and the postcard (right, tilted 30 degrees clockwise, overlapping the map by
+     about a third). Each is 50% of the screen width, capped by height so the pair never crowds the header,
+     buttons and marquee. The row is lifted a little and nudged left to balance the tilted corner;
+     transforms don't move the BEACH / BOARDWALK text. */
+  .landing-pair {
+    --pair-size: min(50vw, calc(var(--app-h, 100dvh) * 0.34));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin: calc(var(--pair-size) * 0.1) 0; /* room for the tilted postcard's corners */
+    transform: translate(calc(var(--pair-size) * -0.09), calc(var(--app-h, 100dvh) * -0.03));
+  }
+  .landing-map {
+    display: block;
+    width: var(--pair-size);
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
+  }
+  .landing-map-img {
+    display: block;
+    filter: drop-shadow(0 14px 14px rgba(4, 41, 58, 0.4));
+  }
   .landing-postcard {
-    width: min(50vw, calc(var(--app-h, 100dvh) * 0.34));
+    width: var(--pair-size);
+    margin-left: calc(var(--pair-size) * -0.33);
     aspect-ratio: 1 / 1;
     flex-shrink: 0;
     perspective: 700px;
-    /* lifted a little without moving the BEACH / BOARDWALK text (transforms don't affect layout) */
-    transform: translateY(calc(var(--app-h, 100dvh) * -0.03));
+    transform: rotate(30deg);
   }
   .landing-postcard-img {
     display: block;
@@ -433,6 +456,41 @@
   }
   .landing-postcard.is-flapping .landing-postcard-img {
     animation: paperFlap 1.3s ease-in-out;
+  }
+
+  /* Map icon floating above the Town Hall card: no border or background, a soft shadow, fixed in place */
+  .map-icon-shadow {
+    filter: drop-shadow(0 8px 10px rgba(4, 41, 58, 0.4));
+  }
+
+  /* ---- Site map modal (see SiteMap.tsx): 2:1, full screen width, over a dimmed screen ---- */
+  .sitemap {
+    position: absolute;
+    inset: 0;
+    z-index: 80;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .sitemap-dim {
+    position: absolute;
+    inset: 0;
+    background: rgba(4, 41, 58, 0.72);
+  }
+  .sitemap-hit {
+    position: absolute;
+    inset: 0;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+  }
+  .sitemap-frame {
+    position: relative;
+    display: block;
+    width: min(100%, calc(var(--app-h, 100dvh) * 1.8));
+    aspect-ratio: 2 / 1;
+    pointer-events: none;
+    filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.5));
   }
 
   /* ---- Right edge panel: spinning logo ---- */

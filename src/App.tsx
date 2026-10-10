@@ -10,6 +10,7 @@ import FullscreenViewer from '@/components/FullscreenViewer';
 import BackgroundSwell from '@/components/BackgroundSwell';
 import EdgePanel from '@/components/EdgePanel';
 import BranchWorld from '@/components/BranchWorld';
+import SiteMap from '@/components/SiteMap';
 
 // Scroll order: [blank edge] [left panels, farthest first] [landing] [right panels] [logo edge].
 // `order` counts category panels only, so each home button keeps its own tilt.
@@ -75,6 +76,22 @@ function App() {
     filename: string;
     alt: string;
   } | null>(null);
+
+  // ---- Site map (opened from the home icons and the Town Hall icon) ----
+  const [mapOpen, setMapOpen] = useState(false);
+  const [mapOrigin, setMapOrigin] = useState<DOMRect | null>(null);
+  const mapOpenerRef = useRef<HTMLElement | null>(null);
+
+  const openMap = useCallback((origin: DOMRect, opener: HTMLElement) => {
+    mapOpenerRef.current = opener;
+    setMapOrigin(origin);
+    setMapOpen(true);
+  }, []);
+
+  const mapClosed = useCallback(() => {
+    setMapOpen(false);
+    mapOpenerRef.current?.focus({ preventScroll: true });
+  }, []);
 
   // ---- Branch scene state machine ----
   const [branchPhase, setBranchPhase] = useState<BranchPhase>(DEEP_LINK ? 'landed' : 'closed');
@@ -246,7 +263,7 @@ function App() {
   // Keyboard navigation
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (expandedPanel || fullscreen || branchPhaseRef.current !== 'closed') return;
+      if (expandedPanel || fullscreen || mapOpen || branchPhaseRef.current !== 'closed') return;
       if (e.key === 'ArrowLeft') {
         scrollToIndex(currentIndex - 1);
       } else if (e.key === 'ArrowRight') {
@@ -257,19 +274,19 @@ function App() {
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [currentIndex, scrollToIndex, expandedPanel, fullscreen]);
+  }, [currentIndex, scrollToIndex, expandedPanel, fullscreen, mapOpen]);
 
   // Escape closes the topmost layer only: viewer first, then the section overlay
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key !== 'Escape') return;
+      if (e.key !== 'Escape' || mapOpen) return; // the site map closes itself
       if (fullscreen) setFullscreen(null);
       else if (expandedPanel) setExpandedPanel(null);
       else if (branchPhaseRef.current === 'landed') closeBranch();
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [fullscreen, expandedPanel, closeBranch]);
+  }, [fullscreen, expandedPanel, mapOpen, closeBranch]);
 
   // Prevent context menu (long-press on mobile)
   useEffect(() => {
@@ -312,6 +329,7 @@ function App() {
                 data={collection}
                 onGoLeft={() => scrollToIndex(LANDING_INDEX - 1)}
                 onGoRight={() => scrollToIndex(LANDING_INDEX + 1)}
+                onOpenMap={openMap}
               />
             );
           }
@@ -340,10 +358,15 @@ function App() {
         slid={branchSlid}
         landed={branchPhase === 'landed'}
         onExit={closeBranch}
+        onOpenMap={openMap}
+        paused={mapOpen}
       />
 
+      {/* Site map: floats over everything, opens from and closes back into the icon that was tapped */}
+      {mapOpen && <SiteMap origin={mapOrigin} onClosed={mapClosed} />}
+
       {/* Progress wave bar */}
-      {!expandedPanel && !fullscreen && branchPhase === 'closed' && (
+      {!expandedPanel && !fullscreen && !mapOpen && branchPhase === 'closed' && (
         <div className="progress-wave" style={{ width: `${progress}%` }} />
       )}
 

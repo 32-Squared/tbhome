@@ -14,6 +14,8 @@ export const UI_IMAGES = {
   postcard: { slot: 603, filename: 'postcard.webp' },
   logoSpin: { slot: 604, filename: 'logospin.mp4' },
   honu: { slot: 605, filename: 'honu.webp' },
+  mapIcon: { slot: 608, filename: 'beachmapicon.webp' }, // small map icon (home panel and Town Hall)
+  siteMap: { slot: 609, filename: 'beachmap.webp' }, // the 2:1 site map shown in the modal
   home2Button: { slot: 607, filename: 'home2button.webp' }, // home button used inside the Town (leads to Parking)
   honuTurtles: { slot: 606, filename: 'turtles.webp' }, // overlays honu.webp exactly
 } as const;

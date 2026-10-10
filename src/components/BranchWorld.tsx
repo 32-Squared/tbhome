@@ -17,6 +17,10 @@ interface BranchWorldProps {
   landed: boolean;
   /** Leave the scene (slides back up to the panel it came from) */
   onExit: () => void;
+  /** Open the site map (the Town Hall's map icon) */
+  onOpenMap: (origin: DOMRect, opener: HTMLElement) => void;
+  /** Something is open over the scene (the site map): ignore the keys */
+  paused: boolean;
 }
 
 const panelEls = (track: HTMLElement | null) =>
@@ -27,7 +31,7 @@ const panelEls = (track: HTMLElement | null) =>
 // to dark green into earth brown), which holds its own little horizontal scroll (the Town). App.tsx
 // drives the sequence (see BRANCH_* there): fade the panels out and the overlay in, slide it up one
 // screen, fade the scene in; and the reverse on the way back.
-function BranchWorld({ scene, startPanelId, active, slid, landed, onExit }: BranchWorldProps) {
+function BranchWorld({ scene, startPanelId, active, slid, landed, onExit, onOpenMap, paused }: BranchWorldProps) {
   const worldRef = useRef<HTMLDivElement>(null);
 
   // Nothing inside can be tabbed to (or read out) until the scene has landed
@@ -43,7 +47,14 @@ function BranchWorld({ scene, startPanelId, active, slid, landed, onExit }: Bran
     >
       {scene && (
         <section className="branch-screen" aria-label="Town">
-          <TownScroll scene={scene} startPanelId={startPanelId} landed={landed} onExit={onExit} />
+          <TownScroll
+            scene={scene}
+            startPanelId={startPanelId}
+            landed={landed}
+            paused={paused}
+            onExit={onExit}
+            onOpenMap={onOpenMap}
+          />
         </section>
       )}
     </div>
@@ -54,12 +65,16 @@ function TownScroll({
   scene,
   startPanelId,
   landed,
+  paused,
   onExit,
+  onOpenMap,
 }: {
   scene: BranchScene;
   startPanelId: string | null;
   landed: boolean;
+  paused: boolean;
   onExit: () => void;
+  onOpenMap: (origin: DOMRect, opener: HTMLElement) => void;
 }) {
   const trackRef = useRef<HTMLDivElement>(null);
   const indexRef = useRef(0);
@@ -107,7 +122,7 @@ function TownScroll({
 
   // Arrow keys once landed (Escape is handled in App: it leaves the scene)
   useEffect(() => {
-    if (!landed) return;
+    if (!landed || paused) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'ArrowLeft') goTo(indexRef.current - 1);
       else if (e.key === 'ArrowRight') goTo(indexRef.current + 1);
@@ -115,7 +130,7 @@ function TownScroll({
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [landed, goTo]);
+  }, [landed, paused, goTo]);
 
   // Move focus into the scene when it lands (a frame later, once BranchWorld has lifted `inert`)
   useEffect(() => {
@@ -143,6 +158,7 @@ function TownScroll({
             onExpand={() => undefined}
             onReturn={() => goTo(0)}
             onExit={onExit}
+            onOpenMap={onOpenMap}
           />
         ))}
       </div>

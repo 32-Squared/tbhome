@@ -23,6 +23,8 @@ interface CategoryPanelProps {
   onExit?: () => void;
   /** Home button picture (defaults to the main scroll's) */
   homeImage?: { slot: number; filename: string };
+  /** Open the site map (panels with `siteMapIcon`) */
+  onOpenMap?: (origin: DOMRect, opener: HTMLElement) => void;
   /** Accessible name for the home button */
   backLabel?: string;
 }
@@ -39,6 +41,7 @@ function CategoryPanel({
   onReturn,
   onBranch,
   onExit,
+  onOpenMap,
   homeImage = UI_IMAGES.homeButton,
   backLabel: backLabelProp,
 }: CategoryPanelProps) {
@@ -150,7 +153,25 @@ function CategoryPanel({
       </button>
       )}
 
-      {/* Content card — drops down and fades in as panel enters view */}
+      {/* Content card (with the site map icon floating above it on panels that ask for it) */}
+      <div className={panel.siteMapIcon ? 'relative z-10 flex flex-col items-center gap-4' : 'contents'}>
+      {panel.siteMapIcon && (
+        <button
+          type="button"
+          className="block w-24 h-24 md:w-28 md:h-28 shrink-0"
+          aria-label="Open the site map"
+          onClick={(e) => onOpenMap?.(e.currentTarget.getBoundingClientRect(), e.currentTarget)}
+        >
+          <ImageSlot
+            slot={UI_IMAGES.mapIcon.slot}
+            kind="board"
+            filename={UI_IMAGES.mapIcon.filename}
+            alt="Site map"
+            className="w-full h-full object-contain map-icon-shadow"
+          />
+        </button>
+      )}
+      {/* The card: drops down and fades in as the panel enters view */}
       <div
         ref={cardRef}
         style={panel.cardColor ? ({ '--card-bg': panel.cardColor } as CSSProperties) : undefined}
@@ -246,6 +267,7 @@ function CategoryPanel({
             {panel.linkLabel}
           </button>
         )}
+      </div>
       </div>
     </section>
   );

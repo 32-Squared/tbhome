@@ -93,6 +93,8 @@ export interface CategoryPanel {
   linkLabel?: string;
   /** The button leaves the current branch scene and slides back up to its origin panel */
   exit?: boolean;
+  /** Float the site map icon above this panel's card (opens the site map) */
+  siteMapIcon?: boolean;
   /** No home button on this panel */
   noHome?: boolean;
   /** Id of a BranchScene: the button slides down into that scene instead of opening a page */

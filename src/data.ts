@@ -338,6 +338,7 @@ export const collection: CollectionData = {
           intro: "Someone's got to be in charge, I'm still training the staff.",
           linkLabel: 'Under Construction',
           inactive: true,
+          siteMapIcon: true,
           phosphene: [
             { filename: 'fly.webp', motion: 'fly' },
             { filename: 'workerfly.webp', motion: 'fly', durationScale: 2 }, // stays twice as long

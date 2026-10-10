@@ -15,9 +15,11 @@ interface LandingPanelProps {
   data: CollectionData;
   onGoRight: () => void;
   onGoLeft: () => void;
+  /** Open the site map from the tapped element (origin = where it is on screen) */
+  onOpenMap: (origin: DOMRect, opener: HTMLElement) => void;
 }
 
-function LandingPanel({ data, onGoRight, onGoLeft }: LandingPanelProps) {
+function LandingPanel({ data, onGoRight, onGoLeft, onOpenMap }: LandingPanelProps) {
   const postcardRef = useRef<HTMLDivElement>(null);
   usePaperFlap(postcardRef);
 
@@ -43,15 +45,40 @@ function LandingPanel({ data, onGoRight, onGoLeft }: LandingPanelProps) {
 
       {/* Middle: postcard, then the direction labels (BEACH right, BOARDWALK left) */}
       <div className="flex-1 min-h-0 w-full px-4 flex flex-col items-center justify-center gap-5 md:gap-8">
-        <div ref={postcardRef} className="landing-postcard">
-          <ImageSlot
-            slot={UI_IMAGES.postcard.slot}
-            kind="board"
-            filename={UI_IMAGES.postcard.filename}
-            alt="A Turtleboards summer postcard"
-            className="landing-postcard-img w-full h-full object-contain"
-            eager
-          />
+        {/* Map icon on the left; the postcard tilted 30 degrees on the right, overlapping it. Tapping either opens the site map. */}
+        <div className="landing-pair">
+          <button
+            type="button"
+            className="landing-map"
+            aria-label="Open the site map"
+            onClick={(e) => onOpenMap(e.currentTarget.getBoundingClientRect(), e.currentTarget)}
+          >
+            <ImageSlot
+              slot={UI_IMAGES.mapIcon.slot}
+              kind="board"
+              filename={UI_IMAGES.mapIcon.filename}
+              alt="Site map"
+              className="landing-map-img w-full h-full object-contain"
+              eager
+            />
+          </button>
+          <div ref={postcardRef} className="landing-postcard">
+            <button
+              type="button"
+              className="block w-full h-full"
+              aria-label="Open the site map"
+              onClick={(e) => onOpenMap(e.currentTarget.getBoundingClientRect(), e.currentTarget)}
+            >
+              <ImageSlot
+                slot={UI_IMAGES.postcard.slot}
+                kind="board"
+                filename={UI_IMAGES.postcard.filename}
+                alt="A Turtleboards summer postcard"
+                className="landing-postcard-img w-full h-full object-contain"
+                eager
+              />
+            </button>
+          </div>
         </div>
 
         <div className="flex flex-col items-center gap-5 md:gap-8">
