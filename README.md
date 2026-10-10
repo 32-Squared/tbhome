@@ -13,12 +13,17 @@ npm run build
 
 ## Layout
 
-Scroll order, left to right: Under Construction (edge: spinning logo video), Dry Off, Information Kiosk,
+Scroll order, left to right: The Pier (edge: spinning logo video), Dry Off, Information Kiosk,
 Malecón Plaza, 32 Squared, Visitor Center, **Home**, Beach Dreams, Wave One, Summer Postcards, Wave Two,
 Behind the Sunscreen, Wave Three, Add It Up, Wave Four, On the Horizon, Wave Five, Honu (edge: honu fades in at 10s, turtles over it at 15s, honu out at 20s, turtles out at 25s, once per visit).
 The order lives in `src/data.ts` (left list is nearest-Home first). Edge panels: `src/components/EdgePanel.tsx`.
+The Town: Dry Off's button ("Free Parking") slides down into a little horizontal scroll of its own (Parking,
+Souvenirs Squared, Daycare Center, Town Hall), defined under `branches` in `src/data.ts` and built in
+`src/components/BranchWorld.tsx` (clouds: `CloudBackground.tsx`). Its cards are asphalt grey, its home button is
+`home2button.webp` (leads to Parking), and `/#daycare` etc. deep-link into it (the standalone Daycare page's
+"Back to Town" link uses that). Phosphenes can be a single config or an array (Town Hall has two flies).
 Back links on the standalone pages read "Back to the Boards" for panels left of Home and "Back to the Beach" for
-panels right of Home (the list of left panel ids is at the top of `public/pages.js`).
+panels right of Home, "Back to Town" for the Town (the list of left panel ids is at the top of `public/pages.js`).
 Panel options in `data.ts`: `phosphene` (a sparse little image that fades in, floats and fades out on the top layer; `src/components/Phosphenes.tsx`), `shape: 'square'` + `cardArt` (1:1 card with a fading-in overlay image after 5s), `cardColor` (card tint, any CSS colour), `shape: 'oval'` (wave cards, water-drop shape), `subtitleItalic`,
 `branch` (button slides down into a scene from `branches`, see `BranchWorld.tsx`; Dry Off -> Free Parking), `inactive` (shows `linkLabel` as a disabled button until the page exists).
 The landing postcard flaps at random every 5-15s (`src/usePaperFlap.ts`). The landing marquee scrolls right and shows

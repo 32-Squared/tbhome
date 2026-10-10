@@ -135,9 +135,9 @@ function planPath(motion: PhospheneMotion): Omit<Flight, 'smooth'> {
   }
 }
 
-function planFlight(motion: PhospheneMotion): Flight {
+function planFlight(motion: PhospheneMotion, scale: number): Flight {
   const base = planPath(motion);
-  return { ...base, durationMs: base.durationMs * DURATION_SCALE, smooth: motion !== 'fly' };
+  return { ...base, durationMs: base.durationMs * DURATION_SCALE * scale, smooth: motion !== 'fly' };
 }
 
 function Phosphenes({ config }: { config: PhospheneConfig }) {
@@ -162,11 +162,18 @@ function Phosphenes({ config }: { config: PhospheneConfig }) {
     };
     probe.src = url;
 
+    // Panels inside a scene (the Town) only show them once the scene has landed, and the main-scroll
+    // panels stay quiet while a scene covers them
+    const blocked = () => {
+      if (layer.closest('.branch-world')) return !layer.closest('.branch-world.is-landed');
+      return Boolean(layer.closest('.app-viewport.branching'));
+    };
+
     const spawn = () => {
       const { width, height } = layer.getBoundingClientRect();
       if (!loaded || width === 0 || live.size >= MAX_AT_ONCE) return;
 
-      const flight = planFlight(config.motion);
+      const flight = planFlight(config.motion, config.durationScale ?? 1);
       const size = rand(SIZE_PX[0], SIZE_PX[1]);
       const img = document.createElement('img');
       img.src = url;
@@ -207,8 +214,8 @@ function Phosphenes({ config }: { config: PhospheneConfig }) {
     const schedule = (delayMs: number) => {
       timer = window.setTimeout(() => {
         if (active && !document.hidden) {
-          if (!loaded) {
-            schedule(500); // not downloaded yet: try again shortly
+          if (!loaded || blocked()) {
+            schedule(500); // not downloaded yet, or the panel is covered: try again shortly
             return;
           }
           spawn();
@@ -245,7 +252,7 @@ function Phosphenes({ config }: { config: PhospheneConfig }) {
       observer.disconnect();
       stop();
     };
-  }, [config.filename, config.motion]);
+  }, [config.filename, config.motion, config.durationScale]);
 
   return <div ref={layerRef} className="phosphene-layer" aria-hidden="true" />;
 }

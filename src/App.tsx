@@ -34,6 +34,23 @@ function buildSlots(): Slot[] {
 
 const SLOTS = buildSlots();
 
+// Deep link into a branch scene: /#daycare opens the Town on the Daycare panel (the standalone pages'
+// "Back to Town" link uses this). The hash is read once, here, before the effect below clears it.
+function findDeepLink(): { sceneId: string; panelId: string } | null {
+  let hashId = '';
+  try {
+    hashId = decodeURIComponent(window.location.hash.slice(1));
+  } catch {
+    return null;
+  }
+  if (!hashId) return null;
+  for (const scene of collection.branches) {
+    if (scene.panels.some((p) => p.id === hashId)) return { sceneId: scene.id, panelId: hashId };
+  }
+  return null;
+}
+const DEEP_LINK = findDeepLink();
+
 // Branch scene sequence (a panel button with `branch` slides "down" into a scene, and back):
 //   enter:  fade-in (panels fade out and freeze, the green overlay fades in)
 //        -> slide-down (overlay slides up one screen) -> landed (card and home button fade in)
@@ -60,9 +77,10 @@ function App() {
   } | null>(null);
 
   // ---- Branch scene state machine ----
-  const [branchPhase, setBranchPhase] = useState<BranchPhase>('closed');
-  const [branchId, setBranchId] = useState<string | null>(null);
-  const branchPhaseRef = useRef<BranchPhase>('closed');
+  const [branchPhase, setBranchPhase] = useState<BranchPhase>(DEEP_LINK ? 'landed' : 'closed');
+  const [branchId, setBranchId] = useState<string | null>(DEEP_LINK?.sceneId ?? null);
+  const [townStartId, setTownStartId] = useState<string | null>(DEEP_LINK?.panelId ?? null);
+  const branchPhaseRef = useRef<BranchPhase>(DEEP_LINK ? 'landed' : 'closed');
   const branchTimers = useRef<number[]>([]);
   const returnFocusRef = useRef<HTMLElement | null>(null);
 
@@ -81,6 +99,7 @@ function App() {
       if (branchPhaseRef.current !== 'closed') return;
       returnFocusRef.current = document.activeElement as HTMLElement | null;
       setBranchId(id);
+      setTownStartId(null); // always land on the first panel
       goPhase('fade-in');
       later(BRANCH_FADE_MS, () => goPhase('slide-down'));
       later(BRANCH_FADE_MS + BRANCH_SLIDE_MS, () => goPhase('landed'));
@@ -96,6 +115,7 @@ function App() {
     later(BRANCH_CARD_MS + BRANCH_SLIDE_MS + BRANCH_FADE_MS + 100, () => {
       goPhase('closed');
       setBranchId(null);
+      setTownStartId(null);
       returnFocusRef.current?.focus({ preventScroll: true });
     });
   }, [goPhase, later]);
@@ -170,7 +190,9 @@ function App() {
       /* malformed hash: ignore */
     }
     const hashIndex = hashId ? ids.indexOf(hashId) : -1;
-    const startIndex = hashIndex >= 0 ? hashIndex : LANDING_INDEX;
+    const originId = DEEP_LINK ? collection.branches.find((b) => b.id === DEEP_LINK.sceneId)?.origin : undefined;
+    const originIndex = originId ? ids.indexOf(originId) : -1;
+    const startIndex = hashIndex >= 0 ? hashIndex : originIndex >= 0 ? originIndex : LANDING_INDEX;
     const start = track.querySelectorAll(':scope > .surf-panel')[startIndex] as HTMLElement | undefined;
     if (start) track.scrollTo({ left: start.offsetLeft, behavior: 'instant' });
     if (window.location.hash) {
@@ -313,10 +335,11 @@ function App() {
       {/* Branch scene: slides up over the main scroll (see BranchWorld.tsx) */}
       <BranchWorld
         scene={branchScene}
+        startPanelId={townStartId}
         active={branchActive}
         slid={branchSlid}
         landed={branchPhase === 'landed'}
-        onClose={closeBranch}
+        onExit={closeBranch}
       />
 
       {/* Progress wave bar */}

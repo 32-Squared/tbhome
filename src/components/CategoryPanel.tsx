@@ -19,15 +19,33 @@ interface CategoryPanelProps {
   onReturn: () => void;
   /** Slide down into a branch scene (panels with `branch` set) */
   onBranch?: (id: string) => void;
+  /** Leave the current branch scene (panels with `exit` set) */
+  onExit?: () => void;
+  /** Home button picture (defaults to the main scroll's) */
+  homeImage?: { slot: number; filename: string };
+  /** Accessible name for the home button */
+  backLabel?: string;
 }
 
 // How long a visitor stays on a card before its overlay image fades in
 const CARD_ART_DELAY_MS = 3000;
 
-function CategoryPanel({ panel, isLeft, homeRotation, homeBob, onExpand, onReturn, onBranch }: CategoryPanelProps) {
+function CategoryPanel({
+  panel,
+  isLeft,
+  homeRotation,
+  homeBob,
+  onExpand,
+  onReturn,
+  onBranch,
+  onExit,
+  homeImage = UI_IMAGES.homeButton,
+  backLabel: backLabelProp,
+}: CategoryPanelProps) {
   const cardRef = useRef<HTMLDivElement>(null);
 
-  const backLabel = isLeft ? 'Back to the Boards' : 'Back to the Beach';
+  const backLabel = backLabelProp ?? (isLeft ? 'Back to the Boards' : 'Back to the Beach');
+  const phosphenes = panel.phosphene ? (Array.isArray(panel.phosphene) ? panel.phosphene : [panel.phosphene]) : [];
   const isOval = panel.shape === 'oval';
   const isSquare = panel.shape === 'square';
 
@@ -77,7 +95,9 @@ function CategoryPanel({ panel, isLeft, homeRotation, homeBob, onExpand, onRetur
   return (
     <section className="surf-panel flex flex-col items-center justify-center px-6 md:px-12 relative">
       {/* Sparse floating image (fades in, drifts, fades out), on the top layer */}
-      {panel.phosphene && <Phosphenes config={panel.phosphene} />}
+      {phosphenes.map((config) => (
+        <Phosphenes key={config.filename} config={config} />
+      ))}
 
       {/* Decorative images */}
       {panel.decorations?.map((dec) => (
@@ -110,6 +130,7 @@ function CategoryPanel({ panel, isLeft, homeRotation, homeBob, onExpand, onRetur
       ))}
 
       {/* Floating home button: bobs gently (outer), tilted (inner), no frame */}
+      {!panel.noHome && (
       <button
         onClick={onReturn}
         className={`absolute z-20 rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-white ${homeBob} ${homeCornerClass}`}
@@ -118,15 +139,16 @@ function CategoryPanel({ panel, isLeft, homeRotation, homeBob, onExpand, onRetur
         <span className="block transition-transform hover:scale-110 active:scale-95">
           <span className="block" style={{ transform: `rotate(${homeRotation}deg)` }}>
             <ImageSlot
-              slot={UI_IMAGES.homeButton.slot}
+              slot={homeImage.slot}
               kind="thumb"
-              filename={UI_IMAGES.homeButton.filename}
+              filename={homeImage.filename}
               alt={backLabel}
               className="w-14 h-14 md:w-16 md:h-16 object-contain board-glow"
             />
           </span>
         </span>
       </button>
+      )}
 
       {/* Content card — drops down and fades in as panel enters view */}
       <div
@@ -197,6 +219,13 @@ function CategoryPanel({ panel, isLeft, homeRotation, homeBob, onExpand, onRetur
             {panel.linkLabel ?? 'Open'}
             <ChevronRight className="w-4 h-4" />
           </a>
+        )}
+
+        {/* Button that leaves a branch scene (slides back up) */}
+        {panel.exit && (
+          <button type="button" onClick={onExit} className={buttonClass}>
+            {panel.linkLabel ?? 'Back'}
+          </button>
         )}
 
         {/* Button that slides down into a branch scene */}

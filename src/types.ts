@@ -59,16 +59,18 @@ export interface PhospheneConfig {
   /** Small transparent image on the asset host */
   filename: string;
   motion: PhospheneMotion;
+  /** Multiplies how long each one stays on screen (default 1) */
+  durationScale?: number;
 }
 
-/** A screen reached by "sliding down" from a panel's button (see BranchWorld.tsx); not part of the horizontal scroll */
+/** A scene reached by "sliding down" from a main-scroll panel's button (see BranchWorld.tsx): its own
+ *  little horizontal scroll under the main one (the Town: Parking, Mall, Daycare, Town Hall). */
 export interface BranchScene {
   id: string;
-  title: string;
-  intro: string;
-  /** Label of the button that slides back */
-  linkLabel: string;
-  cardColor: string;
+  /** Id of the main-scroll panel whose button opens this scene (and where leaving returns to) */
+  origin: string;
+  /** Left to right; the first one is where you land */
+  panels: CategoryPanel[];
 }
 
 export interface CategoryPanel {
@@ -89,6 +91,10 @@ export interface CategoryPanel {
   href?: string;
   /** Label for the link button (defaults to "Open") */
   linkLabel?: string;
+  /** The button leaves the current branch scene and slides back up to its origin panel */
+  exit?: boolean;
+  /** No home button on this panel */
+  noHome?: boolean;
   /** Id of a BranchScene: the button slides down into that scene instead of opening a page */
   branch?: string;
   /** Show the button (using linkLabel) but make it inactive, for pages that are not built yet */
@@ -97,8 +103,8 @@ export interface CategoryPanel {
   cardColor?: string;
   /** 'oval' = tall water drop (wave panels); 'square' = fixed 1:1 card (the other Beach panels) */
   shape?: 'oval' | 'square';
-  /** A sparse little image that randomly fades in, floats and fades out behind the card */
-  phosphene?: PhospheneConfig;
+  /** Sparse little image(s) that randomly fade in, float and fade out; give an array for several kinds */
+  phosphene?: PhospheneConfig | PhospheneConfig[];
   /** Transparent 1:1 image laid over the card, behind the text. Fades in after a pause. */
   cardArt?: string;
   /** Set the subtitle (the line above the title) in italics instead of spaced capitals */

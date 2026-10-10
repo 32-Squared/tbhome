@@ -142,10 +142,11 @@
   .surf-panel {
     transition: opacity 0.6s ease;
   }
-  .branching .surf-panel {
+  /* only the main scroll's panels (the Town's panels live inside .branch-world) */
+  .branching > .surf-track > .surf-panel {
     opacity: 0;
   }
-  .branching .surf-panel * {
+  .branching > .surf-track > .surf-panel * {
     animation: none !important;
   }
   .branch-world {
@@ -181,17 +182,50 @@
   .branch-world.is-slid {
     transform: translateY(-50%);
   }
-  /* the lower half of the overlay: the scene itself */
+  /* the lower half of the overlay: the scene itself (the Town) */
   .branch-screen {
     position: absolute;
     left: 0;
     top: 50%;
     width: 100%;
     height: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
+  }
+  /* the Town's own horizontal scroll fills the lower screen */
+  .town-track {
+    position: absolute;
+    inset: 0;
+    touch-action: pan-x; /* swipes move the Town sideways only */
+  }
+  /* Town clouds: faint puffs drifting left to right along the top, like the waves but the other way */
+  .cloud-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .cloud-shift {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 240px;
+    will-change: transform;
+    transform: translate3d(calc(-1px * mod(var(--scroll-x, 0) * var(--cloud-offset, 0), 1200)), 0, 0);
+  }
+  .cloud-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* two spare tiles: one for the drift, one for the scroll offset */
+    width: calc(100% + 2400px);
+    height: 240px;
+    background-repeat: repeat-x;
+    background-size: 1200px 240px;
+    will-change: transform;
+    animation: cloudDrift var(--cloud-duration, 60s) linear infinite;
+  }
+  .branch-world:not(.is-landed) .cloud-layer {
+    animation-play-state: paused;
   }
   .branch-screen > * {
     opacity: 0;
@@ -527,6 +561,10 @@
   40% { opacity: 0.05; }
   58% { opacity: 1; }
   100% { opacity: 1; }
+}
+@keyframes cloudDrift {
+  from { transform: translate3d(-1200px, 0, 0); }
+  to { transform: translate3d(0, 0, 0); }
 }
 @keyframes marquee {
   from { transform: translateX(0); }

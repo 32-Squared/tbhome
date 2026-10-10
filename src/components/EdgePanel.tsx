@@ -13,15 +13,21 @@ interface EdgePanelProps {
 }
 
 // The two end-of-the-line panels.
-//   left  = "Under Construction": only the spinning logo video, no visible title, no home button.
+//   left  = "The Pier": the spinning logo video with a title at the top and a closing line at the bottom,
+//           no home button.
 //   right = Honu: a still image, then a second one over it, fading in and out once per visit.
 function EdgePanel({ side }: EdgePanelProps) {
   return (
     <section className="surf-panel flex items-center justify-center">
       {side === 'left' ? (
         <>
-          <h2 className="sr-only">Under Construction</h2>
+          <h2 className="absolute inset-x-0 top-16 px-6 text-center font-display text-3xl md:text-5xl text-white text-shadow-strong font-bold">
+            The Pier
+          </h2>
           <LogoSpin />
+          <p className="absolute inset-x-0 bottom-16 px-6 text-center font-body italic text-lg md:text-xl text-white/85 text-shadow-soft">
+            ... end of the line ...
+          </p>
         </>
       ) : (
         <>

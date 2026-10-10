@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#8fd08a">
+<title>Daycare Center | Turtleboards</title>
+<link rel="stylesheet" href="/pages.css">
+<style>
+/* Town colours: the Town's green-to-earth gradient behind asphalt-grey cards and bar */
+:root{--card:rgba(84,86,92,.82);--card-edge:rgba(255,255,255,.3)}
+body{background:linear-gradient(180deg,#c9efb6 0%,#8fd08a 22%,#4f9d5a 42%,#2f6f45 55%,#55683a 75%,#7a5a37 100%)}
+.bar{background:rgba(84,86,92,.6)}
+/* 3:1 image straight under the bar: 90% of the screen width (capped to the page column on wide screens), no motion */
+.wboard{display:block;width:min(90vw,680px);aspect-ratio:3/1;object-fit:contain;margin:0 auto;filter:drop-shadow(0 10px 14px rgba(4,41,58,.45))}
+main{max-width:644px;margin:0 auto;padding:16px 18px 40px;display:grid;gap:18px}
+.wtitle{font:700 var(--fs-h2)/1.15 var(--display);text-align:center;margin:0}
+main .card{padding:24px 22px;text-align:center}
+main .card p{margin:0}
+/* wave logo at the bottom: centred, bobbing like the logos on the wave pages */
+.logo{display:block;width:min(100%,150px);aspect-ratio:1/1;object-fit:contain;margin:10px auto 0;filter:drop-shadow(0 8px 12px rgba(4,41,58,.45));animation:bob 3.4s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@media(prefers-reduced-motion:reduce){.logo{animation:none}}
+</style>
+</head>
+<body data-title="Daycare Center" data-back="daycare">
+<script src="/pages.js"></script>
+
+<img class="wboard" src="https://assets.chainpaint.app/sites/tbhome/wave2board.webp" alt="" width="900" height="300" decoding="async">
+
+<main>
+  <h2 class="wtitle">Get Creative!</h2>
+
+  <section class="card">
+    <p>Activities arriving with the Wave 1 Leafing Autumn Collection so stop by when the new Turtleboards arrive.</p>
+  </section>
+
+  <section class="card">
+    <p>Hint: Coloring, Prints and your own Summer Postcards to keep Summer surfing all year long!</p>
+  </section>
+
+  <img class="logo" src="https://assets.chainpaint.app/sites/tbhome/wave2logo.webp" alt="Wave Two logo" width="150" height="150" decoding="async">
+</main>
+</body>
+</html>
