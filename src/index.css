@@ -323,6 +323,8 @@
     aspect-ratio: 1 / 1;
     flex-shrink: 0;
     perspective: 700px;
+    /* lifted a little without moving the BEACH / BOARDWALK text (transforms don't affect layout) */
+    transform: translateY(calc(var(--app-h, 100dvh) * -0.03));
   }
   .landing-postcard-img {
     display: block;

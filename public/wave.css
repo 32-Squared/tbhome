@@ -1,5 +1,8 @@
 /* Featured Wave pages (wave-1.html ... wave-5.html). Loaded after pages.css. */
-.top{display:flex;align-items:center;gap:18px;max-width:680px;margin:0 auto;padding:18px 18px 8px}
+/* back link on wave pages: bold, centred, tight against the image block below it */
+.backrow{justify-content:center;padding-bottom:0}
+.backrow a{font-weight:700;padding-bottom:0}
+.top{display:flex;align-items:center;gap:18px;max-width:680px;margin:0 auto;padding:0 18px 8px}
 .top.flip{flex-direction:row-reverse}
 .top.solo{padding-bottom:56px}
 .chr{flex:0 0 clamp(124px,44%,240px)}
@@ -10,8 +13,23 @@
 .info h1{font:700 var(--fs-h2)/1.15 var(--display);margin:0 0 4px}
 .info h2{font:500 var(--fs-lead)/1.2 var(--display);margin:0 0 14px}
 .info p{margin:0}
-main.wave{max-width:680px;margin:0 auto;padding:16px 18px 48px;display:grid;gap:22px}
+main.wave{max-width:680px;margin:0 auto;padding:16px 18px 20px;display:grid;gap:22px}
 .wave .card{padding:24px 22px}
 .wave .card p{margin:0 0 12px;text-align:left}
 .wave .card>:last-child{margin-bottom:0}
+/* Waves 2-5: plain story page (no cards, bullets or numbers) */
+main.story{max-width:644px;margin:0 auto;padding:12px 18px 8px}
+.wtitle{font:700 var(--fs-h2)/1.15 var(--display);text-align:center;margin:0 0 14px}
+.story p{margin:0}
+.story .t1{text-align:left;margin:0 0 24px}
+.story .t2{text-align:center;margin:4px 0 26px}
+/* photo pile: 8 square photos with a pale Polaroid-style border (wider at the bottom), turned and
+   overlapping. Decoration only: no taps, no motion. Colour comes from --pc on .pile. */
+.pile{position:relative;width:100%;aspect-ratio:1/1.08;margin:0 0 20px;pointer-events:none;-webkit-user-select:none;user-select:none}
+.ph{position:absolute;width:36%;box-sizing:border-box;border:6px solid var(--pc,#fff);border-bottom-width:17px;background:var(--pc,#fff);box-shadow:0 3px 9px rgba(4,41,58,.4);transform:rotate(var(--r,0deg))}
+.ph img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;-webkit-user-drag:none}
+/* QR code spot (1:1). Replace the placeholder <div> with <img class="qr" src="..."> when ready. */
+.qr{display:flex;align-items:center;justify-content:center;width:min(55%,200px);aspect-ratio:1/1;margin:0 auto 24px;border:2px dashed rgba(255,255,255,.45);background:rgba(255,255,255,.12);border-radius:16px;font:600 var(--fs-body)/1.2 var(--display);text-align:center}
+/* bottom 3:1 image: 90% of the screen width (capped to the page column on wide screens), shadow, no motion */
+.wboard{display:block;width:min(90vw,680px);aspect-ratio:3/1;object-fit:contain;margin:8px auto 22px;filter:drop-shadow(0 10px 14px rgba(4,41,58,.45))}
 @media(prefers-reduced-motion:reduce){.logo{animation:none}}
